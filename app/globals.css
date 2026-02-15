@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-instrument: var(--font-instrument-sans);
+
+  /* Kakalinks Brand Colors */
+  --color-brand-gold: #D4AF37;
+  --color-brand-black: #0A0A0A;
+  
+  /* SaaS Logic Colors */
+  --color-primary: var(--brand-primary, #D4AF37);
+  --color-secondary: var(--brand-secondary, #0A0A0A);
+
+  /* Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  --animate-float: float 3s ease-in-out infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  --animate-marquee: marquee 30s linear infinite;
+}
+
+/* 1. Theme Variables */
+:root {
+  --background: #ffffff;
+  --foreground: #0A0A0A;
+  --brand-primary: #D4AF37;
+  --brand-secondary: #0A0A0A;
+}
+
+.dark {
+  --background: #0A0A0A;
+  --foreground: #ffffff;
+  --brand-primary: #D4AF37;
+  --brand-secondary: #ffffff;
+}
+
+/* 2. Light Scrollbar Design */
+@layer base {
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #e5e7eb; /* Light grey */
+    border-radius: 10px;
+    border: 2px solid var(--background);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background: #374151; /* Darker grey for dark mode */
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-primary);
+  }
+}
+
+@layer utilities {
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(to right, #80808012 1px, transparent 1px),
+      linear-gradient(to bottom, #80808012 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+@layer components {
+  .input-primary {
+    @apply w-full h-14 pl-12 pr-4 bg-gray-50 border border-gray-100 
+           rounded-2xl outline-none transition-all font-medium
+           focus:border-brand-gold focus:ring-1 focus:ring-brand-gold 
+           placeholder:text-gray-300;
+  }
+  
+  .label-primary {
+    @apply text-xs font-black uppercase tracking-widest text-gray-400 ml-1;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-instrument-sans), sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}

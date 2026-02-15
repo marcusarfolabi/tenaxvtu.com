@@ -1,0 +1,125 @@
+"use client";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowLeft, Mail } from "lucide-react";
+import AuthSidebar from "@/components/AuthSidebar";
+import { useAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast";
+import SubmitButton from "@/components/common/SubmitButton";
+import { PasswordInput } from "@/components/common/PasswordInput";
+import FormInput from "@/components/common/FormInput";
+
+export default function Login() {
+  const { login } = useAuth();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!formData.email || !formData.password) {
+      return toast.error("Please fill in all fields");
+    }
+
+    setIsLoading(true);
+    try {
+      await login(formData);
+    } catch (err: any) {
+      toast.error(err.message || "Invalid login credentials");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+      <AuthSidebar title="Welcome back to" subtitle="your dashboard." />
+
+      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center">
+        <div className="lg:hidden flex items-center justify-between mb-12">
+          <Link
+            href="/"
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <ArrowLeft size={24} />
+          </Link>
+          <span className="font-black tracking-tighter text-xl text-brand-black">
+            KAKALINKS
+          </span>
+          <div className="w-10" />
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-md mx-auto w-full"
+        >
+          <h1 className="text-3xl font-black text-brand-black mb-2">
+            Login to Account
+          </h1>
+          <p className="text-gray-500 mb-8 font-medium">
+            Continue saving on your data and bills today.
+          </p>
+
+          <form className="space-y-5" onSubmit={handleSubmit}> 
+            <FormInput
+              label="Email Address"
+              name="email"
+              type="email"
+              inputMode="email"
+              autoComplete="username" 
+              placeholder="john@example.com"
+              icon={Mail}
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+            />
+ 
+            <PasswordInput
+              label="Password"
+              name="password"
+              autoComplete="current-password"  
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+            >
+              <div className="flex items-center justify-between mt-1">
+                <Link
+                  href="/forgot-password"
+                  className="text-xs font-bold text-gray-400 hover:text-brand-gold transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+            </PasswordInput>
+
+            <SubmitButton
+              isLoading={isLoading}
+              idleText="Login to Dashboard"
+              loadingText="Authenticating..."
+              className="w-full mt-2" 
+            />
+          </form>
+          <div className="mt-8 text-center">
+            <p className="text-gray-500 font-medium">
+              Don&apos;t have an account?{" "}
+              <Link
+                href="/register"
+                className="text-brand-gold font-black hover:underline"
+              >
+                Sign Up
+              </Link>
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
