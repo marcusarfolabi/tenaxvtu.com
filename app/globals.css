@@ -5,23 +5,35 @@
   --font-instrument: var(--font-instrument-sans);
 
   /* Kakalinks Brand Colors */
-  --color-brand-gold: #D4AF37;
-  --color-brand-black: #0A0A0A;
-  
+  --color-brand-gold: #d4af37;
+  --color-brand-black: #0a0a0a;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
   /* SaaS Logic Colors */
-  --color-primary: var(--brand-primary, #D4AF37);
-  --color-secondary: var(--brand-secondary, #0A0A0A);
+  --color-primary: var(--brand-primary, #d4af37);
+  --color-secondary: var(--brand-secondary, #0a0a0a);
 
   /* Animation */
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
   --animate-float: float 3s ease-in-out infinite;
 
   @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
   --animate-marquee: marquee 30s linear infinite;
 }
@@ -29,15 +41,15 @@
 /* 1. Theme Variables */
 :root {
   --background: #ffffff;
-  --foreground: #0A0A0A;
-  --brand-primary: #D4AF37;
-  --brand-secondary: #0A0A0A;
+  --foreground: #0a0a0a;
+  --brand-primary: #d4af37;
+  --brand-secondary: #0a0a0a;
 }
 
 .dark {
-  --background: #0A0A0A;
+  --background: #0a0a0a;
   --foreground: #ffffff;
-  --brand-primary: #D4AF37;
+  --brand-primary: #d4af37;
   --brand-secondary: #ffffff;
 }
 
@@ -64,7 +76,7 @@
 
 @layer utilities {
   .bg-grid-pattern {
-    background-image: 
+    background-image:
       linear-gradient(to right, #80808012 1px, transparent 1px),
       linear-gradient(to bottom, #80808012 1px, transparent 1px);
     background-size: 40px 40px;
@@ -73,12 +85,14 @@
 
 @layer components {
   .input-primary {
-    @apply w-full h-14 pl-12 pr-4 bg-gray-50 border border-gray-100 
-           rounded-2xl outline-none transition-all font-medium
-           focus:border-brand-gold focus:ring-1 focus:ring-brand-gold 
-           placeholder:text-gray-300;
+    /* Use the background variable or a themed gray */
+    @apply w-full h-14 pl-12 pr-4 rounded-2xl outline-none transition-all font-medium;
+    @apply bg-background border-gray-200 text-foreground; /* Themed */
+    @apply focus:border-brand-gold focus:ring-1 focus:ring-brand-gold;
+
+    /* Handle dark mode explicitly if not using a variable */
+    @apply dark:bg-neutral-900 dark:border-neutral-800;
   }
-  
   .label-primary {
     @apply text-xs font-black uppercase tracking-widest text-gray-400 ml-1;
   }
@@ -88,5 +102,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-instrument-sans), sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }

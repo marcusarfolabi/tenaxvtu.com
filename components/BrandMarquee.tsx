@@ -14,8 +14,9 @@ const brands = [
 
 export default function BrandMarquee() {
   return (
-    <div className="py-12 bg-gray-50 dark:bg-brand-black/50 border-y border-gray-100 dark:border-white/5 overflow-hidden">
-      <p className="text-center text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-gray-400 mb-10">
+    /* Changed bg-gray-50 to use your theme variables and improved border compatibility */
+    <div className="py-12 bg-background border-y border-gray-100 dark:border-white/5 overflow-hidden transition-colors duration-300">
+      <p className="text-center text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 mb-10">
         Trusted by users across Nigeria
       </p>
 
@@ -23,15 +24,15 @@ export default function BrandMarquee() {
         {[...brands, ...brands].map((brand, index) => (
           <div
             key={index}
-            className="flex items-center justify-center px-8 md:px-14 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 cursor-default"
+            className="flex items-center justify-center px-8 md:px-14 grayscale opacity-60 hover:grayscale-0 hover:opacity-100 dark:invert-[0.25] dark:hover:invert-0 transition-all duration-500 cursor-default"
           >
-            <div className="relative h-8 md:h-10 w-32 items-center justify-center gap-2 flex">
+            <div className="relative h-8 md:h-10 w-32 flex items-center justify-center gap-2">
               <Image
                 src={brand.src}
                 alt={`${brand.name} logo`}
                 fill
                 className="object-contain"
-                sizes="(max-width: 768px) 100px, 150px"
+                sizes="(max-width: 768px) 128px, 128px"
               />
             </div>
           </div>
