@@ -25,7 +25,7 @@ export default function Sidebar({
   });
 
   return (
-    <nav className="flex flex-1 flex-col p-6 bg-background border-r border-foreground/5 h-full transition-colors duration-300">
+    <nav className="flex flex-col py-6 px-4 bg-background h-full transition-colors duration-300">
       <ul role="list" className="flex flex-1 flex-col gap-y-8">
         <li>
           {/* Main Section Header */}
@@ -40,17 +40,16 @@ export default function Sidebar({
                   <Link
                     href={item.href}
                     onClick={closeSidebar}
-                    className={`group flex gap-x-3 rounded-2xl p-3 text-sm font-bold transition-all duration-300 ${
+                    className={`group flex items-center gap-x-3 rounded-2xl p-3 text-sm font-bold transition-all duration-300 whitespace-nowrap ${
                       isActive
                         ? "bg-brand-gold text-brand-black shadow-lg shadow-brand-gold/20 scale-[1.02]"
-                        : "text-foreground/60 hover:text-foreground hover:bg-foreground/5" 
-                        /* Increased default opacity from 50 to 60 for light mode visibility */
+                        : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
                     }`}
                   >
                     <item.icon
                       className={`h-5 w-5 shrink-0 transition-colors ${
-                        isActive 
-                          ? "text-brand-black" 
+                        isActive
+                          ? "text-brand-black"
                           : "text-foreground/30 group-hover:text-brand-gold"
                       }`}
                     />
@@ -76,7 +75,7 @@ export default function Sidebar({
               <PlusCircle className="h-5 w-5 text-brand-gold" />
               Top Up Wallet
             </Link>
-            
+
             <Link
               href="/support"
               className="group flex gap-x-3 rounded-2xl p-3 text-sm font-bold text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all"

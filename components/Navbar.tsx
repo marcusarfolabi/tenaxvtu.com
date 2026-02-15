@@ -81,6 +81,15 @@ export default function Navbar() {
                   ))}
               </button>
 
+              {installPrompt && (
+                <button
+                  aria-label="download app"
+                  onClick={handleInstallClick}
+                  className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground transition-all active:scale-90 animate-pulse"
+                >
+                  <Download size={14} />
+                </button>
+              )}
               <Link
                 href="/login"
                 className="px-6 py-3.5 bg-foreground text-background rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-brand-gold hover:text-brand-black transition-all flex items-center gap-2 active:scale-95"
@@ -88,14 +97,6 @@ export default function Navbar() {
                 <Smartphone size={16} className="text-brand-gold" />
                 Get Started
               </Link>
-              {installPrompt && (
-                <button
-                  onClick={handleInstallClick}
-                  className="hidden md:flex items-center gap-2 bg-brand-gold text-brand-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest animate-pulse"
-                >
-                  <Download size={14} /> Install App
-                </button>
-              )}
             </div>
 
             {/* Mobile Actions */}
@@ -113,6 +114,15 @@ export default function Navbar() {
                     <Moon size={20} />
                   ))}
               </button>
+               {installPrompt && (
+                <button
+                  aria-label="download app"
+                  onClick={handleInstallClick}
+                  className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground transition-all active:scale-90 animate-pulse"
+                >
+                  <Download size={14} />
+                </button>
+              )}
               <DisclosureButton className="p-3 text-foreground hover:bg-foreground/5 rounded-xl transition-colors">
                 {open ? <X size={24} /> : <Menu size={24} />}
               </DisclosureButton>
@@ -151,15 +161,8 @@ export default function Navbar() {
                     <Smartphone size={20} />
                     Sign Up Free
                   </DisclosureButton>
+                 
                 </div>
-                {installPrompt && (
-                  <button
-                    onClick={handleInstallClick}
-                    className="hidden md:flex items-center gap-2 bg-brand-gold text-brand-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest animate-pulse"
-                  >
-                    <Download size={14} /> Install App
-                  </button>
-                )}
               </div>
             </DisclosurePanel>
           </Transition>

@@ -40,7 +40,7 @@ export default function CustomerLayout({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-brand-black/60 backdrop-blur-md" />
+              <div className="fixed inset-0 bg-background backdrop-blur-md" />
             </Transition.Child>
 
             <div className="fixed inset-0 flex">
@@ -53,22 +53,19 @@ export default function CustomerLayout({
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1 flex-col bg-background shadow-2xl transition-colors duration-300">
-                  {/* Close button for mobile accessibility */}
+                <Dialog.Panel className="relative mr-16 flex w-54 flex-col bg-background shadow-2xl transition-colors duration-300">
                   <div className="absolute top-5 -right-12">
                     <button
                       type="button"
-                      className="text-white p-2 hover:scale-110 transition-transform"
+                      className="text-foreground p-2 hover:scale-110 transition-transform"
                       onClick={() => setSidebarOpen(false)}
                     >
                       <X size={24} />
                     </button>
                   </div>
-
-                  <div className="flex h-20 items-center px-8 border-b border-foreground/5"> 
+                  <div className="flex h-20 items-center px-8 border-b border-foreground/5">
                     <Logo />
                   </div>
-
                   <div className="flex-1 overflow-y-auto">
                     <Sidebar
                       mobile={true}
@@ -82,8 +79,8 @@ export default function CustomerLayout({
         </Transition.Root>
 
         {/* DESKTOP SIDEBAR */}
-        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-          <div className="flex grow flex-col bg-brand-black shadow-2xl border-r border-white/5">
+        <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-64 lg:flex-col">
+          <div className="flex grow flex-col bg-background shadow-2xl border-r border-white/5">
             <div className="flex h-24 shrink-0 items-center px-8">
               <Logo />
             </div>
@@ -92,7 +89,7 @@ export default function CustomerLayout({
         </div>
 
         {/* CONTENT AREA */}
-        <div className="lg:pl-72 flex flex-col min-h-screen">
+        <div className="lg:pl-54 flex flex-col min-h-screen">
           <TopHeader onMenuClick={() => setSidebarOpen(true)} />
 
           <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
@@ -116,11 +113,11 @@ export default function CustomerLayout({
           </span>
 
           {/* The Icon Button */}
-          <div className="w-14 h-14 bg-brand-black text-white rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 border border-white/10 relative">
+          <div className="w-14 h-14 bg-background text-foreground rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 border border-white/10 relative">
             <MessageCircle
               size={24}
               fill="currentColor"
-              className="text-white"
+              className="text-foreground"
             />
 
             {/* Notification Dot */}
