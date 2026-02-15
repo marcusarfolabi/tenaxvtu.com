@@ -16,10 +16,10 @@ export const MAIN_NAVIGATION = [
 
 export const FOOTER_NAVIGATION = {
   services: [
-    { name: "Data Vending", href: "#services" },
-    { name: "Airtime VTU", href: "#services" },
-    { name: "Utility Bills", href: "#services" },
-    { name: "Education Pins", href: "#services" },
+    { name: "Data Vending", href: "/login" },
+    { name: "Airtime VTU", href: "/login" },
+    { name: "Cable Bills", href: "/login" },
+    { name: "Electricity Tokens", href: "/login" },
   ],
 
   company: [

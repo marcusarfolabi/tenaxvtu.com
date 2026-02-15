@@ -29,8 +29,7 @@ export default function Footer() {
             <Logo />
 
             <p className="text-foreground/50 text-sm leading-relaxed max-w-sm">
-              Empowering agents across Nigeria with the fastest utility vending
-              infrastructure.
+              Join thousands of agents. Earn commissions on airtime, data, electricity, and cable TV subscriptions
             </p>
 
             <div className="flex gap-4">
