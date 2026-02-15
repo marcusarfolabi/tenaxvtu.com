@@ -2,7 +2,13 @@
 import { useState } from "react";
 import FormInput from "@/components/common/FormInput";
 import SubmitButton from "@/components/common/SubmitButton";
-import { Fingerprint, CreditCard, Calendar, User, ShieldCheck } from "lucide-react";
+import {
+  Fingerprint,
+  CreditCard,
+  Calendar,
+  User,
+  ShieldCheck,
+} from "lucide-react";
 import { toast } from "react-hot-toast";
 import { profileApi } from "@/lib/api/profile";
 import { useAuth } from "@/context/AuthContext";
@@ -36,7 +42,6 @@ export default function VerifyIdentity() {
 
     setLoading(true);
     try {
-      // Prepare data for API (including mobile_phone from auth user)
       const payload = {
         ...formData,
         mobile_phone: user?.phone || "",
@@ -50,9 +55,9 @@ export default function VerifyIdentity() {
         await refreshUser();
       }
 
-      // Redirect to account after a short delay
       setTimeout(() => {
-        router.push("/account");
+        toast.success("Virtual account is now provisioned!");
+        router.push("/account/virtual-account");
       }, 2000);
     } catch (error: any) {
       const message = error.response?.data?.message || "Verification failed";
@@ -73,7 +78,9 @@ export default function VerifyIdentity() {
           Identity Verification
         </h1>
         <p className="text-foreground/50 text-xs font-medium max-w-70 mx-auto leading-relaxed">
-          To comply with <span className="text-foreground font-bold">CBN regulations</span> and secure your account, please verify your details.
+          To comply with{" "}
+          <span className="text-foreground font-bold">CBN regulations</span> and
+          secure your account, please verify your details.
         </p>
       </div>
 

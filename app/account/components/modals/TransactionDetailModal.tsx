@@ -15,6 +15,10 @@ import {
 } from "lucide-react";
 import { Modal } from "../ui/Modal";
 import toast from "react-hot-toast";
+import { useState } from "react";
+
+import { domToCanvas } from "modern-screenshot"; // Import this
+import jsPDF from "jspdf";
 
 interface TransactionDetailModalProps {
   isOpen: boolean;
@@ -29,7 +33,40 @@ export function TransactionDetailModal({
   tx,
   currency,
 }: TransactionDetailModalProps) {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   if (!tx) return null;
+
+const handleDownload = async () => {
+    const element = document.getElementById("receipt-content");
+    if (!element) return;
+
+    setIsDownloading(true);
+    try {
+      const canvas = await domToCanvas(element, {
+        scale: 3,  
+        // DO NOT hardcode #0a0a0a here. 
+        // Set to null so it uses the CSS background-color from your theme.
+        backgroundColor: null, 
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", [80, 160]); 
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+      pdf.save(`Receipt-${tx.reference}.pdf`);
+      toast.success("Receipt saved!");
+    } catch (err) {
+      console.error("Receipt Export Error:", err);
+      toast.error("Could not generate receipt");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   const handleShare = async () => {
     const text = `Transaction Receipt\nAmount: ${currency}${tx.amount}\nRef: ${tx.reference}\nStatus: ${tx.status}`;
@@ -49,11 +86,15 @@ export function TransactionDetailModal({
     }
   };
 
-return (
+  return (
     <Modal isOpen={isOpen} onClose={onClose} title="Transaction Details">
-      <div id="receipt-content" className="p-6 bg-background">
+      <div
+        id="receipt-content"
+        className="p-6 bg-background print-safe"
+        data-rendering="pdf"
+      >
         <div className="flex flex-col items-center justify-center space-y-3 pb-8 border-b border-dashed border-foreground/10">
-                    <div
+          <div
             className={`w-16 h-16 rounded-full flex items-center justify-center ${
               tx.status === "success" || tx.status === "1"
                 ? "bg-green-500/10"
@@ -82,14 +123,12 @@ return (
           {/* Conditional Status Badge */}
           <span
             className={`px-4 py-1.5 text-[10px] font-black rounded-full uppercase tracking-wider ${
-              tx.status === "success" 
+              tx.status === "success"
                 ? "bg-green-500/20 text-green-500"
                 : "bg-red-500/20 text-red-500"
             }`}
           >
-            {tx.status === "success"
-              ? "Successful"
-              : "Failed"}
+            {tx.status === "success" ? "Successful" : "Failed"}
           </span>
         </div>
 
@@ -141,8 +180,10 @@ return (
 
         {/* Footer Brand */}
         <div className="space-y-4">
-           <p className="text-foreground/60 text-center italic text-xs px-4">{tx.remark}</p>
-           <div className="pt-6 border-t border-foreground/5 flex justify-center">
+          <p className="text-foreground/60 text-center italic text-xs px-4">
+            {tx.remark}
+          </p>
+          <div className="pt-6 border-t border-foreground/5 flex justify-center">
             <p className="text-[10px] font-black text-foreground/20 uppercase tracking-[0.4em]">
               Kakalinks Official Receipt
             </p>
@@ -153,7 +194,8 @@ return (
       {/* Action Buttons - Always visible and themed */}
       <div className="p-4 grid grid-cols-2 gap-3 bg-foreground/5 rounded-b-3xl">
         <button
-          onClick={() => window.print()}
+           onClick={handleDownload}
+          disabled={isDownloading}
           className="flex items-center justify-center gap-2 h-12 bg-background border border-foreground/10 rounded-xl text-xs font-black uppercase text-foreground hover:bg-foreground/5 active:scale-95 transition-all"
         >
           <Download size={16} /> Download

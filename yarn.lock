@@ -2870,6 +2870,11 @@ minimist@^1.2.0, minimist@^1.2.6:
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
   integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
 
+modern-screenshot@^4.6.8:
+  version "4.6.8"
+  resolved "https://registry.yarnpkg.com/modern-screenshot/-/modern-screenshot-4.6.8.tgz#68f9037c64c1744b9900c88c827c802aa8309589"
+  integrity sha512-GJkv/yWPOJTlxj1LZDU2k474cDyOWL+LVaqTdDWQwQ5d8zIuTz1892+1cV9V0ZpK6HYZFo/+BNLBbierO9d2TA==
+
 motion-dom@^12.34.0:
   version "12.34.0"
   resolved "https://registry.yarnpkg.com/motion-dom/-/motion-dom-12.34.0.tgz#d1776aaff750e09db66237c66daec31232a4cba8"
