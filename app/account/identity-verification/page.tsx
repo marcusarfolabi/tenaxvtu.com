@@ -57,7 +57,7 @@ export default function VerifyIdentity() {
 
       setTimeout(() => {
         toast.success("Virtual account is now provisioned!");
-        router.push("/account/virtual-account");
+        router.push("/account/virtual-accounts");
       }, 2000);
     } catch (error: any) {
       const message = error.response?.data?.message || "Verification failed";
