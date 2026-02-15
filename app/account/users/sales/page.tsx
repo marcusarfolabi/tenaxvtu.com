@@ -50,7 +50,7 @@ export default function DataStatsPage({ stats: initialStats }: { stats: any }) {
   }
 
   return (
-    <div className="p-6 space-y-6 relative bg-background min-h-screen text-foreground">
+    <div className="p-2 space-y-6 relative bg-background min-h-screen text-foreground">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <DateFilter filters={filters} setFilters={setFilters} />
 

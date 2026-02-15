@@ -19,6 +19,9 @@ export function proxy(request: NextRequest) {
     if (pathname.startsWith("/account/users") && role === "customer") {
       return NextResponse.redirect(new URL("/account", request.url));
     }
+    if (pathname.startsWith("/account/users/sales") && role === "customer") {
+      return NextResponse.redirect(new URL("/account", request.url));
+    }
     if (pathname === "/account/data/list" && role === "customer") {
       return NextResponse.redirect(new URL("/account/data", request.url));
     }

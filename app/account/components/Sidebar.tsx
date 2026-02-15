@@ -19,7 +19,7 @@ export default function Sidebar({
 
   const filteredMenu = ACCOUNT_MENU.filter((item) => {
     const isRestrictedPath =
-      item.href === "/account/users" || item.href === "/account/data/list";
+      item.href === "/account/users" ||  item.href === "/account/users/sales" || item.href === "/account/data/list";
 
     if (isRestrictedPath) {
       return user?.role !== "customer";
