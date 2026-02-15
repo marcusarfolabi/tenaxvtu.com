@@ -6,7 +6,8 @@ import {
   GraduationCap,
   History,
   Users,
-  List
+  List,
+  WalletCards
 } from "lucide-react";
  
 export const MAIN_NAVIGATION = [
@@ -44,6 +45,7 @@ export const ACCOUNT_MENU = [
   { name: "Transactions", href: "/account/transactions", icon: History },
   { name: "Customers", href: "/account/users", icon: Users },
   { name: "Data Plans", href: "/account/data/list", icon: List },
+  { name: "Sales Overview", href: "/account/users/sales", icon: WalletCards },
 ];
 
 

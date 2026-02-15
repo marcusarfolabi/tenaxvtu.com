@@ -27,4 +27,7 @@ export const profileApi = {
 
 getUsers: (params: { limit: number; page: number }) => 
     api.get("/user/all", { params }),
+
+getStats: (params: { from: string; to: string }) => 
+    api.get("/user/sales-stats", { params }),
 };

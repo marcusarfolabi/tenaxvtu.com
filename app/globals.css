@@ -8,15 +8,14 @@
 
   /* Keep your custom variable if you want to use font-main class specifically */
   --font-main: var(--font-instrument-sans), "Instrument Sans", sans-serif;
-
   /* Kakalinks Brand Colors */
   --color-brand-gold: #d4af37;
   --color-brand-black: #0a0a0a;
-
+  
   /* Map CSS Variables to Tailwind Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-
+  
   /* SaaS Logic Colors */
   --color-primary: var(--brand-primary);
   --color-secondary: var(--brand-secondary);
@@ -91,6 +90,21 @@
 
 /* 3. Global Components */
 @layer components {
+.print-safe {
+    /* Standard CSS variables that the library understands */
+    --background: #0a0a0a !important;
+    --foreground: #ffffff !important;
+    --brand-gold: #d4af37 !important;
+    
+    /* Re-map the Tailwind v4 colors explicitly for the PDF engine */
+    --color-background: #0a0a0a !important;
+    --color-foreground: #ffffff !important;
+    --color-brand-gold: #d4af37 !important;
+
+    /* Ensure chart text and lines are visible */
+    color: #ffffff !important;
+    background-color: #0a0a0a !important;
+  }
   .input-primary,
   .select-primary {
     /* Use decimal points for opacity in v4 if /4 is not registering */

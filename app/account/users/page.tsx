@@ -13,8 +13,6 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
   const [page, setPage] = useState(1);
   const { users, pagination, isLoading } = useUsers({ page, limit });
 
-  console.log(users);
-
   if (isLoading) {
     return (
       <div className="space-y-4 animate-pulse">
