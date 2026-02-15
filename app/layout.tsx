@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: baseUrl,
     siteName: "Kakalinks",
-    title: "Kakalinks | Instant Airtime & Bill Payments",
+    title: "Kakalinks",
     description:
       "Earn commissions on every transaction. The most reliable VTU platform for agents.",
     images: [
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kakalinks | Instant Airtime & Bill Payments",
+    title: "Kakalinks",
     description:
       "Join thousands of agents. Earn commissions on data, electricity, and cable TV subscriptions.",
     images: ["/og-image.png"],

@@ -39,6 +39,8 @@ export interface OnboardingData {
     domain: string;
     password: string;
     admin_password?: string;
+    support_email?: string;
+    support_phone?: string;
     monnify_key: string;
     monnify_secret: string;
     monnify_contract: string;
