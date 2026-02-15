@@ -14,9 +14,16 @@ export default function Sidebar({
   mobile = false,
   closeSidebar = () => {},
 }: SidebarProps) {
-  
   const pathname = usePathname();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+
+  const filteredMenu = ACCOUNT_MENU.filter((item) => {
+    // If the item is the users page, only show if role is NOT customer
+    if (item.href === "/account/users") {
+      return user?.role !== "customer";
+    }
+    return true;
+  });
 
   return (
     <nav className="flex flex-1 flex-col p-6">
@@ -26,7 +33,8 @@ export default function Sidebar({
             Main Services
           </div>
           <ul role="list" className="-mx-2 space-y-1">
-            {ACCOUNT_MENU.map((item) => {
+            {filteredMenu.map((item) => {
+              // Use the filtered list here
               const isActive = pathname === item.href;
               return (
                 <li key={item.name}>

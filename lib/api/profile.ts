@@ -24,4 +24,7 @@ export const profileApi = {
     api.post("/profile/verify-identity", data),
 
   getNotifications: () => api.get("/profile/notifications"),
+
+getUsers: (params: { limit: number; page: number }) => 
+    api.get("/user/all", { params }),
 };

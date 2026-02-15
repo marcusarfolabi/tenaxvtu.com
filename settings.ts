@@ -4,7 +4,8 @@ import {
   Tv,
   Zap,
   GraduationCap,
-  History
+  History,
+  Users
 } from "lucide-react";
  
 export const MAIN_NAVIGATION = [
@@ -39,8 +40,8 @@ export const ACCOUNT_MENU = [
   { name: "Data Bundle", href: "/account/data", icon: Database },
   { name: "Cable TV", href: "/account/cable", icon: Tv },
   { name: "Electricity", href: "/account/electricity", icon: Zap },
-  // { name: "Education", href: "/account/education", icon: GraduationCap },
   { name: "Transactions", href: "/account/transactions", icon: History },
+  { name: "Customers", href: "/account/users", icon: Users },
 ];
 
 
