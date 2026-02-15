@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe, Mail, ArrowLeft, ShieldAlert, Phone } from "lucide-react";
+import { Globe, Mail, ArrowLeft, ShieldAlert, Lock, Phone as PhoneIcon } from "lucide-react";
 import AuthSidebar from "@/components/AuthSidebar";
 import toast from "react-hot-toast";
 import { authApi } from "@/lib/api/auth";
@@ -201,7 +201,8 @@ export default function Onboarding() {
                       label="Support Phone Number"
                       name="supportContactPhone"
                       type="tel"
-                      icon={Phone}
+                      maxLength={13}
+                      icon={PhoneIcon}
                       value={formData.supportContactPhone}
                       onChange={handleInputChange}
                       placeholder="2349035155129"
@@ -272,8 +273,24 @@ export default function Onboarding() {
                 </motion.div>
               )}
             </AnimatePresence>
+            <div className="mt-12 flex items-center gap-4 w-full">
+              {step > 1 && !isLoading && (
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="w-1/3 h-16 cursor-pointer rounded-2xl font-black text-lg transition-all shadow-xl shadow-black/5 mt-4 flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed border-brand-gold text-black border hover:bg-brand-black hover:text-brand-gold"
+                >
+                  <ArrowLeft size={20} /> Back
+                </button>
+              )}
 
-            {/* ... Navigation buttons remain same ... */}
+              <SubmitButton
+                isLoading={isLoading}
+                idleText={step === totalSteps ? "Finish Setup" : "Next Step"}
+                loadingText="Configuring System..."
+                className={step > 1 ? "flex-1" : "w-full"}
+              />
+            </div>{" "}
           </form>
         </div>
       </div>
