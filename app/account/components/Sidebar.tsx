@@ -18,9 +18,13 @@ export default function Sidebar({
   const { user, logout } = useAuth();
 
   const filteredMenu = ACCOUNT_MENU.filter((item) => {
-    if (item.href === "/account/users") {
+    const isRestrictedPath =
+      item.href === "/account/users" || item.href === "/account/data/list";
+
+    if (isRestrictedPath) {
       return user?.role !== "customer";
     }
+
     return true;
   });
 

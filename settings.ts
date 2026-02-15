@@ -5,7 +5,8 @@ import {
   Zap,
   GraduationCap,
   History,
-  Users
+  Users,
+  List
 } from "lucide-react";
  
 export const MAIN_NAVIGATION = [
@@ -42,6 +43,7 @@ export const ACCOUNT_MENU = [
   { name: "Electricity", href: "/account/electricity", icon: Zap },
   { name: "Transactions", href: "/account/transactions", icon: History },
   { name: "Customers", href: "/account/users", icon: Users },
+  { name: "Data Plans", href: "/account/data/list", icon: List },
 ];
 
 

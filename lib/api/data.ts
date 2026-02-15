@@ -11,6 +11,12 @@ export interface dataPayload {
 
 export const dataApi = {
   getPlans: () => api.get("/services/data/plans"),
-  
+
   buy: (data: dataPayload) => api.post("/services/data/buy", data),
+
+  toggleStatus: (code: string) =>
+    api.patch(`/services/data/plans/${code}/toggle`),
+
+  updatePlan: (code: string, data: { reseller_price: string | number }) =>
+    api.patch(`/services/data/plans/${code}`, data),
 };

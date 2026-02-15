@@ -113,7 +113,7 @@ export default function CustomerLayout({
           </span>
 
           {/* The Icon Button */}
-          <div className="w-14 h-14 bg-background text-foreground rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 border border-white/10 relative">
+          <div className="w-14 h-14 bg-background border border-foreground/10 text-foreground rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 relative">
             <MessageCircle
               size={24}
               fill="currentColor"
