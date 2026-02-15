@@ -7,10 +7,19 @@ import {
   DisclosurePanel,
   Transition,
 } from "@headlessui/react";
-import { Menu, X, ChevronRight, Smartphone, Sun, Moon } from "lucide-react";
+import {
+  Menu,
+  X,
+  ChevronRight,
+  Smartphone,
+  Sun,
+  Moon,
+  Download,
+} from "lucide-react";
 import Link from "next/link";
 import Logo from "@/components/Logo";
 import { MAIN_NAVIGATION } from "@/settings";
+import { usePWA } from "@/hooks/usePWA";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -24,6 +33,8 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const { installPrompt, handleInstallClick } = usePWA();
 
   return (
     <Disclosure
@@ -56,11 +67,18 @@ export default function Navbar() {
 
               {/* Theme Toggle Button */}
               <button
-                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+                onClick={() =>
+                  setTheme(resolvedTheme === "dark" ? "light" : "dark")
+                }
                 className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground transition-all active:scale-90"
                 aria-label="Toggle Theme"
               >
-                {mounted && (resolvedTheme === "dark" ? <Sun size={18} /> : <Moon size={18} />)}
+                {mounted &&
+                  (resolvedTheme === "dark" ? (
+                    <Sun size={18} />
+                  ) : (
+                    <Moon size={18} />
+                  ))}
               </button>
 
               <Link
@@ -70,15 +88,30 @@ export default function Navbar() {
                 <Smartphone size={16} className="text-brand-gold" />
                 Get Started
               </Link>
+              {installPrompt && (
+                <button
+                  onClick={handleInstallClick}
+                  className="hidden md:flex items-center gap-2 bg-brand-gold text-brand-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest animate-pulse"
+                >
+                  <Download size={14} /> Install App
+                </button>
+              )}
             </div>
 
             {/* Mobile Actions */}
             <div className="flex items-center gap-2 md:hidden">
               <button
-                onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+                onClick={() =>
+                  setTheme(resolvedTheme === "dark" ? "light" : "dark")
+                }
                 className="p-3 text-foreground bg-foreground/5 rounded-xl border border-foreground/5"
               >
-                {mounted && (resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />)}
+                {mounted &&
+                  (resolvedTheme === "dark" ? (
+                    <Sun size={20} />
+                  ) : (
+                    <Moon size={20} />
+                  ))}
               </button>
               <DisclosureButton className="p-3 text-foreground hover:bg-foreground/5 rounded-xl transition-colors">
                 {open ? <X size={24} /> : <Menu size={24} />}
@@ -119,6 +152,14 @@ export default function Navbar() {
                     Sign Up Free
                   </DisclosureButton>
                 </div>
+                {installPrompt && (
+                  <button
+                    onClick={handleInstallClick}
+                    className="hidden md:flex items-center gap-2 bg-brand-gold text-brand-black px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest animate-pulse"
+                  >
+                    <Download size={14} /> Install App
+                  </button>
+                )}
               </div>
             </DisclosurePanel>
           </Transition>

@@ -14,6 +14,11 @@
       "density": "0.75"
     },
     {
+  "src": "/android-icon-512x512.png",
+  "sizes": "512x512",
+  "type": "image/png"
+},
+    {
       "src": "\/android-icon-48x48.png",
       "sizes": "48x48",
       "type": "image\/png",
