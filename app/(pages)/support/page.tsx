@@ -22,7 +22,7 @@ export default function SupportPage() {
   // Logic to hide email from scrapers
   const [displayEmail, setDisplayEmail] = useState("");
 
-  const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_SUPPORT_PHONE || "2340000000000";
+  const WHATSAPP_PHONE = process.env.NEXT_PUBLIC_SUPPORT_PHONE || "2347062310461";
 
   useEffect(() => {
     // Construct email logically to bypass basic scrapers
