@@ -105,21 +105,23 @@ export default function DataPage() {
     }
   };
 
-  return (
+return (
     <div className="space-y-6 pb-20">
-      {/* Balance Card */}
+      {/* Dynamic Balance Card - Fixed Brand Black */}
       <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-white shadow-2xl">
         <div className="relative z-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
             Total Data Purchase
           </p>
-          <h2 className="text-4xl font-black mt-1">
+          <h2 className="text-4xl font-black mt-1 tracking-tighter">
             {balance?.currency || "₦"}
-            {(stats?.total_amount || 0).toLocaleString()}
+            {(stats?.total_amount || 0).toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+            })}
           </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95"
+            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-gold/20"
           >
             <Database size={16} /> Buy Data
           </button>
@@ -127,23 +129,23 @@ export default function DataPage() {
         <Database className="absolute -right-4 -bottom-4 text-white/5 w-40 h-40 rotate-12" />
       </div>
 
-      {/* History */}
+      {/* History Section */}
       <div className="space-y-4">
-        <h3 className="font-black text-gray-900 px-1 uppercase text-xs tracking-widest">
+        <h3 className="font-black text-foreground/40 px-1 uppercase text-[10px] tracking-[0.2em]">
           Data History
         </h3>
         <TransactionList limit={10} showTitle={false} type="DATA" />
       </div>
 
-      {/* Modal */}
+      {/* Purchase Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Purchase Data"
       >
-        <form onSubmit={handlePurchase} className="p-6 space-y-4">
-          {/* Network Selection */}
-          <div className="grid grid-cols-4 gap-2 mb-4">
+        <form onSubmit={handlePurchase} className="p-6 space-y-6">
+          {/* Network Selection Grid */}
+          <div className="grid grid-cols-4 gap-2">
             {["MTN", "GLO", "AIRTEL", "9MOBILE"].map((net) => (
               <button
                 key={net}
@@ -151,44 +153,53 @@ export default function DataPage() {
                 onClick={() =>
                   setFormData({ ...formData, network: net as NetworkType })
                 }
-                className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all ${formData.network === net ? "bg-brand-gold/10 border-brand-gold" : "bg-gray-50 border-gray-100 opacity-70 grayscale"}`}
+                className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${
+                  formData.network === net 
+                    ? "bg-brand-gold/10 border-brand-gold text-foreground shadow-sm" 
+                    : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-60 hover:opacity-100 hover:grayscale-0"
+                }`}
               >
-                <div className="w-8 h-8 rounded-full overflow-hidden border border-gray-100">
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-white border border-foreground/5 shadow-inner flex items-center justify-center p-0.5">
                   <Image
                     src={`/providers/${net.toLowerCase()}.png`}
                     alt={net}
                     width={40}
                     height={40}
+                    className="object-contain"
                   />
                 </div>
-                <span className="text-[9px] font-black uppercase">{net}</span>
+                <span className="text-[9px] font-black uppercase tracking-tighter">{net}</span>
               </button>
             ))}
           </div>
 
           {/* Phone Number */}
-          <FormInput
-            label="Phone Number"
-            name="phone"
-            type="tel" 
-            inputMode="numeric"
-            maxLength={11}
-            value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
-            icon={Phone}
-            placeholder="0x0..."
-          />
+          <div className="space-y-1">
+            <FormInput
+              label="Phone Number"
+              name="phone"
+              type="tel" 
+              inputMode="numeric"
+              maxLength={11}
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+              icon={Phone}
+              placeholder="080..."
+            />
+          </div>
 
           {/* Data Plan Selection */}
           <FormSelect
             label="Select Plan"
             icon={List}
-            options={filteredPlans} // Pass the array of plans
+            options={filteredPlans.map(p => ({
+              code: p.code,
+              name: `${p.name} - ₦${parseFloat(p.reseller_price).toLocaleString()}`
+            }))}
             selectedCode={formData.selectedPlanId}
             onChange={(code) => {
-              // Find plan based on the code returned by the select
               const plan = filteredPlans.find(
                 (p) => String(p.code) === String(code),
               );
@@ -201,28 +212,35 @@ export default function DataPage() {
               });
             }}
           />
-          {/* Balance Display */}
-          <div className="bg-gray-50 p-4 rounded-2xl flex justify-between items-center border border-gray-100">
+
+          {/* Balance Display - Themed Container */}
+          <div className="bg-foreground/5 p-4 rounded-2xl flex justify-between items-center border border-foreground/5">
             <div className="flex items-center gap-2">
-              <Wallet size={16} className="text-gray-400" />
-              <span className="text-[10px] font-bold text-gray-500 uppercase">
-                Wallet Balance
+              <Wallet size={16} className="text-foreground/40" />
+              <span className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest">
+                Available Balance
               </span>
             </div>
             <span
-              className={`text-xs font-black ${!canAfford ? "text-red-500" : "text-gray-900"}`}
+              className={`text-xs font-black ${!canAfford ? "text-red-500" : "text-foreground"}`}
             >
               {balance?.currency}
-              {balance?.balance}
+              {balance?.balance?.toLocaleString()}
             </span>
           </div>
+
+          {!canAfford && formData.amount > 0 && (
+            <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
+               Insufficient funds in your wallet
+            </p>
+          )}
 
           <SubmitButton
             loadingText="Processing..."
             disabled={!isFormValid || isPurchasing}
             isLoading={isPurchasing}
-            idleText={`Buy ${formData.network} Data`}
-            className="h-14 rounded-2xl"
+            idleText={formData.amount > 0 ? `Pay ₦${formData.amount.toLocaleString()}` : `Buy ${formData.network} Data`}
+            className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
           />
         </form>
       </Modal>

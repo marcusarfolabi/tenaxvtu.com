@@ -63,122 +63,136 @@ export default function ProfilePage() {
     }
   };
 
-  return (
-    <div className="space-y-8 pb-24 px-1">
-      <div>
-        <h1 className="text-2xl font-black text-brand-black tracking-tight">
+ return (
+    <div className="max-w-4xl mx-auto space-y-8 pb-24 px-1">
+      {/* Header Section */}
+      <div className="px-1">
+        <h1 className="text-2xl font-black text-foreground tracking-tight">
           Profile Settings
         </h1>
-        <p className="text-gray-500 text-sm font-medium">
-          Manage your personal information and security.
+        <p className="text-foreground/50 text-sm font-medium">
+          Manage your personal information and account security.
         </p>
       </div>
 
-      <section className="bg-white rounded-4xl p-6 border border-gray-100 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-brand-gold/10 rounded-xl flex items-center justify-center text-brand-gold">
-            <User size={20} />
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+        {/* SECTION 1: BASIC INFO */}
+        <section className="bg-background rounded-[2.5rem] p-6 sm:p-8 border border-foreground/5 shadow-2xl transition-colors">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 bg-brand-gold/10 rounded-2xl flex items-center justify-center text-brand-gold">
+              <User size={24} />
+            </div>
+            <div>
+              <h2 className="font-black text-foreground uppercase text-xs tracking-widest">Basic Information</h2>
+              <p className="text-[10px] text-foreground/40 font-bold uppercase">Publicly identifiable details</p>
+            </div>
           </div>
-          <h2 className="font-black text-gray-900">Basic Information</h2>
-        </div>
 
-        <form onSubmit={handleUpdateProfile} className="space-y-4">
-          <div className="grid grid-cols-2 gap-8">
+          <form onSubmit={handleUpdateProfile} className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <FormInput
+                label="First Name"
+                name="name"
+                value={profileData.name}
+                onChange={(e) =>
+                  setProfileData({ ...profileData, name: e.target.value })
+                }
+                icon={User}
+                placeholder="First Name"
+              />
+              <FormInput
+                label="Last Name"
+                name="lastname"
+                value={profileData.lastname}
+                onChange={(e) =>
+                  setProfileData({ ...profileData, lastname: e.target.value })
+                }
+                icon={User}
+                placeholder="Last Name"
+              />
+            </div>
+
             <FormInput
-              label="First Name"
-              name="name"
-              value={profileData.name}
+              label="Phone Number"
+              name="phone"
+              type="tel"
+              inputMode="tel"
+              value={profileData.phone}
               onChange={(e) =>
-                setProfileData({ ...profileData, name: e.target.value })
+                setProfileData({ ...profileData, phone: e.target.value })
               }
-              icon={User}
-              placeholder="First Name"
+              icon={Phone}
+              placeholder="080..."
             />
-            <FormInput
-              label="Last Name"
-              name="lastname"
-              value={profileData.lastname}
-              onChange={(e) =>
-                setProfileData({ ...profileData, lastname: e.target.value })
-              }
-              icon={User}
-              placeholder="Last Name"
+
+            <SubmitButton
+              isLoading={isUpdatingProfile}
+              idleText="Save Changes"
+              loadingText="Updating..."
+              className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
             />
+          </form>
+        </section>
+
+        {/* SECTION 2: SECURITY */}
+        <section className="bg-background rounded-[2.5rem] p-6 sm:p-8 border border-foreground/5 shadow-2xl transition-colors">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-12 h-12 bg-foreground/5 rounded-2xl flex items-center justify-center text-foreground/60">
+              <ShieldCheck size={24} />
+            </div>
+            <div>
+              <h2 className="font-black text-foreground uppercase text-xs tracking-widest">Security</h2>
+              <p className="text-[10px] text-foreground/40 font-bold uppercase">Manage your login credentials</p>
+            </div>
           </div>
 
-          <FormInput
-            label="Phone Number"
-            name="phone"
-            type="tel"
-            inputMode="tel"
-            value={profileData.phone}
-            onChange={(e) =>
-              setProfileData({ ...profileData, phone: e.target.value })
-            }
-            icon={Phone}
-            placeholder="080..."
-          />
+          <form onSubmit={handleUpdatePassword} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6">
+              <PasswordInput
+                label="Current Password"
+                name="old_password"
+                value={passwordData.old_password}
+                onChange={(e) =>
+                  setPasswordData({ ...passwordData, old_password: e.target.value })
+                }
+                placeholder="••••••••"
+              />
 
-          <SubmitButton
-            isLoading={isUpdatingProfile}
-            idleText="Save Changes"
-            loadingText="Updating..."
-            className="h-14 rounded-2xl"
-          />
-        </form>
-      </section>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <PasswordInput
+                  label="New Password"
+                  name="new_password"
+                  value={passwordData.new_password}
+                  onChange={(e) =>
+                    setPasswordData({ ...passwordData, new_password: e.target.value })
+                  }
+                  placeholder="Min. 8 characters"
+                />
 
-      {/* SECTION 2: SECURITY */}
-      <section className="bg-white rounded-4xl p-6 border border-gray-100 shadow-sm">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-red-500">
-            <ShieldCheck size={20} />
-          </div>
-          <h2 className="font-black text-gray-900">Security</h2>
-        </div>
+                <PasswordInput
+                  label="Confirm New Password"
+                  name="new_password_confirmation"
+                  value={passwordData.new_password_confirmation}
+                  onChange={(e) =>
+                    setPasswordData({
+                      ...passwordData,
+                      new_password_confirmation: e.target.value,
+                    })
+                  }
+                  placeholder="Confirm new password"
+                />
+              </div>
+            </div>
 
-        <form onSubmit={handleUpdatePassword} className="space-y-8">
-          <PasswordInput
-            label="Current Password"
-            name="old_password"
-            value={passwordData.old_password}
-            onChange={(e) =>
-              setPasswordData({ ...passwordData, old_password: e.target.value })
-            }
-            placeholder="••••••••"
-          />
-
-          <PasswordInput
-            label="New Password"
-            name="new_password"
-            value={passwordData.new_password}
-            onChange={(e) =>
-              setPasswordData({ ...passwordData, new_password: e.target.value })
-            }
-            placeholder="Minimum 8 characters"
-          />
-
-          <PasswordInput
-            label="Confirm New Password"
-            name="new_password_confirmation"
-            value={passwordData.new_password_confirmation}
-            onChange={(e) =>
-              setPasswordData({
-                ...passwordData,
-                new_password_confirmation: e.target.value,
-              })
-            }
-            placeholder="Confirm new password"
-          />
-
-          <SubmitButton
-            isLoading={isUpdatingPassword}
-            idleText="Update Password"
-            loadingText="Securing..."
-            className="h-14 rounded-2xl bg-brand-black hover:bg-brand-gold hover:text-brand-black"
-          />
-        </form>
-      </section>
+            <SubmitButton
+              isLoading={isUpdatingPassword}
+              idleText="Update Password"
+              loadingText="Securing..."
+              className="h-14 rounded-2xl bg-brand-black text-white hover:bg-brand-gold hover:text-brand-black shadow-xl"
+            />
+          </form>
+        </section>
+      </div>
     </div>
   );
 }

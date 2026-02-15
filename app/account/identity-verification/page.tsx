@@ -2,7 +2,7 @@
 import { useState } from "react";
 import FormInput from "@/components/common/FormInput";
 import SubmitButton from "@/components/common/SubmitButton";
-import { Fingerprint, CreditCard, Calendar, User } from "lucide-react";
+import { Fingerprint, CreditCard, Calendar, User, ShieldCheck } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { profileApi } from "@/lib/api/profile";
 import { useAuth } from "@/context/AuthContext";
@@ -63,23 +63,27 @@ export default function VerifyIdentity() {
   };
 
   return (
-    <div className="max-w-md mx-auto space-y-6 pb-20">
-      <div className="text-center space-y-2">
-        <h1 className="text-2xl font-black text-brand-black">
+    <div className="max-w-md mx-auto space-y-8 pb-20">
+      <div className="text-center space-y-3">
+        {/* Shield icon for trust */}
+        <div className="mx-auto w-16 h-16 bg-brand-gold/10 rounded-3xl flex items-center justify-center mb-4">
+          <ShieldCheck size={32} className="text-brand-gold" />
+        </div>
+        <h1 className="text-2xl font-black text-foreground tracking-tight">
           Identity Verification
         </h1>
-        <p className="text-gray-500 text-sm">
-          We need to verify your identity to comply with CBN regulations.
+        <p className="text-foreground/50 text-xs font-medium max-w-70 mx-auto leading-relaxed">
+          To comply with <span className="text-foreground font-bold">CBN regulations</span> and secure your account, please verify your details.
         </p>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-4xl border border-gray-100 shadow-sm space-y-6"
+        className="bg-background p-6 rounded-[2.5rem] border border-foreground/5 shadow-2xl space-y-6"
       >
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormInput
-            label="Legal FirstName"
+            label="Legal First Name"
             icon={User}
             required
             value={formData.first_name}
@@ -107,8 +111,8 @@ export default function VerifyIdentity() {
           onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
         />
 
-        <div className="pt-2 border-t border-gray-50">
-          <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">
+        <div className="pt-4 border-t border-foreground/5">
+          <p className="text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em] mb-6">
             Identity Documents
           </p>
 
@@ -123,12 +127,14 @@ export default function VerifyIdentity() {
             onChange={(e) => setFormData({ ...formData, bvn: e.target.value })}
           />
 
-          <div className="relative py-6">
+          <div className="relative py-8">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t border-gray-100"></span>
+              <span className="w-full border-t border-foreground/5"></span>
             </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-4 text-gray-400 font-black">OR</span>
+            <div className="relative flex justify-center text-[10px] uppercase">
+              <span className="bg-background px-4 text-foreground/20 font-black tracking-widest">
+                Official Alternate
+              </span>
             </div>
           </div>
 
@@ -144,12 +150,17 @@ export default function VerifyIdentity() {
           />
         </div>
 
-        <SubmitButton
-          isLoading={loading}
-          loadingText="Processing..."
-          idleText="Submit for Verification"
-          className="h-14 rounded-2xl w-full"
-        />
+        <div className="pt-2">
+          <SubmitButton
+            isLoading={loading}
+            loadingText="Verifying..."
+            idleText="Securely Submit Details"
+            className="h-14 rounded-2xl w-full shadow-lg shadow-brand-gold/10"
+          />
+          <p className="mt-4 text-center text-[9px] text-foreground/30 font-bold uppercase tracking-tighter">
+            🔒 Your data is encrypted and never stored in plain text
+          </p>
+        </div>
       </form>
     </div>
   );

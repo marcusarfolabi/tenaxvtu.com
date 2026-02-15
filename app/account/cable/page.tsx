@@ -7,6 +7,7 @@ import {
   UserCheck,
   CreditCard,
   Activity,
+  XCircle,
 } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { TransactionList } from "../components/TransactionList";
@@ -42,7 +43,8 @@ export default function CablePage() {
 
   // 1. Fetch Providers
   useEffect(() => {
-    cableApi.getTypes()
+    cableApi
+      .getTypes()
       .then((res) => setCableTypes(res.data?.data || []))
       .catch(() => toast.error("Failed to load cable providers"));
   }, []);
@@ -55,7 +57,8 @@ export default function CablePage() {
     }
 
     setIsLoadingPackages(true);
-    cableApi.getPackages(formData.type)
+    cableApi
+      .getPackages(formData.type)
       .then((res) => setPackages(res.data?.data || []))
       .catch(() => toast.error("Failed to load packages"))
       .finally(() => setIsLoadingPackages(false));
@@ -97,7 +100,9 @@ export default function CablePage() {
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canAfford) {
-      toast.error(`Insufficient balance. Required: ₦${formData.amount.toLocaleString()}`);
+      toast.error(
+        `Insufficient balance. Required: ₦${formData.amount.toLocaleString()}`,
+      );
       return;
     }
 
@@ -118,23 +123,32 @@ export default function CablePage() {
   };
 
   const resetForm = () => {
-    setFormData({ type: "", smartCardNo: "", productsCode: "", packagename: "", amount: 0 });
+    setFormData({
+      type: "",
+      smartCardNo: "",
+      productsCode: "",
+      packagename: "",
+      amount: 0,
+    });
     setCustomerName(null);
     setPackages([]);
   };
 
   return (
     <div className="space-y-6 pb-20">
-      {/* Balance Card */}
+      {/* Spending Card - Fixed Dark Theme */}
       <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-white shadow-2xl">
         <div className="relative z-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">Cable Spending</p>
-          <h2 className="text-4xl font-black mt-1">
-            {balance?.currency || "₦"}{(stats?.total_amount || 0).toLocaleString()}
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+            Cable Spending
+          </p>
+          <h2 className="text-4xl font-black mt-1 tracking-tighter">
+            {balance?.currency || "₦"}
+            {(stats?.total_amount || 0).toLocaleString()}
           </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95"
+            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-gold/20"
           >
             <Tv size={16} /> Renew Subscription
           </button>
@@ -142,14 +156,21 @@ export default function CablePage() {
         <Tv className="absolute -right-4 -bottom-4 text-white/5 w-40 h-40 rotate-12" />
       </div>
 
+      {/* History Section */}
       <div className="space-y-4">
-        <h3 className="font-black text-gray-900 px-1 uppercase text-xs tracking-widest">Cable History</h3>
+        <h3 className="font-black text-foreground/40 px-1 uppercase text-[10px] tracking-[0.2em]">
+          Cable History
+        </h3>
         <TransactionList limit={10} showTitle={false} type="CABLE" />
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Cable TV Subscription">
-        <form onSubmit={handlePurchase} className="p-6 space-y-4">
-          
+      {/* Subscription Modal */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Cable TV Subscription"
+      >
+        <form onSubmit={handlePurchase} className="p-6 space-y-5">
           <FormSelect
             label="Select Provider"
             icon={List}
@@ -178,15 +199,16 @@ export default function CablePage() {
             icon={CreditCard}
             disabled={!formData.type || isLoadingPackages}
             options={packages.map((p, idx) => ({
-              // Ensure uniqueness even if productsCode is missing
-              code: p.productsCode || `${p.name}-${idx}`, 
+              code: p.productsCode || `${p.name}-${idx}`,
               name: `${p.name} - ₦${Number(p.price).toLocaleString()}`,
             }))}
             selectedCode={formData.productsCode}
             onChange={(code) => {
-              const selected = packages.find((p, idx) => (p.productsCode || `${p.name}-${idx}`) === code);
+              const selected = packages.find(
+                (p, idx) => (p.productsCode || `${p.name}-${idx}`) === code,
+              );
               if (selected) {
-                setFormData(prev => ({
+                setFormData((prev) => ({
                   ...prev,
                   productsCode: String(code),
                   packagename: selected.name,
@@ -194,26 +216,42 @@ export default function CablePage() {
                 }));
               }
             }}
-            placeholder={isLoadingPackages ? "Loading packages..." : "Choose a plan"}
+            placeholder={
+              isLoadingPackages ? "Loading packages..." : "Choose a plan"
+            }
           />
 
-          <div className="space-y-1">
+          <div className="space-y-2">
             <FormInput
               label="Smart Card / IUC Number"
               icon={Activity}
               placeholder="Enter Number"
               value={formData.smartCardNo}
               onChange={(e) => {
-                setFormData(prev => ({ ...prev, smartCardNo: e.target.value }));
+                setFormData((prev) => ({
+                  ...prev,
+                  smartCardNo: e.target.value,
+                }));
                 if (customerName) setCustomerName(null);
               }}
               onBlur={validateDecoder}
             />
-            {isValidating && <p className="text-[10px] text-brand-gold animate-pulse px-2">Validating...</p>}
+            {isValidating && (
+              <p className="text-[10px] text-brand-gold font-black uppercase tracking-widest animate-pulse px-2">
+                Validating Decoder...
+              </p>
+            )}
             {customerName && (
-              <div className="flex items-center gap-1.5 px-3 py-2 bg-green-50 rounded-xl border border-green-100">
-                <UserCheck size={14} className="text-green-600" />
-                <p className="text-[10px] font-black text-green-700 uppercase">{customerName}</p>
+              <div className="flex items-center gap-2 px-4 py-3 bg-green-500/10 rounded-2xl border border-green-500/20">
+                <UserCheck size={16} className="text-green-500" />
+                <div>
+                  <p className="text-[8px] text-green-500/60 font-black uppercase tracking-tighter">
+                    Verified Customer
+                  </p>
+                  <p className="text-xs font-black text-green-500 uppercase">
+                    {customerName}
+                  </p>
+                </div>
               </div>
             )}
           </div>
@@ -222,12 +260,18 @@ export default function CablePage() {
             <FormInput
               label="Amount"
               icon={Wallet}
-              value={formData.amount > 0 ? `₦${formData.amount.toLocaleString()}` : ""}
+              value={
+                formData.amount > 0
+                  ? `₦${formData.amount.toLocaleString()}`
+                  : ""
+              }
               disabled
               placeholder="Package price"
             />
             {formData.amount > 0 && !canAfford && (
-              <p className="text-[10px] text-red-500 font-bold px-2">⚠️ Insufficient wallet balance</p>
+              <p className="text-[10px] text-red-500 font-bold px-2 flex items-center gap-1">
+                <XCircle size={12} /> Insufficient wallet balance
+              </p>
             )}
           </div>
 
@@ -235,8 +279,12 @@ export default function CablePage() {
             loadingText="Processing..."
             disabled={!isFormValid || isPurchasing || isValidating}
             isLoading={isPurchasing}
-            idleText={customerName ? `Pay ₦${formData.amount.toLocaleString()}` : "Validate Decoder"}
-            className="h-14 rounded-2xl"
+            idleText={
+              customerName
+                ? `Pay ₦${formData.amount.toLocaleString()}`
+                : "Validate Decoder"
+            }
+            className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
           />
         </form>
       </Modal>

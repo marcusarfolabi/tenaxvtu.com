@@ -30,14 +30,15 @@ export default function TopHeader({
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
-  return (
-    <header className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 border-b border-gray-100 dark:border-white/5 bg-white/80 dark:bg-brand-black/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+ return (
+    /* 1. Use bg-background/80 and text-foreground for seamless theme switching */
+    <header className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 border-b border-foreground/5 bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       
       {/* Mobile Menu Toggle & Logo */}
       <div className="flex flex-1 items-center gap-4 lg:hidden">
         <button
           type="button"
-          className="-m-2.5 p-2.5 text-gray-700 dark:text-gray-200"
+          className="-m-2.5 p-2.5 text-foreground/70"
           onClick={onMenuClick}
         >
           <MenuIcon className="h-6 w-6" />
@@ -50,10 +51,10 @@ export default function TopHeader({
           
           {/* NOTIFICATION BELL */}
           <Popover className="relative">
-            <Popover.Button className="p-2.5 text-gray-400 hover:text-brand-black dark:hover:text-brand-gold hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-all relative">
+            <Popover.Button className="p-2.5 text-foreground/40 hover:text-brand-gold hover:bg-foreground/5 rounded-xl transition-all relative outline-none">
               <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
               {unreadCount > 0 && (
-                <span className="absolute top-2.5 right-2.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-white dark:ring-brand-black">
+                <span className="absolute top-2.5 right-2.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-background">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
@@ -66,32 +67,32 @@ export default function TopHeader({
               enterTo="opacity-100 translate-y-0"
               leave="transition ease-in duration-150"
             >
-              <Popover.Panel className="absolute right-0 z-10 mt-4 w-80 origin-top-right rounded-3xl bg-white dark:bg-gray-900 p-4 shadow-2xl ring-1 ring-black/5 border border-gray-50 dark:border-white/5">
+              <Popover.Panel className="absolute right-0 z-10 mt-4 w-80 origin-top-right rounded-3xl bg-background p-4 shadow-2xl ring-1 ring-black/5 border border-foreground/5">
                 <div className="flex justify-between items-center mb-4 px-2">
-                  <h3 className="font-black text-sm uppercase tracking-widest dark:text-white">
+                  <h3 className="font-black text-sm uppercase tracking-widest text-foreground">
                     Notifications
                   </h3>
-                  <Link href="/account/notifications" className="text-[10px] font-black text-brand-gold">
+                  <Link href="/account/notifications" className="text-[10px] font-black text-brand-gold hover:opacity-80">
                     CLEAR ALL
                   </Link>
                 </div>
                 <div className="space-y-2 max-h-80 overflow-y-auto px-1 custom-scrollbar">
                   {notifications.length > 0 ? (
                     notifications.map((n: any) => (
-                      <div key={n.id} className="group p-3 hover:bg-gray-50 dark:hover:bg-white/5 rounded-2xl transition-all cursor-pointer border border-gray-50 dark:border-white/5 hover:border-brand-gold/20">
+                      <div key={n.id} className="group p-3 hover:bg-foreground/5 rounded-2xl transition-all cursor-pointer border border-transparent hover:border-brand-gold/20">
                         <div className="flex items-start gap-3">
                           <div className="mt-1 h-2 w-2 rounded-full bg-brand-gold shrink-0" />
                           <div className="flex-1">
                             <div className="flex justify-between items-start">
-                              <p className="text-[11px] font-black text-gray-900 dark:text-gray-100 leading-tight">
+                              <p className="text-[11px] font-black text-foreground leading-tight">
                                 {n.activity}
                               </p>
-                              <span className="text-[9px] font-bold text-gray-400 uppercase whitespace-nowrap ml-2">
+                              <span className="text-[9px] font-bold text-foreground/40 uppercase whitespace-nowrap ml-2">
                                 {formatActivityDate(n.created_at)}
                               </span>
                             </div>
-                            <p className="text-[10px] text-gray-500 mt-1 flex items-center gap-1">
-                              <span className="font-bold text-gray-700 dark:text-gray-300">
+                            <p className="text-[10px] text-foreground/50 mt-1 flex items-center gap-1">
+                              <span className="font-bold text-foreground/70">
                                 {n.location?.split(",")[0]}
                               </span>
                               • {n.ip}
@@ -102,8 +103,8 @@ export default function TopHeader({
                     ))
                   ) : (
                     <div className="flex flex-col items-center justify-center py-8 text-center">
-                      <Bell className="h-8 w-8 text-gray-200 dark:text-gray-800 mb-2" />
-                      <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Clean Slate</p>
+                      <Bell className="h-8 w-8 text-foreground/10 mb-2" />
+                      <p className="text-[11px] font-bold text-foreground/20 uppercase tracking-widest">Clean Slate</p>
                     </div>
                   )}
                 </div>
@@ -111,12 +112,13 @@ export default function TopHeader({
             </Transition>
           </Popover>
 
-          <div className="h-6 w-px bg-gray-100 dark:bg-white/10 hidden xs:block" />
+          <div className="h-6 w-px bg-foreground/10 hidden xs:block" />
 
-          {/* USER DROPDOWN (Initials Only) */}
+          {/* USER DROPDOWN */}
           <Menu as="div" className="relative">
             <Menu.Button className="flex items-center p-0.5 sm:p-1 group outline-none">
-              <div className="h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-gradient-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-gold text-[10px] sm:text-xs font-black border-2 border-white dark:border-gray-800 shadow-md group-hover:shadow-brand-gold/20 transition-all tracking-tighter">
+              {/* Avatar stays premium with the gradient and gold text */}
+              <div className="h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-gradient-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-gold text-[10px] sm:text-xs font-black border-2 border-background shadow-md group-hover:shadow-brand-gold/20 transition-all tracking-tighter">
                 {getCustomInitials(user?.name ?? "")}
               </div>
             </Menu.Button>
@@ -128,32 +130,32 @@ export default function TopHeader({
               enterTo="transform opacity-100 scale-100"
               leave="transition ease-in duration-75"
             >
-              <Menu.Items className="absolute right-0 z-10 mt-4 w-64 origin-top-right rounded-3xl bg-white dark:bg-gray-900 p-2 shadow-2xl ring-1 ring-black/5 focus:outline-none border border-gray-50 dark:border-white/5">
-                <div className="px-4 py-3 mb-2 border-b border-gray-50 dark:border-white/5">
-                  <p className="text-xs font-black text-gray-900 dark:text-white truncate">{user?.name}</p>
-                  <p className="text-[10px] font-bold text-gray-400 truncate">{user?.email}</p>
+              <Menu.Items className="absolute right-0 z-10 mt-4 w-64 origin-top-right rounded-3xl bg-background p-2 shadow-2xl ring-1 ring-black/5 focus:outline-none border border-foreground/5">
+                <div className="px-4 py-3 mb-2 border-b border-foreground/5">
+                  <p className="text-xs font-black text-foreground truncate">{user?.name}</p>
+                  <p className="text-[10px] font-bold text-foreground/40 truncate">{user?.email}</p>
                 </div>
 
                 <Menu.Item>
                   {({ active }) => (
-                    <Link href="/account/profile" className={`flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white" : "text-gray-700 dark:text-gray-400"}`}>
+                    <Link href="/account/profile" className={`flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-foreground/5 text-foreground" : "text-foreground/60"}`}>
                       <User className="h-4 w-4 text-brand-gold" /> Profile Details
                     </Link>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <Link href="/account/virtual-accounts" className={`flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-gray-50 dark:bg-white/5 text-gray-900 dark:text-white" : "text-gray-700 dark:text-gray-400"}`}>
+                    <Link href="/account/virtual-accounts" className={`flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-foreground/5 text-foreground" : "text-foreground/60"}`}>
                       <Settings className="h-4 w-4 text-brand-gold" /> Virtual Accounts
                     </Link>
                   )}
                 </Menu.Item>
 
-                <hr className="my-2 border-gray-50 dark:border-white/5" />
+                <hr className="my-2 border-foreground/5" />
 
                 <Menu.Item>
                   {({ active }) => (
-                    <button onClick={logout} className={`flex w-full items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-500" : "text-red-600"}`}>
+                    <button onClick={logout} className={`flex w-full items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-red-500/10 text-red-500" : "text-red-500/80"}`}>
                       <LogOut className="h-4 w-4" /> Sign Out
                     </button>
                   )}

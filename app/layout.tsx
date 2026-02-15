@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Sans } from "next/font/google";  
+import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { AuthProvider } from "@/context/AuthContext";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
     default: "Kakalinks | Instant Airtime, Data & Bill Payments",
-    template: "%s | Kakalinks",  
+    template: "%s | Kakalinks",
   },
   description:
     "Join thousands of agents. Earn commissions on data, electricity, and cable TV subscriptions.",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     "Airtime to Cash",
   ],
   alternates: {
-    canonical: "/", 
+    canonical: "/",
   },
   openGraph: {
     type: "website",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
     description:
       "Join thousands of agents. Earn commissions on data, electricity, and cable TV subscriptions.",
     images: ["/og-image.png"],
-    creator: "@kakalinks", 
+    creator: "@kakalinks",
   },
   robots: {
     index: true,
@@ -69,9 +69,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon-16x16.png',
-    apple: '/apple-touch-icon.png',
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -83,44 +83,50 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${instrumentSans.variable} antialiased font-instrument`}
+        className={`${instrumentSans.variable} antialiased font-instrument bg-background text-foreground transition-colors duration-300`}
       >
         <Providers>
           <AuthProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               {children}
+
+              <Toaster
+                position="bottom-right"
+                reverseOrder={false}
+                toastOptions={{
+                  // The Base Style
+                  style: {
+                    border: "1px solid rgba(212, 175, 55, 0.2)", // Subtle gold border
+                    padding: "16px",
+                    color: "var(--foreground)",
+                    background: "var(--background)",
+                    backdropFilter: "blur(8px)",
+                    borderRadius: "20px", // Match your rounded-3xl/4xl aesthetic
+                    fontSize: "13px",
+                    fontWeight: "700",
+                    letterSpacing: "-0.01em",
+                    boxShadow:
+                      "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  },
+                  success: {
+                    duration: 4000,
+                    iconTheme: {
+                      primary: "#D4AF37", // Brand Gold
+                      secondary: "white",
+                    },
+                    style: {
+                      border: "1px solid rgba(34, 197, 94, 0.2)", // Subtle green for success
+                    },
+                  },
+                  error: {
+                    duration: 5000,
+                    style: {
+                      border: "1px solid rgba(239, 68, 68, 0.2)", // Subtle red for error
+                    },
+                  },
+                }}
+              />
             </ThemeProvider>
-            <Toaster
-              position="bottom-right"
-              reverseOrder={false}
-              toastOptions={{
-                style: {
-                  border: "1px solid var(--color-brand-gold)",
-                  padding: "14px",
-                  color: "#FFFFFF",
-                  background: "var(--color-brand-black)",
-                  borderRadius: "8px",
-                  fontSize: "14px",
-                },
-                success: {
-                  duration: 4000,
-                  iconTheme: {
-                    primary: "var(--color-brand-gold)",
-                    secondary: "var(--color-brand-black)",
-                  },
-                  style: {
-                    border: "1px solid #D4AF37",
-                  },
-                },
-                error: {
-                  duration: 5000,
-                  style: {
-                    border: "1px solid #FF4B4B",
-                    background: "#0A0A0A",
-                  },
-                },
-              }}
-            />
           </AuthProvider>
         </Providers>
       </body>

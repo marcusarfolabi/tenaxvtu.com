@@ -26,7 +26,7 @@ export default function AirtimePage() {
   const [formData, setFormData] = useState<{
     phone: string;
     amount: string;
-    network: NetworkType;  
+    network: NetworkType;
   }>({
     phone: "",
     amount: "",
@@ -63,13 +63,12 @@ export default function AirtimePage() {
 
   return (
     <div className="space-y-6 pb-20">
-      {/* Dynamic Balance Card using backend stats */}
       <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-white shadow-2xl">
         <div className="relative z-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
             Total Airtime Purchase
           </p>
-          <h2 className="text-4xl font-black mt-1">
+          <h2 className="text-4xl font-black mt-1 tracking-tighter">
             {balance?.currency || "₦"}
             {(stats?.total_amount || 0).toLocaleString(undefined, {
               minimumFractionDigits: 2,
@@ -77,7 +76,7 @@ export default function AirtimePage() {
           </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all"
+            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all shadow-lg shadow-brand-gold/20"
           >
             <Smartphone size={16} /> Buy Airtime
           </button>
@@ -87,7 +86,7 @@ export default function AirtimePage() {
 
       {/* History Section */}
       <div className="space-y-4">
-        <h3 className="font-black text-gray-900 px-1 uppercase text-xs tracking-widest">
+        <h3 className="font-black text-foreground/40 px-1 uppercase text-[10px] tracking-[0.2em]">
           Airtime History
         </h3>
         <TransactionList limit={10} showTitle={false} type="AIRTIME" />
@@ -99,8 +98,9 @@ export default function AirtimePage() {
         onClose={() => setIsModalOpen(false)}
         title="Purchase Airtime"
       >
-        <form onSubmit={handlePurchase} className="p-6 space-y-4">
-          <div className="grid grid-cols-4 gap-2 mb-4">
+        <form onSubmit={handlePurchase} className="p-6 space-y-6">
+          {/* Network Selector */}
+          <div className="grid grid-cols-4 gap-2 mb-2">
             {(["MTN", "GLO", "AIRTEL", "9MOBILE"] as NetworkType[]).map(
               (net) => (
                 <button
@@ -109,17 +109,17 @@ export default function AirtimePage() {
                   onClick={() => setFormData({ ...formData, network: net })}
                   className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${
                     formData.network === net
-                      ? "bg-brand-gold/10 border-brand-gold text-brand-black shadow-sm"
-                      : "bg-gray-50 border-gray-100 text-gray-400 grayscale opacity-70"
+                      ? "bg-brand-gold/10 border-brand-gold text-foreground shadow-sm"
+                      : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-50 hover:opacity-100 hover:grayscale-0"
                   }`}
                 >
-                  <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center border border-gray-100">
+                  <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center border border-foreground/5 shadow-inner">
                     <Image
                       src={`/providers/${net.toLowerCase()}.png`}
                       alt={net}
                       width={40}
                       height={40}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover p-1"
                     />
                   </div>
                   <span className="text-[9px] font-black uppercase tracking-tighter">
@@ -133,7 +133,7 @@ export default function AirtimePage() {
           {/* Phone Number Input */}
           <div className="relative">
             <div className="flex justify-between items-center px-1 mb-1">
-              <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+              <label className="text-[10px] font-black text-foreground/40 uppercase tracking-widest">
                 Phone Number
               </label>
               {user?.phone && (
@@ -142,7 +142,7 @@ export default function AirtimePage() {
                   onClick={() =>
                     setFormData({ ...formData, phone: user.phone })
                   }
-                  className="text-[9px] font-black text-brand-gold bg-brand-gold/10 px-2 py-1 rounded-lg active:scale-90 transition-all uppercase"
+                  className="text-[9px] font-black text-brand-gold bg-brand-gold/10 px-2.5 py-1 rounded-lg active:scale-90 transition-all uppercase"
                 >
                   Buy for Self
                 </button>
@@ -176,15 +176,15 @@ export default function AirtimePage() {
           />
 
           {/* Wallet Balance Display */}
-          <div className="bg-gray-50 p-4 rounded-2xl flex justify-between items-center border border-gray-100">
+          <div className="bg-foreground/5 p-4 rounded-2xl flex justify-between items-center border border-foreground/5">
             <div className="flex items-center gap-2">
-              <Wallet size={16} className="text-gray-400" />
-              <span className="text-[10px] font-bold text-gray-500 uppercase">
+              <Wallet size={16} className="text-foreground/40" />
+              <span className="text-[10px] font-bold text-foreground/40 uppercase">
                 Wallet Balance
               </span>
             </div>
             <span
-              className={`text-xs font-black ${!canAfford ? "text-red-500" : "text-gray-900"}`}
+              className={`text-xs font-black ${!canAfford ? "text-red-500" : "text-foreground"}`}
             >
               {balance?.currency}
               {balance?.balance}
@@ -192,8 +192,8 @@ export default function AirtimePage() {
           </div>
 
           {!canAfford && formData.amount && (
-            <p className="text-[10px] font-bold text-red-500 text-center animate-bounce">
-              Insufficient funds for this purchase
+            <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
+              ⚠️ Insufficient funds for this purchase
             </p>
           )}
 
@@ -202,7 +202,7 @@ export default function AirtimePage() {
             isLoading={isPurchasing}
             idleText={`Buy ${formData.network} Airtime`}
             loadingText="Processing..."
-            className="h-14 rounded-2xl"
+            className="h-14 rounded-2xl shadow-lg shadow-brand-gold/20"
           />
         </form>
       </Modal>

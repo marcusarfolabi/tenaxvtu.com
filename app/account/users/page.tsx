@@ -28,84 +28,106 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
 
   return (
     <div className="space-y-6">
-      {/* Summary Stat Card */}
-      <div className="bg-brand-black p-6 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
+      {/* Summary Stat Card - Locked Brand Black */}
+      <div className="bg-brand-black p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
         <div className="relative z-10">
-          <p className="text-gray-400 text-xs font-black uppercase tracking-widest mb-1">
-            Total Customers
+          <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mb-1">
+            Network Size
           </p>
-          <h2 className="text-4xl font-black mb-4">{pagination.total}</h2>
-          <div className="flex items-center gap-2 text-brand-gold text-xs font-bold bg-white/10 w-fit px-3 py-1.5 rounded-full">
+          <h2 className="text-5xl font-black mb-4 tracking-tighter">
+            {pagination.total.toLocaleString()}
+          </h2>
+          <div className="flex items-center gap-2 text-brand-gold text-[10px] font-black uppercase tracking-wider bg-white/5 border border-white/10 w-fit px-4 py-2 rounded-2xl backdrop-blur-md">
             <TrendingUp size={14} /> Ranked by Activity
           </div>
         </div>
         <Users
-          className="absolute -right-4 -bottom-4 text-white/5"
-          size={140}
+          className="absolute -right-6 -bottom-6 text-white/5"
+          size={180}
         />
       </div>
 
       {/* User List */}
-      <div className="space-y-3">
-        <h3 className="font-black text-gray-900 px-1">Top Spenders</h3>
-        {users.length > 0 ? (
-          users.map((user: any) => (
-            <div
-              key={user.id}
-              className="bg-white p-4 rounded-3xl flex items-center justify-between border border-gray-100 shadow-sm hover:border-brand-gold/30 transition-all"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center border border-gray-100">
-                  <UserIcon className="text-gray-400" size={20} />
-                </div>
-                <div>
-                  <p className="text-sm font-black text-gray-900 line-clamp-1">
-                    {user.name || user.email.split("@")[0]}
-                  </p>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase">
-                    {user.email}
-                  </p>
-                </div>
-              </div>
+      <div className="space-y-4">
+        <div className="flex justify-between items-center px-1">
+          <h3 className="font-black text-foreground uppercase text-[10px] tracking-[0.2em]">Top Spenders</h3>
+          <span className="text-[9px] font-bold text-foreground/30 uppercase">Last 30 Days</span>
+        </div>
 
-              <div className="text-right">
-                <p className="text-sm font-black text-brand-black">
-                  ₦
-                  {parseFloat(
-                    user.transactions_sum_amount || 0,
-                  ).toLocaleString()}
-                </p>
-                <p className="text-[8px] font-black text-gray-400 uppercase tracking-tighter">
-                  Total Spent
-                </p>
+        {users.length > 0 ? (
+          <div className="space-y-3">
+            {users.map((user: any, index: number) => (
+              <div
+                key={user.id}
+                className="bg-background p-4 rounded-[2rem] flex items-center justify-between border border-foreground/5 shadow-sm hover:border-brand-gold/50 transition-all group"
+              >
+                <div className="flex items-center gap-4">
+                  {/* Rank or Icon */}
+                  <div className="relative">
+                    <div className="w-12 h-12 rounded-2xl bg-foreground/5 flex items-center justify-center border border-foreground/5 transition-colors group-hover:bg-brand-gold/10">
+                      <UserIcon className="text-foreground/40 group-hover:text-brand-gold" size={20} />
+                    </div>
+                    {index < 3 && (
+                       <div className="absolute -top-1 -left-1 w-5 h-5 bg-brand-gold text-brand-black text-[10px] font-black rounded-full flex items-center justify-center border-2 border-background">
+                         {index + 1}
+                       </div>
+                    )}
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm font-black text-foreground line-clamp-1">
+                      {user.name || user.email.split("@")[0]}
+                    </p>
+                    <p className="text-[10px] font-bold text-foreground/40 lowercase truncate max-w-[120px] sm:max-w-none">
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-right">
+                  <p className="text-sm font-black text-foreground tracking-tight">
+                    <span className="text-[10px] text-brand-gold mr-0.5">₦</span>
+                    {parseFloat(
+                      user.transactions_sum_amount || 0,
+                    ).toLocaleString()}
+                  </p>
+                  <p className="text-[8px] font-black text-foreground/30 uppercase tracking-tighter">
+                    Volume
+                  </p>
+                </div>
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
-          <div className="text-center py-10 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
-            <Users className="mx-auto text-gray-300 mb-2" />
-            <p className="text-gray-500 font-bold text-sm">No users found</p>
+          <div className="text-center py-16 bg-foreground/[0.02] rounded-[2.5rem] border-2 border-dashed border-foreground/5">
+            <Users className="mx-auto text-foreground/10 mb-3" size={40} />
+            <p className="text-foreground/40 font-black uppercase text-[10px] tracking-widest">No users found</p>
           </div>
         )}
       </div>
 
-      {/* Pagination */}
+      {/* Pagination - Themed */}
       {pagination.lastPage > 1 && (
-        <div className="flex items-center justify-between bg-white p-2 rounded-2xl border border-gray-100 shadow-sm">
+        <div className="flex items-center justify-between bg-background p-2 rounded-2xl border border-foreground/5 shadow-xl">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="p-2 rounded-xl bg-brand-gold disabled:opacity-30"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-gold text-brand-black disabled:opacity-20 transition-all active:scale-90"
           >
             <ChevronLeft size={20} />
           </button>
-          <span className="text-[10px] font-black text-gray-500">
-            PAGE {page} OF {pagination.lastPage}
-          </span>
+          
+          <div className="flex flex-col items-center">
+             <span className="text-[9px] font-black text-foreground/20 uppercase tracking-[0.2em]">Navigation</span>
+             <span className="text-[11px] font-black text-foreground">
+                {page} <span className="text-foreground/20 mx-1">/</span> {pagination.lastPage}
+             </span>
+          </div>
+
           <button
             onClick={() => setPage((p) => Math.min(pagination.lastPage, p + 1))}
             disabled={page === pagination.lastPage}
-            className="p-2 rounded-xl bg-brand-gold disabled:opacity-30"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-gold text-brand-black disabled:opacity-20 transition-all active:scale-90"
           >
             <ChevronRight size={20} />
           </button>
