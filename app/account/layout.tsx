@@ -67,7 +67,7 @@ export default function CustomerLayout({
                   </div>
                   
                   <div className="flex h-20 items-center px-8 border-b border-white/5">
-                    <Logo inverted={true} />
+                    <Logo  />
                   </div>
                   <Sidebar
                     mobile={true}
@@ -83,7 +83,7 @@ export default function CustomerLayout({
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           <div className="flex grow flex-col bg-brand-black shadow-2xl border-r border-white/5">
             <div className="flex h-24 shrink-0 items-center px-8">
-              <Logo inverted={true} />
+              <Logo   />
             </div>
             <Sidebar />
           </div>

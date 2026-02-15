@@ -1,14 +1,17 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, Transition, Popover } from "@headlessui/react";
+import { useTheme } from "next-themes";
 import {
   Menu as MenuIcon,
   Bell,
   User,
   Settings,
   LogOut,
+  Sun,
+  Moon,
 } from "lucide-react";
 import Logo from "@/components/Logo";
 import { useAuth } from "@/context/AuthContext";
@@ -22,6 +25,13 @@ export default function TopHeader({
 }) {
   const { logout, user } = useAuth();
   const { unreadCount, notifications } = useNotifications();
+  const { setTheme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // Avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const getCustomInitials = (name: string) => {
     if (!name) return "U";
@@ -30,8 +40,7 @@ export default function TopHeader({
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
   };
 
- return (
-    /* 1. Use bg-background/80 and text-foreground for seamless theme switching */
+  return (
     <header className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 border-b border-foreground/5 bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-300">
       
       {/* Mobile Menu Toggle & Logo */}
@@ -43,12 +52,21 @@ export default function TopHeader({
         >
           <MenuIcon className="h-6 w-6" />
         </button>
-        <Logo inverted={false} />
+        <Logo />
       </div>
 
       <div className="flex flex-1 gap-x-2 sm:gap-x-4 self-stretch justify-end items-center">
         <div className="flex items-center gap-x-2 sm:gap-x-4">
           
+          {/* THEME TOGGLE MODE - Placed before the bell */}
+          <button
+            onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+            className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground/40 hover:text-brand-gold transition-all active:scale-90"
+            aria-label="Toggle Theme"
+          >
+            {mounted && (resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />)}
+          </button>
+
           {/* NOTIFICATION BELL */}
           <Popover className="relative">
             <Popover.Button className="p-2.5 text-foreground/40 hover:text-brand-gold hover:bg-foreground/5 rounded-xl transition-all relative outline-none">
@@ -76,6 +94,7 @@ export default function TopHeader({
                     CLEAR ALL
                   </Link>
                 </div>
+                {/* ... rest of notification panel ... */}
                 <div className="space-y-2 max-h-80 overflow-y-auto px-1 custom-scrollbar">
                   {notifications.length > 0 ? (
                     notifications.map((n: any) => (
@@ -117,7 +136,6 @@ export default function TopHeader({
           {/* USER DROPDOWN */}
           <Menu as="div" className="relative">
             <Menu.Button className="flex items-center p-0.5 sm:p-1 group outline-none">
-              {/* Avatar stays premium with the gradient and gold text */}
               <div className="h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-gradient-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-gold text-[10px] sm:text-xs font-black border-2 border-background shadow-md group-hover:shadow-brand-gold/20 transition-all tracking-tighter">
                 {getCustomInitials(user?.name ?? "")}
               </div>
