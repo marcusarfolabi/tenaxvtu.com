@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Phone, Zap, Hash, Wallet, Smartphone } from "lucide-react";
+import { Phone, Zap, Hash, Wallet, Smartphone, XCircle } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { TransactionList } from "../components/TransactionList";
 import { Modal } from "../components/ui/Modal";
@@ -192,8 +192,8 @@ export default function AirtimePage() {
           </div>
 
           {!canAfford && formData.amount && (
-            <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
-              ⚠️ Insufficient funds for this purchase
+             <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
+              <XCircle size={12} /> Insufficient wallet balance
             </p>
           )}
 

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Phone, Wallet, Database, List } from "lucide-react";
+import { Phone, Wallet, Database, List, XCircle } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { TransactionList } from "../components/TransactionList";
 import { Modal } from "../components/ui/Modal";
@@ -231,7 +231,7 @@ return (
 
           {!canAfford && formData.amount > 0 && (
             <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
-               Insufficient funds in your wallet
+              <XCircle size={12} /> Insufficient wallet balance
             </p>
           )}
 

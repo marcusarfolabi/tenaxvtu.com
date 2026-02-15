@@ -204,8 +204,8 @@ export default function ElectricityPage() {
                 type="button"
                 onClick={() => setFormData({ ...formData, type: t as any })}
                 className={`flex-1 py-2.5 rounded-xl text-[10px] font-black transition-all uppercase tracking-widest ${
-                  formData.type === t 
-                    ? "bg-background shadow-sm text-foreground" 
+                  formData.type === t
+                    ? "bg-background shadow-sm text-foreground"
                     : "text-foreground/40 hover:text-foreground/60"
                 }`}
               >

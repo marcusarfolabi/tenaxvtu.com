@@ -63,7 +63,7 @@ export default function ProfilePage() {
     }
   };
 
- return (
+  return (
     <div className="max-w-4xl mx-auto space-y-8 pb-24 px-1">
       {/* Header Section */}
       <div className="px-1">
@@ -83,8 +83,12 @@ export default function ProfilePage() {
               <User size={24} />
             </div>
             <div>
-              <h2 className="font-black text-foreground uppercase text-xs tracking-widest">Basic Information</h2>
-              <p className="text-[10px] text-foreground/40 font-bold uppercase">Publicly identifiable details</p>
+              <h2 className="font-black text-foreground uppercase text-xs tracking-widest">
+                Basic Information
+              </h2>
+              <p className="text-[10px] text-foreground/40 font-bold uppercase">
+                Publicly identifiable details
+              </p>
             </div>
           </div>
 
@@ -141,8 +145,12 @@ export default function ProfilePage() {
               <ShieldCheck size={24} />
             </div>
             <div>
-              <h2 className="font-black text-foreground uppercase text-xs tracking-widest">Security</h2>
-              <p className="text-[10px] text-foreground/40 font-bold uppercase">Manage your login credentials</p>
+              <h2 className="font-black text-foreground uppercase text-xs tracking-widest">
+                Security
+              </h2>
+              <p className="text-[10px] text-foreground/40 font-bold uppercase">
+                Manage your login credentials
+              </p>
             </div>
           </div>
 
@@ -153,7 +161,10 @@ export default function ProfilePage() {
                 name="old_password"
                 value={passwordData.old_password}
                 onChange={(e) =>
-                  setPasswordData({ ...passwordData, old_password: e.target.value })
+                  setPasswordData({
+                    ...passwordData,
+                    old_password: e.target.value,
+                  })
                 }
                 placeholder="••••••••"
               />
@@ -164,7 +175,10 @@ export default function ProfilePage() {
                   name="new_password"
                   value={passwordData.new_password}
                   onChange={(e) =>
-                    setPasswordData({ ...passwordData, new_password: e.target.value })
+                    setPasswordData({
+                      ...passwordData,
+                      new_password: e.target.value,
+                    })
                   }
                   placeholder="Min. 8 characters"
                 />
@@ -188,7 +202,7 @@ export default function ProfilePage() {
               isLoading={isUpdatingPassword}
               idleText="Update Password"
               loadingText="Securing..."
-              className="h-14 rounded-2xl bg-brand-black text-white hover:bg-brand-gold hover:text-brand-black shadow-xl"
+              className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
             />
           </form>
         </section>

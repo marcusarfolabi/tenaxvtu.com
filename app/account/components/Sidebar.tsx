@@ -18,15 +18,14 @@ export default function Sidebar({
   const { user, logout } = useAuth();
 
   const filteredMenu = ACCOUNT_MENU.filter((item) => {
-    // If the item is the users page, only show if role is NOT customer
     if (item.href === "/account/users") {
       return user?.role !== "customer";
     }
     return true;
   });
 
-return (
-    <nav className="flex flex-1 flex-col p-6">
+  return (
+    <nav className="flex flex-1 flex-col p-6 bg-background border-r border-foreground/5 h-full transition-colors duration-300">
       <ul role="list" className="flex flex-1 flex-col gap-y-8">
         <li>
           {/* Main Section Header */}
@@ -44,14 +43,15 @@ return (
                     className={`group flex gap-x-3 rounded-2xl p-3 text-sm font-bold transition-all duration-300 ${
                       isActive
                         ? "bg-brand-gold text-brand-black shadow-lg shadow-brand-gold/20 scale-[1.02]"
-                        : "text-foreground/50 hover:text-foreground hover:bg-foreground/5"
+                        : "text-foreground/60 hover:text-foreground hover:bg-foreground/5" 
+                        /* Increased default opacity from 50 to 60 for light mode visibility */
                     }`}
                   >
                     <item.icon
                       className={`h-5 w-5 shrink-0 transition-colors ${
                         isActive 
                           ? "text-brand-black" 
-                          : "text-foreground/40 group-hover:text-brand-gold"
+                          : "text-foreground/30 group-hover:text-brand-gold"
                       }`}
                     />
                     {item.name}
@@ -68,19 +68,20 @@ return (
             Account & Help
           </div>
           <div className="-mx-2 space-y-1">
+            {/* Top Up Wallet - Added a subtle border to make it pop more in light mode */}
             <Link
               href="/account/virtual-accounts"
-              className="group flex gap-x-3 rounded-2xl p-3 text-sm font-bold text-brand-gold hover:bg-brand-gold/10 transition-all active:scale-95"
+              className="group flex gap-x-3 rounded-2xl p-3 text-sm font-black text-brand-gold bg-brand-gold/5 border border-brand-gold/10 hover:bg-brand-gold/10 transition-all active:scale-95"
             >
-              <PlusCircle className="h-5 w-5" />
+              <PlusCircle className="h-5 w-5 text-brand-gold" />
               Top Up Wallet
             </Link>
             
             <Link
               href="/support"
-              className="group flex gap-x-3 rounded-2xl p-3 text-sm font-bold text-foreground/50 hover:text-foreground hover:bg-foreground/5 transition-all"
+              className="group flex gap-x-3 rounded-2xl p-3 text-sm font-bold text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all"
             >
-              <LifeBuoy className="h-5 w-5" />
+              <LifeBuoy className="h-5 w-5 text-foreground/30 group-hover:text-foreground" />
               Support
             </Link>
 
@@ -88,7 +89,7 @@ return (
               onClick={logout}
               className="w-full group cursor-pointer flex gap-x-3 rounded-2xl p-3 text-sm font-bold text-red-500 hover:bg-red-500/10 transition-all mt-4 active:scale-95"
             >
-              <LogOut className="h-5 w-5" />
+              <LogOut className="h-5 w-5 text-red-400 group-hover:text-red-600" />
               Logout
             </button>
           </div>
