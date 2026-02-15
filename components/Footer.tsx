@@ -103,12 +103,13 @@ export default function Footer() {
             {[
               { name: "Privacy Policy", href: "/privacy" },
               { name: "Terms of Service", href: "/terms" },
+              { name: "Get Support", href: "/support" },
               { name: "FAQ", href: "/faq" }
             ].map((link) => (
               <Link 
                 key={link.name}
                 href={link.href}
-                className="text-[11px] font-black uppercase tracking-[0.15em] text-gray-400 hover:text-brand-gold transition-colors"
+                className="text-[11px] font-black tracking-[0.15em] text-gray-400 hover:text-brand-gold transition-colors"
               >
                 {link.name}
               </Link>
