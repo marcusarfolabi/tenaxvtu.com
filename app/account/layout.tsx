@@ -5,7 +5,7 @@ import TopHeader from "./components/TopHeader";
 import Sidebar from "./components/Sidebar";
 import Logo from "@/components/Logo";
 import VerificationBanner from "@/components/common/VerificationBanner";
-import { MessageCircle, X } from "lucide-react"; 
+import { MessageCircle, X } from "lucide-react";
 import { ThemeProvider } from "next-themes";
 
 export default function CustomerLayout({
@@ -24,7 +24,6 @@ export default function CustomerLayout({
     // Wrap everything in ThemeProvider for consistent attribute handling
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <div className="min-h-screen bg-background relative transition-colors duration-300">
-        
         {/* MOBILE DRAWER */}
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog
@@ -54,25 +53,28 @@ export default function CustomerLayout({
                 leaveFrom="translate-x-0"
                 leaveTo="-translate-x-full"
               >
-                <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1 flex-col bg-brand-black shadow-2xl">
+                <Dialog.Panel className="relative mr-16 flex w-full max-w-xs flex-1 flex-col bg-background shadow-2xl transition-colors duration-300">
                   {/* Close button for mobile accessibility */}
                   <div className="absolute top-5 -right-12">
                     <button
                       type="button"
-                      className="text-white p-2"
+                      className="text-white p-2 hover:scale-110 transition-transform"
                       onClick={() => setSidebarOpen(false)}
                     >
                       <X size={24} />
                     </button>
                   </div>
-                  
-                  <div className="flex h-20 items-center px-8 border-b border-white/5">
-                    <Logo  />
+
+                  <div className="flex h-20 items-center px-8 border-b border-foreground/5"> 
+                    <Logo />
                   </div>
-                  <Sidebar
-                    mobile={true}
-                    closeSidebar={() => setSidebarOpen(false)}
-                  />
+
+                  <div className="flex-1 overflow-y-auto">
+                    <Sidebar
+                      mobile={true}
+                      closeSidebar={() => setSidebarOpen(false)}
+                    />
+                  </div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -83,7 +85,7 @@ export default function CustomerLayout({
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           <div className="flex grow flex-col bg-brand-black shadow-2xl border-r border-white/5">
             <div className="flex h-24 shrink-0 items-center px-8">
-              <Logo   />
+              <Logo />
             </div>
             <Sidebar />
           </div>
@@ -92,12 +94,10 @@ export default function CustomerLayout({
         {/* CONTENT AREA */}
         <div className="lg:pl-72 flex flex-col min-h-screen">
           <TopHeader onMenuClick={() => setSidebarOpen(true)} />
-          
+
           <main className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full">
             <VerificationBanner />
-            <div className="mt-4">
-              {children}
-            </div>
+            <div className="mt-4">{children}</div>
           </main>
 
           {/* Optional: Add a subtle footer inside the content area if needed */}
@@ -117,7 +117,11 @@ export default function CustomerLayout({
 
           {/* The Icon Button */}
           <div className="w-14 h-14 bg-brand-black text-white rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 group-active:scale-95 border border-white/10 relative">
-            <MessageCircle size={24} fill="currentColor" className="text-white" />
+            <MessageCircle
+              size={24}
+              fill="currentColor"
+              className="text-white"
+            />
 
             {/* Notification Dot */}
             <span className="absolute -top-1 -right-1 flex h-5 w-5">
