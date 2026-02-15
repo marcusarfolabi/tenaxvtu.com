@@ -92,7 +92,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0a0a0a", // Set this to your brand black or brand gold
+  themeColor: "#D4AF37", // Set this to your brand black or brand gold
   width: "device-width",
   initialScale: 1,
 };

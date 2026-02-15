@@ -1,6 +1,7 @@
 {
-  "name": "Kakalinks",
+ "name": "Kakalinks Utility Platform",
   "short_name": "Kakalinks",
+  "description": "Instant Airtime, Data & Bill Payments",
   "start_url": "/",
   "theme_color": "#D4AF37",
   "background_color": "#0A0A0A",
