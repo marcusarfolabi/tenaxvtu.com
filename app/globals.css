@@ -8,34 +8,26 @@
   --color-brand-gold: #d4af37;
   --color-brand-black: #0a0a0a;
 
+  /* Map CSS Variables to Tailwind Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
   /* SaaS Logic Colors */
-  --color-primary: var(--brand-primary, #d4af37);
-  --color-secondary: var(--brand-secondary, #0a0a0a);
+  --color-primary: var(--brand-primary);
+  --color-secondary: var(--brand-secondary);
 
-  /* Animation */
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
+  /* Animation definitions in v4 use @keyframes within the theme or standard CSS */
   --animate-float: float 3s ease-in-out infinite;
-
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
   --animate-marquee: marquee 30s linear infinite;
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
 }
 
 /* 1. Theme Variables */
@@ -46,6 +38,8 @@
   --brand-secondary: #0a0a0a;
 }
 
+/* Tailwind v4 uses [data-theme='dark'] or .dark depending on your config, 
+   but usually, .dark is the standard for class-based switching */
 .dark {
   --background: #0a0a0a;
   --foreground: #ffffff;
@@ -53,8 +47,15 @@
   --brand-secondary: #ffffff;
 }
 
-/* 2. Light Scrollbar Design */
+/* 2. Base Styles */
 @layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-instrument), sans-serif;
+    @apply transition-colors duration-300;
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -62,15 +63,44 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #e5e7eb; /* Light grey */
+    background: #e5e7eb;
     border-radius: 10px;
     border: 2px solid var(--background);
   }
   .dark ::-webkit-scrollbar-thumb {
-    background: #374151; /* Darker grey for dark mode */
+    background: #374151;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: var(--brand-primary);
+  }
+}
+
+/* 3. Global Components */
+@layer components {
+  .input-primary,
+  .select-primary {
+    /* Use decimal points for opacity in v4 if /4 is not registering */
+    @apply w-full h-14 pl-12 pr-4 transition-all duration-200 outline-none rounded-2xl font-bold text-sm;
+    @apply bg-foreground/[0.04] border border-foreground/[0.05] text-foreground;
+    @apply placeholder:text-foreground/30;
+  }
+
+  .input-primary:hover,
+  .select-primary:hover {
+    @apply border-foreground/10 bg-foreground/[0.06];
+  }
+
+  .input-primary:focus,
+  .select-primary:focus {
+    @apply bg-background border-brand-gold/50 ring-4 ring-brand-gold/5;
+  }
+
+  .select-primary {
+    @apply appearance-none cursor-pointer;
+  }
+
+  .label-primary {
+    @apply text-[10px] font-black text-foreground/40 uppercase tracking-[0.15em] ml-1 mb-1.5 block;
   }
 }
 
@@ -81,28 +111,4 @@
       linear-gradient(to bottom, #80808012 1px, transparent 1px);
     background-size: 40px 40px;
   }
-}
-
-@layer components {
-  .input-primary {
-    /* Use the background variable or a themed gray */
-    @apply w-full h-14 pl-12 pr-4 rounded-2xl outline-none transition-all font-medium;
-    @apply bg-background border-gray-200 text-foreground; /* Themed */
-    @apply focus:border-brand-gold focus:ring-1 focus:ring-brand-gold;
-
-    /* Handle dark mode explicitly if not using a variable */
-    @apply dark:bg-neutral-900 dark:border-neutral-800;
-  }
-  .label-primary {
-    @apply text-xs font-black uppercase tracking-widest text-gray-400 ml-1;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-instrument-sans), sans-serif;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
 }
