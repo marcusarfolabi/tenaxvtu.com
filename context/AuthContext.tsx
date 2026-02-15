@@ -62,8 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       toast.success(`Welcome back, ${userData.name}!`);
 
-      if (userData.role === "admin") router.push("/admin");
-      else if (userData.role === "agent") router.push("/dashboard");
+      if (userData.role === "agent") router.push("/account");
       else router.push("/account");
       
     } catch (error) {
