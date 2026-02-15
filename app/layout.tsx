@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     default: "Kakalinks | Instant Airtime, Data & Bill Payments",
     template: "%s | Kakalinks",
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Kakalinks",
+  },
   description:
     "Join thousands of agents. Earn commissions on data, electricity, and cable TV subscriptions.",
   keywords: [
@@ -37,25 +42,26 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: baseUrl,
     siteName: "Kakalinks",
-    title: "Kakalinks",
+    title: "Kakalinks | The Most Reliable Payment Network", // Specific social title
     description:
       "Earn commissions on every transaction. The most reliable VTU platform for agents.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.png", // Next.js will prefix with metadataBase automatically
         width: 1200,
         height: 630,
-        alt: "Kakalinks Platform",
+        alt: "Kakalinks Agent Dashboard",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kakalinks",
+    title: "Kakalinks | Payments & Commissions",
     description:
-      "Join thousands of agents. Earn commissions on data, electricity, and cable TV subscriptions.",
+      "Join thousands of agents across Africa. Fast, secure, and rewarding.",
     images: ["/og-image.png"],
     creator: "@kakalinks",
+    site: "@kakalinks", // Add the site handle too
   },
   robots: {
     index: true,
@@ -69,10 +75,26 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-icon-180x180.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#d4af37" },
+    ],
   },
+
+  // 4. ADD: Manifest file link
+  manifest: `${baseUrl}/manifest.json`,
+};
+
+export const viewport = {
+  themeColor: "#0a0a0a", // Set this to your brand black or brand gold
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
