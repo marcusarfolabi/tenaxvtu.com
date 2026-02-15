@@ -36,20 +36,21 @@ export default function ForgotPassword() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+return (
+    /* 1. Main container uses themed background and grid pattern */
+    <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Recover your" subtitle="account access." />
 
-      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center">
+      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center relative z-10">
         {/* Mobile Header */}
         <div className="lg:hidden flex items-center justify-between mb-12">
           <Link
             href="/login"
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-foreground/5 rounded-full transition-colors"
           >
-            <ArrowLeft size={24} />
+            <ArrowLeft size={24} className="text-foreground" />
           </Link>
-          <span className="font-black tracking-tighter text-xl text-brand-black">
+          <span className="font-black tracking-tighter text-xl text-foreground">
             KAKALINKS
           </span>
           <div className="w-10" />
@@ -60,14 +61,15 @@ export default function ForgotPassword() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto w-full"
         >
-          <div className="w-16 h-16 bg-gray-50 border border-gray-100 rounded-2xl flex items-center justify-center text-brand-gold mb-8 shadow-sm">
+          {/* 2. Key Icon - Swapped hardcoded grays for themed variables */}
+          <div className="w-16 h-16 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl flex items-center justify-center text-brand-gold mb-8 shadow-sm">
             <KeyRound size={32} />
           </div>
 
-          <h1 className="text-3xl font-black text-brand-black mb-2">
+          <h1 className="text-3xl font-black text-foreground mb-2">
             Forgot Password?
           </h1>
-          <p className="text-gray-500 mb-8 font-medium">
+          <p className="text-foreground/60 mb-8 font-medium">
             Enter the email associated with your account and we&apos;ll send a
             six digit OTP code to reset your password.
           </p>
@@ -86,19 +88,17 @@ export default function ForgotPassword() {
               required
             />
 
-            {/* Reusable Submit Button */}
             <SubmitButton
-            
               isLoading={isLoading}
               idleText="Send Reset Link"
               loadingText="Sending OTP..."
             />
           </form>
 
-          {/* Security Note */}
-          <div className="mt-8 p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-start gap-3">
-            <ShieldCheck className="text-emerald-600 shrink-0" size={18} />
-            <p className="text-xs text-gray-500 font-medium leading-relaxed">
+          {/* 3. Security Note - Changed to use themed gold tint for cohesion */}
+          <div className="mt-8 p-4 bg-foreground/[0.03] rounded-2xl border border-foreground/5 flex items-start gap-3">
+            <ShieldCheck className="text-brand-gold shrink-0" size={18} />
+            <p className="text-xs text-foreground/60 font-medium leading-relaxed">
               For your security, we never send passwords via email. You must use
               the six digit OTP code provided to set a new one.
             </p>
@@ -107,7 +107,8 @@ export default function ForgotPassword() {
           <div className="mt-10 text-center">
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 text-sm font-black text-gray-400 hover:text-brand-black transition-colors"
+              /* Adjusted text-gray-400 to text-foreground/40 */
+              className="inline-flex items-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-gold transition-colors"
             >
               <ArrowLeft size={16} />
               Back to Login

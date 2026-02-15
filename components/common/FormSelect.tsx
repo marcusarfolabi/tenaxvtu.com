@@ -29,9 +29,9 @@ const FormSelect: React.FC<FormSelectProps> = ({
   options,
   selectedCode,
   onChange,
-  labelClassName = "text-brand-black",
+  labelClassName = "",
   placeholder = "Select an option...",
-  // diabled,
+  disabled = false,
 }) => {
   const selectedPlan = options.find(
     (p) => String(p.code) === String(selectedCode),
@@ -39,16 +39,14 @@ const FormSelect: React.FC<FormSelectProps> = ({
 
   return (
     <div className="space-y-2">
-      <label
-        className={`text-[10px] font-black uppercase tracking-widest px-1 ${labelClassName}`}
-      >
+      <label className={`label-primary block ${labelClassName}`}>
         {label}
       </label>
 
-      <Listbox value={selectedCode} onChange={onChange}>
+      <Listbox value={selectedCode} onChange={onChange} disabled={disabled}>
         <div className="relative">
-          <Listbox.Button className="relative w-full h-14 cursor-default rounded-2xl bg-gray-50 pl-12 pr-10 text-left border border-gray-100 focus:outline-none focus:border-brand-gold transition-all sm:text-sm">
-            <span className="flex items-center gap-2 truncate font-bold text-gray-900">
+          <Listbox.Button className={`input-primary relative text-left flex items-center pr-10 cursor-default ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
+            <span className="flex items-center gap-2 truncate font-bold">
               {selectedPlan?.image && (
                 <Image
                   width={20}
@@ -62,19 +60,21 @@ const FormSelect: React.FC<FormSelectProps> = ({
                 {selectedPlan ? (
                   `${selectedPlan.name} ${selectedPlan.reseller_price ? `— ₦${parseFloat(String(selectedPlan.reseller_price)).toLocaleString()}` : ""}`
                 ) : (
-                  <span className="text-gray-400 font-normal">
+                  <span className="text-foreground/40 font-normal">
                     {placeholder}
                   </span>
                 )}
               </span>
             </span>
 
-            <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-              <Icon className="text-gray-400" size={20} />
+            {/* Left Icon - Themed */}
+            <span className="pointer-events-none absolute inset-y-0 left-4 flex items-center">
+              <Icon className="text-foreground/50" size={20} />
             </span>
 
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-              <ChevronDown className="text-gray-400" size={18} />
+            {/* Right Chevron - Themed */}
+            <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
+              <ChevronDown className="text-foreground/40" size={18} />
             </span>
           </Listbox.Button>
 
@@ -84,9 +84,9 @@ const FormSelect: React.FC<FormSelectProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-60 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-white py-2 text-base shadow-2xl border border-gray-100 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-60 mt-2 max-h-60 w-full overflow-auto rounded-2xl bg-background py-2 text-base shadow-2xl border border-foreground/10 focus:outline-none sm:text-sm">
               {options.length === 0 ? (
-                <div className="py-4 px-4 text-gray-500 text-center text-xs">
+                <div className="py-4 px-4 text-foreground/50 text-center text-xs">
                   No options available.
                 </div>
               ) : (
@@ -96,8 +96,8 @@ const FormSelect: React.FC<FormSelectProps> = ({
                     className={({ active }) =>
                       `relative cursor-default select-none py-3 pl-12 pr-4 transition-colors ${
                         active
-                          ? "bg-brand-gold/10 text-brand-black"
-                          : "text-gray-900"
+                          ? "bg-brand-gold/10 text-brand-gold"
+                          : "text-foreground"
                       }`
                     }
                     value={option.code}
@@ -114,22 +114,17 @@ const FormSelect: React.FC<FormSelectProps> = ({
                           />
                         )}
                         <div className="flex flex-col">
-                          <span
-                            className={`block truncate ${selected ? "font-black" : "font-bold"}`}
-                          >
+                          <span className={`block truncate ${selected ? "font-black" : "font-bold"}`}>
                             {option.name}
                           </span>
                           {option.fullname && (
-                            <span className="text-[10px] text-gray-400 truncate max-w-50">
+                            <span className="text-[10px] text-foreground/60 truncate max-w-50">
                               {option.fullname}
                             </span>
                           )}
                           {option.reseller_price && (
                             <span className="text-[10px] text-brand-gold font-bold">
-                              ₦
-                              {parseFloat(
-                                String(option.reseller_price),
-                              ).toLocaleString()}
+                              ₦{parseFloat(String(option.reseller_price)).toLocaleString()}
                             </span>
                           )}
                         </div>
@@ -148,9 +143,8 @@ const FormSelect: React.FC<FormSelectProps> = ({
         </div>
       </Listbox>
 
-      {/* Visual confirmation below the select */}
       {selectedPlan?.fullname && (
-        <p className="text-[9px] font-black text-gray-600 capitalize px-2 tracking-tighter">
+        <p className="text-[9px] font-black text-foreground/60 capitalize px-2 tracking-tighter">
           Selected: {selectedPlan.fullname}
         </p>
       )}

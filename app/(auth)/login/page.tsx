@@ -37,18 +37,21 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+    // Changed bg-white to bg-background and added the grid pattern
+    <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Welcome back to" subtitle="your dashboard." />
 
-      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center">
+      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center relative z-10">
         <div className="lg:hidden flex items-center justify-between mb-12">
           <Link
             href="/"
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            // Swapped hover:bg-gray-100 for a themed opacity
+            className="p-2 hover:bg-foreground/5 rounded-full transition-colors"
           >
             <ArrowLeft size={24} />
           </Link>
-          <span className="font-black tracking-tighter text-xl text-brand-black">
+          {/* text-brand-black -> text-foreground */}
+          <span className="font-black tracking-tighter text-xl text-foreground">
             KAKALINKS
           </span>
           <div className="w-10" />
@@ -59,10 +62,12 @@ export default function Login() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto w-full"
         >
-          <h1 className="text-3xl font-black text-brand-black mb-2">
+          {/* text-brand-black -> text-foreground */}
+          <h1 className="text-3xl font-black text-foreground mb-2">
             Login to Account
           </h1>
-          <p className="text-gray-500 mb-8 font-medium">
+          {/* text-gray-500 -> text-foreground/60 */}
+          <p className="text-foreground/60 mb-8 font-medium">
             Continue saving on your data and bills today.
           </p>
 
@@ -93,7 +98,8 @@ export default function Login() {
               <div className="flex items-center justify-between mt-1">
                 <Link
                   href="/forgot-password"
-                  className="text-xs font-bold text-gray-400 hover:text-brand-gold transition-colors"
+                  // Using text-foreground/40 for that subtle "muted" look
+                  className="text-xs font-bold text-foreground/40 hover:text-brand-gold transition-colors"
                 >
                   Forgot Password?
                 </Link>
@@ -107,12 +113,13 @@ export default function Login() {
               className="w-full mt-2" 
             />
           </form>
+          
           <div className="mt-8 text-center">
-            <p className="text-gray-500 font-medium">
+            <p className="text-foreground/60 font-medium">
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="text-brand-gold font-black hover:underline"
+                className="text-brand-gold font-black hover:underline transition-all"
               >
                 Sign Up
               </Link>

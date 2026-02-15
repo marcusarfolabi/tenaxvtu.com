@@ -21,7 +21,9 @@ export default function VerifyOTP() {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
-    const registrationEmail = sessionStorage.getItem("pending_verification_email");
+    const registrationEmail = sessionStorage.getItem(
+      "pending_verification_email",
+    );
     const recoveryEmail = sessionStorage.getItem("recovery_email");
 
     // Fix: Check if EITHER exists, not both
@@ -60,12 +62,13 @@ export default function VerifyOTP() {
         // Flow B: New Account Verification
         await authApi.verifyEmail({ email, otp: finalOtp });
         toast.success("Account verified! You can now login.");
-        
+
         sessionStorage.removeItem("pending_verification_email");
         router.push("/login");
       }
     } catch (error: any) {
-      const errorMsg = error.response?.data?.message || "Invalid or expired code.";
+      const errorMsg =
+        error.response?.data?.message || "Invalid or expired code.";
       toast.error(errorMsg);
       // Reset OTP fields on error for a better UX
       setOtp(new Array(6).fill(""));
@@ -134,29 +137,32 @@ export default function VerifyOTP() {
   };
 
   const maskedEmail = email
-    ? email.replace(/(.{2})(.*)(?=@)/, (_, gp1, gp2) => gp1 + "*".repeat(gp2.length))
+    ? email.replace(
+        /(.{2})(.*)(?=@)/,
+        (_, gp1, gp2) => gp1 + "*".repeat(gp2.length),
+      )
     : "";
 
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Check your email" subtitle="for the security code." />
 
-      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center">
+      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto w-full"
         >
-          <div className="w-16 h-16 bg-brand-gold/10 rounded-2xl flex items-center justify-center text-brand-gold mb-8">
+          <div className="w-16 h-16 bg-brand-gold/10 rounded-2xl flex items-center justify-center text-brand-gold mb-8 shadow-lg shadow-brand-gold/5">
             <Mail size={32} />
           </div>
 
-          <h1 className="text-3xl font-black text-brand-black mb-2">
+          <h1 className="text-3xl font-black text-foreground mb-2">
             Verify {isResetFlow ? "Identity" : "Account"}
           </h1>
-          <p className="text-gray-500 mb-10 font-medium">
+          <p className="text-foreground/60 mb-10 font-medium">
             We sent a 6-digit code to{" "}
-            <span className="text-brand-black font-bold">
+            <span className="text-brand-gold font-bold">
               {maskedEmail || "your email"}
             </span>
           </p>
@@ -168,19 +174,22 @@ export default function VerifyOTP() {
               submitOtp(otp.join(""));
             }}
           >
-            <div className="flex justify-between gap-2">
+            {/* OTP Input Grid */}
+            <div className="flex justify-between gap-2 md:gap-3">
               {otp.map((data, index) => (
                 <input
                   key={index}
                   type="text"
                   inputMode="numeric"
                   maxLength={1}
-                  ref={(el) => { inputRefs.current[index] = el; }}
+                  ref={(el) => {
+                    if (el) inputRefs.current[index] = el;
+                  }}
                   value={data}
                   onPaste={handlePaste}
                   onChange={(e) => handleChange(e.target.value, index)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
-                  className="w-12 h-14 md:w-14 md:h-16 text-center text-2xl font-black bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-brand-gold focus:bg-white outline-none transition-all"
+                  className="w-12 h-14 md:w-14 md:h-16 text-center text-2xl font-black bg-foreground/5 border-2 border-foreground/10 rounded-2xl focus:border-brand-gold focus:bg-background focus:ring-4 focus:ring-brand-gold/10 text-foreground outline-none transition-all"
                 />
               ))}
             </div>
@@ -191,20 +200,21 @@ export default function VerifyOTP() {
               loadingText="Verifying..."
             />
           </form>
-
+ 
           <div className="mt-8 text-center min-h-10">
             {canResend ? (
               <button
+                type="button"
                 onClick={handleResend}
-                className="flex items-center gap-2 mx-auto text-sm font-black text-brand-gold hover:text-brand-black transition-colors"
+                className="flex items-center gap-2 mx-auto text-sm font-black text-brand-gold hover:opacity-80 transition-all active:scale-95"
               >
                 <RefreshCw size={16} />
                 Resend Code
               </button>
             ) : (
-              <p className="text-sm font-medium text-gray-400">
+              <p className="text-sm font-medium text-foreground/40">
                 Resend code in{" "}
-                <span className="text-brand-black font-bold">
+                <span className="text-foreground font-bold tabular-nums">
                   0:{timer < 10 ? `0${timer}` : timer}
                 </span>
               </p>
@@ -213,7 +223,7 @@ export default function VerifyOTP() {
 
           <Link
             href="/login"
-            className="mt-12 flex items-center justify-center gap-2 text-sm font-black text-gray-400 hover:text-brand-black transition-colors"
+            className="mt-12 flex items-center justify-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-gold transition-colors"
           >
             <ArrowLeft size={16} />
             Back to Login

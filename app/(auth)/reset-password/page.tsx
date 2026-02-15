@@ -91,25 +91,26 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Secure your" subtitle="new credentials." />
 
-      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center">
+      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto w-full"
         >
-          <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-8 border border-emerald-100">
+          {/* Success Icon - Emerald stays, but background becomes themed */}
+          <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-500 mb-8 border border-emerald-500/20 shadow-sm shadow-emerald-500/10">
             <ShieldCheck size={32} />
           </div>
 
-          <h1 className="text-3xl font-black text-brand-black mb-2">
+          <h1 className="text-3xl font-black text-foreground mb-2">
             New Password
           </h1>
-          <p className="text-gray-500 mb-8 font-medium">
+          <p className="text-foreground/60 mb-8 font-medium">
             Set a new password for{" "}
-            <span className="text-brand-black font-bold">{formData.email}</span>
+            <span className="text-brand-gold font-bold">{formData.email}</span>
           </p>
 
           <form className="space-y-6" onSubmit={handleResetSubmit}>
@@ -120,28 +121,30 @@ export default function ResetPassword() {
               value={formData.password}
               onChange={handleInputChange}
             >
+              {/* Strength Indicators */}
               <div className="space-y-4 pt-2">
-              <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden flex gap-1">
+                <div className="h-1.5 w-full bg-foreground/10 rounded-full overflow-hidden flex gap-1">
                   {[1, 2, 3].map((step) => (
                     <div
                       key={step}
                       className={`h-full w-1/3 transition-all duration-500 ${
                         strengthScore >= step
-                          ? getStrengthColor()
-                          : "bg-gray-200"
+                          ? getStrengthColor() // Ensure this function returns Tailwind classes like 'bg-emerald-500'
+                          : "bg-foreground/10"
                       }`}
                     />
                   ))}
                 </div>
 
+                {/* Requirements List */}
                 <div className="space-y-2.5">
                   {strengthRequirements.map((req, i) => (
                     <div key={i} className="flex items-center gap-2.5">
                       <div
                         className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
                           req.met
-                            ? "bg-emerald-100 text-emerald-600"
-                            : "bg-gray-100 text-gray-400"
+                            ? "bg-emerald-500/20 text-emerald-500"
+                            : "bg-foreground/5 text-foreground/30"
                         }`}
                       >
                         {req.met ? (
@@ -151,7 +154,9 @@ export default function ResetPassword() {
                         )}
                       </div>
                       <span
-                        className={`text-sm font-bold transition-colors ${req.met ? "text-brand-black" : "text-gray-400"}`}
+                        className={`text-sm font-bold transition-colors ${
+                          req.met ? "text-foreground" : "text-foreground/40"
+                        }`}
                       >
                         {req.label}
                       </span>
@@ -179,7 +184,7 @@ export default function ResetPassword() {
 
           <Link
             href="/login"
-            className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-gray-400 hover:text-brand-black transition-colors"
+            className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-gold transition-colors"
           >
             <ArrowLeft size={16} />
             Back to Login

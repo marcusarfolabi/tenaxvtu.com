@@ -79,22 +79,23 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col lg:flex-row">
+    <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Set up your" subtitle="business information." />
 
-      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center">
+      <div className="flex-1 flex flex-col px-6 py-12 lg:p-20 justify-center relative z-10">
         <div className="max-w-md mx-auto w-full">
-          {/* Progress Indicator */}
+          {/* Progress Indicator - Themed */}
           <div className="flex items-center gap-4 mb-12">
             {[1, 2, 3].map((num) => (
               <div
                 key={num}
-                className="flex-1 h-2 rounded-full relative bg-gray-100 overflow-hidden"
+                // Changed bg-gray-100 to themed foreground opacity
+                className="flex-1 h-2 rounded-full relative bg-foreground/10 overflow-hidden"
               >
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: step >= num ? "100%" : "0%" }}
-                  className="absolute inset-0 bg-brand-gold"
+                  className="absolute inset-0 bg-brand-gold shadow-[0_0_10px_rgba(212,175,55,0.3)]"
                 />
               </div>
             ))}
@@ -112,10 +113,10 @@ export default function Onboarding() {
                   className="space-y-6"
                 >
                   <div>
-                    <h1 className="text-3xl font-black text-brand-black mb-2">
+                    <h1 className="text-3xl font-black text-foreground mb-2">
                       Account Access
                     </h1>
-                    <p className="text-gray-500 mb-8">
+                    <p className="text-foreground/60 mb-8 font-medium">
                       Setup your primary login and secure admin access.
                     </p>
                   </div>
@@ -146,9 +147,8 @@ export default function Onboarding() {
                       onChange={handleInputChange}
                       icon={ShieldAlert}
                       placeholder="preferred password for admin dashboard"
-                      className="border-red-100! focus:border-red-500!"
                     >
-                      <p className="text-[10px] text-gray-400 mt-1">
+                      <p className="text-[10px] text-foreground/40 mt-1 italic">
                         This password is used for high-level system
                         configurations.
                       </p>
@@ -167,10 +167,10 @@ export default function Onboarding() {
                   className="space-y-6"
                 >
                   <div>
-                    <h1 className="text-3xl font-black text-brand-black mb-2">
+                    <h1 className="text-3xl font-black text-foreground mb-2">
                       Business Details
                     </h1>
-                    <p className="text-gray-500 mb-8">
+                    <p className="text-foreground/60 mb-8 font-medium">
                       Where will your platform be hosted and how can users reach
                       you?
                     </p>
@@ -206,10 +206,8 @@ export default function Onboarding() {
                       value={formData.supportContactPhone}
                       onChange={handleInputChange}
                       placeholder="2349035155129"
-                      pattern="^234[0-9]{10}$"
-                      title="Format: 234 followed by 10 digits (e.g., 2349035155129)"
                     />
-                    <p className="text-[10px] text-gray-400 -mt-2">
+                    <p className="text-[10px] text-foreground/40 -mt-2 font-bold uppercase tracking-wider">
                       Must start with 234 followed by 10 digits.
                     </p>
                   </div>
@@ -227,20 +225,19 @@ export default function Onboarding() {
                 >
                   <div>
                     <div className="flex items-center gap-3 mb-2">
-                      <h1 className="text-3xl font-black text-brand-black">
+                      <h1 className="text-3xl font-black text-foreground">
                         Payment Gateway
                       </h1>
-                      <span className="bg-blue-100 text-blue-600 text-[10px] px-2 py-1 rounded-full font-bold uppercase">
+                      <span className="bg-brand-gold/20 text-brand-gold text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-widest border border-brand-gold/30">
                         Monnify
                       </span>
                     </div>
-                    <p className="text-gray-500 mb-8">
+                    <p className="text-foreground/60 mb-8 font-medium">
                       Connect your Monnify keys to start processing payments.
                     </p>
                   </div>
 
                   <div className="space-y-4">
-                    {/* Note: Monnify inputs usually don't need icons, but we'll use Globe or Shield as placeholders or pass null if your component allows */}
                     <FormInput
                       label="API Key"
                       name="monnifyApiKey"
@@ -273,24 +270,26 @@ export default function Onboarding() {
                 </motion.div>
               )}
             </AnimatePresence>
+
             <div className="mt-12 flex items-center gap-4 w-full">
               {step > 1 && !isLoading && (
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="w-1/3 h-16 cursor-pointer rounded-2xl font-black text-lg transition-all shadow-xl shadow-black/5 mt-4 flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed border-brand-gold text-black border hover:bg-brand-black hover:text-brand-gold"
+                  // Cleaned up the Back button to use themed vars and better hover states
+                  className="w-1/3 h-16 cursor-pointer rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 active:scale-[0.98] border-2 border-brand-gold/30 text-foreground hover:bg-brand-gold/10 hover:border-brand-gold"
                 >
-                  <ArrowLeft size={20} /> Back
+                  <ArrowLeft size={20} />
                 </button>
               )}
 
               <SubmitButton
                 isLoading={isLoading}
-                idleText={step === totalSteps ? "Finish Setup" : "Next Step"}
+                idleText={step === 3 ? "Finish Setup" : "Next Step"}
                 loadingText="Configuring System..."
                 className={step > 1 ? "flex-1" : "w-full"}
               />
-            </div>{" "}
+            </div>
           </form>
         </div>
       </div>
