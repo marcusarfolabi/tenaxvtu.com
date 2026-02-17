@@ -4,12 +4,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import {
-  Mail,
-  User,
-  Phone,
-  ShieldCheck,
-} from "lucide-react";
+import { Mail, User, Phone, ShieldCheck } from "lucide-react";
 import AuthSidebar from "@/components/AuthSidebar";
 import { getUserCurrency } from "@/util/getUserCurrency";
 import { authApi } from "@/lib/api/auth";
@@ -17,10 +12,17 @@ import SubmitButton from "@/components/common/SubmitButton";
 import { PasswordInput } from "@/components/common/PasswordInput";
 import FormInput from "@/components/common/FormInput";
 
-export default function Register() {
+import { 
+  GoogleReCaptchaProvider, 
+  useGoogleReCaptcha 
+} from "react-google-recaptcha-v3";
+
+ function RegisterForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [agreed, setAgreed] = useState(false); // New State for Terms
+  const [agreed, setAgreed] = useState(false);  
+
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -33,14 +35,23 @@ export default function Register() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+     if (!executeRecaptcha) {
+      toast.error("Security system not ready. Please refresh.");
+      return;
+    }
+
     if (!agreed) {
       toast.error("You must agree to the Terms and Privacy Policy");
       return;
     }
-    
+
     setIsLoading(true);
 
     try {
+
+      const token = await executeRecaptcha("register_user");
+
       const dataToSubmit = {
         ...formData,
         currency: getUserCurrency(),
@@ -54,17 +65,30 @@ export default function Register() {
 
       router.push("/verify-otp");
     } catch (error: any) {
-      toast.error(
-        error.response?.data?.message ||
-          "Registration failed. Try again later.",
-      );
+      const status = error.response?.status;
+      const errorMessage = error.response?.data?.message;
+
+      if (status === 429) {
+        toast.error(
+          "Security Alert: Too many attempts. Please slow down and try again in a few minutes.",
+          {
+            duration: 5000,
+            icon: "🛡️",
+          },
+        );
+      } else if (status === 422) {
+        toast.error(errorMessage || "Please check your input details.");
+      } else {
+        toast.error(
+          errorMessage || "Registration failed. Please try again later.",
+        );
+      }
     } finally {
       setIsLoading(false);
     }
   };
 
- return (
-    // Updated container with background and grid logic
+  return (
     <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Join the most reliable" subtitle="payment network." />
 
@@ -156,8 +180,26 @@ export default function Register() {
                   className="w-5 h-5 border-2 border-foreground/20 rounded text-brand-gold focus:ring-brand-gold cursor-pointer accent-brand-gold bg-background transition-colors"
                 />
               </div>
-              <label htmlFor="terms" className="text-xs font-medium text-foreground/60 leading-tight cursor-pointer">
-                I agree to the <Link href="/terms" className="text-brand-gold font-bold hover:underline">Terms & Conditions</Link> and <Link href="/privacy" className="text-brand-gold font-bold hover:underline">Privacy Policy</Link> (including identity verification via BVN/NIN as per CBN guidelines).
+              <label
+                htmlFor="terms"
+                className="text-xs font-medium text-foreground/60 leading-tight cursor-pointer"
+              >
+                I agree to the{" "}
+                <Link
+                  href="/terms"
+                  className="text-brand-gold font-bold hover:underline"
+                >
+                  Terms & Conditions
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/privacy"
+                  className="text-brand-gold font-bold hover:underline"
+                >
+                  Privacy Policy
+                </Link>{" "}
+                (including identity verification via BVN/NIN as per CBN
+                guidelines).
               </label>
             </div>
 
@@ -183,5 +225,13 @@ export default function Register() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function Register() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey="6Leeh24sAAAAAEB3XFgWSOPzxhx_dq4BY-LWWr61">
+      <RegisterForm />
+    </GoogleReCaptchaProvider>
   );
 }
