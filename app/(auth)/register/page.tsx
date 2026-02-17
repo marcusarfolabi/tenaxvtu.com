@@ -126,7 +126,7 @@ export default function Register() {
               name="phone"
               type="tel"
               placeholder="08033440133"
-              maxLength={11}
+              minLength={11}
               icon={Phone}
               value={formData.phone}
               onChange={(e) =>
