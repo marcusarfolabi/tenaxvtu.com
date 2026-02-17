@@ -18,7 +18,17 @@ export const authApi = {
   login: (credentials: LoginCredentials) =>
     api.post("/auth/login", credentials),
 
-  register: (data: RegisterData) => api.post("/auth/register", data),
+  // register: (data: RegisterData) => api.post("/auth/register", data),
+register: (data: RegisterData) => {
+    // This returns "https://yourclientdomain.com" (No trailing slash)
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+
+    return api.post("/auth/register", data, {
+      headers: {
+        "X-Tenant-Domain": origin
+      }
+    });
+  },
 
   verifyEmail: (data: { email: string; otp: string }) =>
     api.post("/auth/verify-email", data),
