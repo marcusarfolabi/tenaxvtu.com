@@ -7,7 +7,8 @@ import {
   History,
   Users,
   List,
-  WalletCards
+  WalletCards,
+  HomeIcon
 } from "lucide-react";
  
 export const MAIN_NAVIGATION = [
@@ -38,6 +39,7 @@ export const FOOTER_NAVIGATION = {
 };
 
 export const ACCOUNT_MENU = [
+  { name: "Home", href: "/account", icon: HomeIcon },
   { name: "Airtime", href: "/account/airtime", icon: Smartphone },
   { name: "Data Bundle", href: "/account/data", icon: Database },
   { name: "Cable TV", href: "/account/cable", icon: Tv },
@@ -47,7 +49,6 @@ export const ACCOUNT_MENU = [
   { name: "Data Plans", href: "/account/data/list", icon: List },
   { name: "Sales Overview", href: "/account/users/sales", icon: WalletCards },
 ];
-
 
 
 export const ACCOUNT_QUICK_ACTION_MENU = [

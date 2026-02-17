@@ -2,6 +2,8 @@ import api from "../axios";
 
 export const walletApi = {
   getBalance: () => api.get("/wallet/balance"),
+  
+  getAgentBalance: () => api.get("/wallet/honourworld/balance"),
 
   getHistory: (params: { page?: number; limit?: number; type?: string }) =>
     api.get("/wallet/transactions", { params }),

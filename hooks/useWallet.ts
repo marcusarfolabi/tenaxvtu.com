@@ -8,35 +8,41 @@ interface UseWalletProps {
   page?: number;
   limit?: number;
   type?: string;
+  role?: string;
 }
 
-export const useWallet = ({ page = 1, limit = 4, type = 'all' }: UseWalletProps = {}) => {
+// Default to customer
+export const useWallet = ({
+  page = 1,
+  limit = 4,
+  type = "all",
+  role = "customer",
+}: UseWalletProps = {}) => {
   const queryClient = useQueryClient();
   const REFRESH_INTERVAL = 120000;
 
-  const { 
-    data: balance, 
-    isLoading: isBalanceLoading, 
-    error: balanceError 
+  const {
+    data: balance,
+    isLoading: isBalanceLoading,
+    error: balanceError,
   } = useQuery({
     queryKey: ["wallet-balance"],
     queryFn: async () => {
-      const res = await walletApi.getBalance();
-      return res.data.data; 
+      const res =
+        role === "agent"
+          ? await walletApi.getAgentBalance()
+          : await walletApi.getBalance();
+      return res.data.data;
     },
-    refetchInterval: REFRESH_INTERVAL, 
+    refetchInterval: REFRESH_INTERVAL,
     staleTime: REFRESH_INTERVAL,
   });
 
-  const { 
-    data: historyData, 
-    isLoading: isHistoryLoading 
-  } = useQuery({
+  const { data: historyData, isLoading: isHistoryLoading } = useQuery({
     queryKey: ["wallet-history", page, limit, type],
     queryFn: async () => {
       const res = await walletApi.getHistory({ page, limit, type });
-      // This now returns { history: {...}, total_amount: ... } from your Service
-      return res.data.data; 
+      return res.data.data;
     },
     refetchInterval: REFRESH_INTERVAL,
     staleTime: 5000,
@@ -50,22 +56,22 @@ export const useWallet = ({ page = 1, limit = 4, type = 'all' }: UseWalletProps 
 
   const transferCommission = useMutation({
     mutationFn: (type: "commission") => walletApi.transferCommission(type),
-    onSuccess: () => { 
+    onSuccess: () => {
       refreshWallet();
       toast.success("Funds transferred to main balance!");
     },
     onError: (error: any) => {
       const message = error?.response?.data?.message || "Transfer failed";
       toast.error(message);
-    }
+    },
   });
 
   return {
     balance,
-    // Note: Adjusted paths to match your service's new return ['history' => ..., 'total_amount' => ...]
-    transactions: historyData?.history?.data || [], 
+    hwProviderBalance: balance?.hw_balance || 0,
+    transactions: historyData?.history?.data || [],
     stats: {
-      total_amount: historyData?.total_amount || 0
+      total_amount: historyData?.total_amount || 0,
     },
     pagination: {
       total: historyData?.history?.total || 0,
@@ -74,7 +80,7 @@ export const useWallet = ({ page = 1, limit = 4, type = 'all' }: UseWalletProps 
       per_page: historyData?.history?.per_page || limit,
     },
     isLoading: isBalanceLoading || isHistoryLoading,
-    refreshWallet, // Added this back
+    refreshWallet,
     isBalanceLoading,
     isHistoryLoading,
     balanceError,

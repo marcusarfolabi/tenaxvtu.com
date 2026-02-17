@@ -1,21 +1,46 @@
 "use client";
 import { useState } from "react";
-import { EyeOff, Eye, Plus, ArrowRightLeft } from "lucide-react";
+import {
+  EyeOff,
+  Eye,
+  Plus,
+  ArrowRightLeft,
+  RefreshCw,
+  ShieldCheck,
+} from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { TransferModal } from "./modals/TransferModal";
+import { useAuth } from "@/context/AuthContext";
 
 interface BalanceCardProps {
   onTopup?: () => void;
 }
 
 export function BalanceCard({ onTopup }: BalanceCardProps) {
+  const { user } = useAuth();
   const [showBalance, setShowBalance] = useState(true);
-  const { balance, isLoading, transferCommission } = useWallet();
   const [isTransferOpen, setIsTransferOpen] = useState(false);
 
-  const format = (value: string | number = "0.00") => {
-    return `${balance?.currency || "₦"}${value}`;
-  };
+  const {
+    balance,
+    hwProviderBalance,
+    isLoading,
+    refreshWallet,
+    transferCommission,
+  } = useWallet({
+    role: user?.role,
+  });
+  const isAgent = user?.role === "agent";
+ 
+
+// Inside BalanceCard component
+const format = (value: string | number = "0.00") => {
+  const amount = typeof value === 'string' ? parseFloat(value) : value;
+  return `${balance?.currency || "₦"}${amount.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+};
 
   const handleTransfer = (type: "commission") => {
     transferCommission.mutate(type, {
@@ -24,83 +49,145 @@ export function BalanceCard({ onTopup }: BalanceCardProps) {
       },
     });
   };
+ 
+  return (
+    <div
+      className={`relative overflow-hidden rounded-[2.5rem] p-8 shadow-2xl transition-all duration-700 border border-white/10 group
+      ${
+        isAgent
+          ? "bg-linear-to-br from-slate-900 via-brand-black to-slate-900"
+          : "bg-brand-black hover:shadow-brand-gold/20"
+      }`}
+    >
+      {/* Premium Glassmorphism Backgrounds */}
+      <div className="absolute top-0 right-0 w-48 h-48 bg-brand-gold/15 rounded-full -mr-20 -mt-20 blur-[80px] group-hover:bg-brand-gold/25 transition-colors duration-700" />
+      <div className="absolute bottom-0 left-0 w-40 h-40 bg-brand-gold/5 rounded-full -ml-20 -mb-20 blur-[60px]" />
 
-return (
-    <div className="relative overflow-hidden bg-brand-black rounded-4xl p-6 shadow-2xl transition-all duration-500 hover:shadow-brand-gold/10 border border-white/5">
-      {/* Decorative Background Elements - Kept for that premium glassmorphism feel */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-brand-gold/10 rounded-full -mr-16 -mt-16 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-brand-gold/5 rounded-full -ml-12 -mb-12 blur-2xl" />
-
-      <div className="flex justify-between items-start relative z-10">
-        <div className="space-y-1">
-          <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
-            Available Balance
-          </p>
-
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-black text-white tracking-tighter">
-              {isLoading ? (
-                <span className="animate-pulse text-white/20">
-                  {balance?.currency || "₦"}0.00
+      <div className="relative z-10 flex flex-col h-full justify-between">
+        <div className="flex justify-between items-start">
+          <div className="space-y-4">
+            {/* Role-based Title */}
+            <div className="flex items-center gap-2">
+              <p className="text-white/40 text-[11px] font-black uppercase tracking-[0.3em]">
+                {isAgent ? "HonourWorld Master Balance" : "Personal Wallet"}
+              </p>
+              {isAgent && (
+                <span className="flex items-center gap-1 bg-brand-gold/10 text-brand-gold px-2 py-0.5 rounded-full text-[9px] font-bold border border-brand-gold/20 uppercase">
+                  <ShieldCheck size={10} /> Secure Agent Access
                 </span>
-              ) : showBalance ? (
-                format(balance?.balance)
-              ) : (
-                "••••••••"
               )}
-            </h1>
-            <button
-              onClick={() => setShowBalance(!showBalance)}
-              className="p-2 bg-white/5 rounded-full text-white/40 hover:text-brand-gold hover:bg-white/10 transition-all active:scale-90 outline-none"
-              aria-label="Toggle Balance Visibility"
-            >
-              {showBalance ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-          </div>
+            </div>
 
-          {/* Secondary Balance: Commission Only */}
-          <div className="flex gap-4 mt-3">
-            <div className="flex flex-col border-l-2 border-brand-gold/30 pl-3">
-              <span className="text-[9px] text-white/40 font-bold uppercase tracking-wider">
-                Commission
-              </span>
-              <span className="text-brand-gold text-sm font-black">
-                {showBalance ? format(balance?.commission) : "•••"}
-              </span>
+            {/* Main Balance */}
+            <div className="flex items-center gap-4">
+              <h1 className="text-4xl md:text-5xl font-black text-white tracking-tighter transition-all">
+                {isLoading ? (
+                  <span className="animate-pulse opacity-20">••••••</span>
+                ) : showBalance ? (
+                  isAgent ? (
+                    format(hwProviderBalance)
+                  ) : (
+                    format(balance?.balance)
+                  )
+                ) : (
+                  "••••••••"
+                )}
+              </h1>
+              <button
+                onClick={() => setShowBalance(!showBalance)}
+                className="p-2.5 bg-white/5 rounded-xl text-white/30 hover:text-brand-gold hover:bg-white/10 transition-all active:scale-90"
+              >
+                {showBalance ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+
+            {/* Sub-balances / Commission Section */}
+            <div className="flex items-center gap-6 mt-6">
+              <div className="flex flex-col border-l-2 border-brand-gold/30 pl-4 py-1">
+                <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
+                  Total Commission
+                </span>
+                <span className="text-brand-gold text-lg font-black mt-0.5">
+                  {showBalance ? format(balance?.commission) : "•••"}
+                </span>
+              </div>
+
+              {/* If Agent, show Customer Wallet Balance as a small metric */}
+              {isAgent && (
+                <div className="flex flex-col border-l-2 border-white/10 pl-4 py-1">
+                  <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
+                    Local Liquidity
+                  </span>
+                  <span className="text-white text-lg font-black mt-0.5 opacity-60">
+                    {showBalance ? format(balance?.balance) : "•••"}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
-        </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col gap-2">
-          <button
-            onClick={onTopup}
-            className="bg-brand-gold cursor-pointer text-brand-black p-3 rounded-2xl flex flex-col items-center gap-1 group active:scale-95 transition-all shadow-lg shadow-brand-gold/20"
-          >
-            <Plus size={20} strokeWidth={3} />
-            <span className="text-[10px] font-black uppercase">Topup</span>
-          </button>
+          {/* Action Column (Different for Agent vs Customer) */}
+          <div className="flex flex-col gap-3">
+            {isAgent ? (
+              // Agent only sees Refresh for the HW API Balance
+              <button
+                onClick={() => refreshWallet()}
+                className="bg-white/5 hover:bg-white/10 text-white p-4 rounded-3xl flex flex-col items-center gap-2 transition-all active:rotate-180 duration-500 border border-white/5 group/btn"
+              >
+                <RefreshCw
+                  size={24}
+                  className="text-brand-gold group-hover/btn:scale-110 transition-transform"
+                />
+                <span className="text-[9px] font-black uppercase text-white/60">
+                  Sync API
+                </span>
+              </button>
+            ) : (
+              // Customer sees Topup & Transfer
+              <>
+                <button
+                  onClick={onTopup}
+                  className="bg-brand-gold hover:bg-yellow-500 text-brand-black p-4 rounded-3xl flex flex-col items-center gap-2 transition-all active:scale-95 shadow-xl shadow-brand-gold/20 group/btn"
+                >
+                  <Plus
+                    size={24}
+                    strokeWidth={3}
+                    className="group-hover/btn:scale-110 transition-transform"
+                  />
+                  <span className="text-[9px] font-black uppercase">
+                    Refill
+                  </span>
+                </button>
 
-          <button
-            onClick={() => setIsTransferOpen(true)}
-            className="bg-white/5 text-white p-3 cursor-pointer rounded-2xl flex flex-col items-center gap-1 group active:scale-95 transition-all border border-white/10 hover:bg-white/10"
-          >
-            <ArrowRightLeft size={20} className="text-brand-gold" />
-            <span className="text-[10px] font-black uppercase">Transfer</span>
-          </button>
+                <button
+                  onClick={() => setIsTransferOpen(true)}
+                  className="bg-white/5 hover:bg-white/10 text-white p-4 rounded-3xl flex flex-col items-center gap-2 transition-all active:scale-95 border border-white/10 group/btn"
+                >
+                  <ArrowRightLeft
+                    size={24}
+                    className="text-brand-gold group-hover/btn:rotate-12 transition-transform"
+                  />
+                  <span className="text-[9px] font-black uppercase">Move</span>
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
-      <TransferModal
-        isOpen={isTransferOpen}
-        onClose={() => setIsTransferOpen(false)}
-        balances={{
-          commission: balance?.commission || 0,
-          currency: balance?.currency || "₦",
-        }}
-        onTransfer={handleTransfer}
-        isPending={transferCommission.isPending}
-      />
+      {/* Transfer Modal */}
+      {!isAgent && (
+        <TransferModal
+          isOpen={isTransferOpen}
+          onClose={() => setIsTransferOpen(false)}
+          balances={{
+            commission: balance?.commission || 0,
+            currency: balance?.currency || "₦",
+          }}
+          onTransfer={handleTransfer}
+          isPending={transferCommission.isPending}
+        />
+      )}
     </div>
   );
 }
