@@ -67,7 +67,7 @@ export default function Onboarding() {
         },
       });
 
-      router.push("/dashboard");
+      router.push("/account");
     } catch (error: any) {
       toast.error(
         error.response?.data?.message ||
