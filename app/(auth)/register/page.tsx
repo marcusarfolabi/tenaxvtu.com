@@ -24,7 +24,6 @@ import {
 
   const { executeRecaptcha } = useGoogleReCaptcha();
 
-  // Form State
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -105,8 +104,7 @@ import {
             Start saving on your data and bills today.
           </p>
 
-          <form className="space-y-5" onSubmit={handleRegister}>
-            {/* Grid for First/Last Name */}
+          <form className="space-y-5" onSubmit={handleRegister} method="POST">
             <div className="grid grid-cols-2 gap-4">
               <FormInput
                 label="First Name"
@@ -168,7 +166,6 @@ import {
               }
             />
 
-            {/* Themed Consent Checkbox */}
             <div className="flex items-start gap-3 py-2">
               <div className="relative flex items-center h-5">
                 <input
@@ -176,7 +173,6 @@ import {
                   type="checkbox"
                   checked={agreed}
                   onChange={(e) => setAgreed(e.target.checked)}
-                  // Swapped accent-brand-black for gold and added border-foreground/20
                   className="w-5 h-5 border-2 border-foreground/20 rounded text-brand-gold focus:ring-brand-gold cursor-pointer accent-brand-gold bg-background transition-colors"
                 />
               </div>

@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig = {
   /* Regular config options */
+  poweredByHeader: false,  
   images: {
     remotePatterns: [
       {
@@ -11,8 +12,6 @@ const nextConfig = {
     ],
   },
 
-  allowedDevOrigins: ['10.10.3.39', 'localhost:3000'],
-
-} as any; // Casting to 'any' bypasses the "unknown property" error
+} as any; 
 
 export default nextConfig;

@@ -19,14 +19,14 @@ export const authApi = {
     api.post("/auth/login", credentials),
 
   // register: (data: RegisterData) => api.post("/auth/register", data),
-register: (data: RegisterData) => {
+  register: (data: RegisterData) => {
     // This returns "https://yourclientdomain.com" (No trailing slash)
     const origin = typeof window !== "undefined" ? window.location.origin : "";
 
     return api.post("/auth/register", data, {
       headers: {
-        "X-Tenant-Domain": origin
-      }
+        "X-Tenant-Domain": origin,
+      },
     });
   },
 

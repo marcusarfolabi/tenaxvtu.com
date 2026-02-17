@@ -71,7 +71,7 @@ export default function Login() {
             Continue saving on your data and bills today.
           </p>
 
-          <form className="space-y-5" onSubmit={handleSubmit}> 
+          <form className="space-y-5" onSubmit={handleSubmit} method="POST"> 
             <FormInput
               label="Email Address"
               name="email"
