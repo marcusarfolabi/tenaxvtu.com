@@ -10,6 +10,10 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { airtimeApi } from "@/lib/api/airtime";
 import { toast } from "react-hot-toast";
+import {
+  canAffordTransaction,
+  getInadequateBalanceMessage,
+} from "@/util/wallet-helper";
 
 export default function AirtimePage() {
   const { user } = useAuth();
@@ -32,15 +36,20 @@ export default function AirtimePage() {
     amount: "",
     network: "MTN",
   });
+ 
+  const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
 
-  const canAfford =
-    parseFloat(balance?.balance || "0") >= parseFloat(formData.amount || "0");
   const isFormValid =
     formData.phone.length >= 11 && formData.amount && canAfford;
 
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isFormValid) return;
+
+    if (!canAfford) {
+      toast.error(getInadequateBalanceMessage(user?.role));
+      return;
+    }
 
     setIsPurchasing(true);
     try {
@@ -192,7 +201,7 @@ export default function AirtimePage() {
           </div>
 
           {!canAfford && formData.amount && (
-             <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
+            <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
               <XCircle size={12} /> Insufficient wallet balance
             </p>
           )}

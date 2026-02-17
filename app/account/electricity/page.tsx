@@ -9,14 +9,20 @@ import { electricityApi } from "@/lib/api/electricity";
 import { toast } from "react-hot-toast";
 import SubmitButton from "@/components/common/SubmitButton";
 import FormSelect from "@/components/common/FormSelect";
+import {
+  canAffordTransaction,
+  getInadequateBalanceMessage,
+} from "@/util/wallet-helper";
+import { useAuth } from "@/context/AuthContext";
 
 export default function ElectricityPage() {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [customerName, setCustomerName] = useState<string | null>(null);
   const [discos, setDiscos] = useState<any[]>([]);
-  const [minAmount, setMinAmount] = useState(100); // Default fallback
+  const [minAmount, setMinAmount] = useState(1000);
   const { balance, stats, refreshWallet } = useWallet({
     limit: 10,
     type: "ELECTRICITY",
@@ -66,7 +72,7 @@ export default function ElectricityPage() {
       if (data) {
         setCustomerName(data.customerName);
 
-        const min = data.minimumPayable || 100;
+        const min = data.minimumPayable || 1000;
         setMinAmount(min);
 
         setFormData((prev) => ({
@@ -85,25 +91,22 @@ export default function ElectricityPage() {
     }
   };
 
-  const canAfford = parseFloat(balance?.balance || "0") >= formData.amount;
-
-  // Force both to numbers to avoid string comparison bugs
+  const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
+ 
   const amountNum = Number(formData.amount) || 0;
   const minNum = Number(minAmount) || 0;
 
   const isFormValid =
     formData.meterNo.length >= 5 &&
     formData.disco !== "" &&
-    amountNum >= minNum && // Now it's a true numeric "Greater than or equal"
+    amountNum >= minNum &&
     formData.phoneNumber.length >= 10 &&
     customerName !== null;
-
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!canAfford) {
-      toast.error(
-        `Insufficient balance. You need ₦${formData.amount.toLocaleString()} but have ₦${parseFloat(balance?.balance || "0").toLocaleString()}`,
-      );
+      toast.error(getInadequateBalanceMessage(user?.role));
       return;
     }
 

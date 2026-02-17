@@ -17,12 +17,15 @@ import { cableApi, CablePackage } from "@/lib/api/cable";
 import { toast } from "react-hot-toast";
 import SubmitButton from "@/components/common/SubmitButton";
 import FormSelect from "@/components/common/FormSelect";
+import { canAffordTransaction, getInadequateBalanceMessage } from "@/util/wallet-helper";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CablePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [isLoadingPackages, setIsLoadingPackages] = useState(false);
+  const { user } = useAuth();
 
   const [customerName, setCustomerName] = useState<string | null>(null);
   const [cableTypes, setCableTypes] = useState<any[]>([]);
@@ -49,7 +52,6 @@ export default function CablePage() {
       .catch(() => toast.error("Failed to load cable providers"));
   }, []);
 
-  // 2. Fetch Packages when Provider changes
   useEffect(() => {
     if (!formData.type) {
       setPackages([]);
@@ -87,24 +89,22 @@ export default function CablePage() {
     }
   };
 
-  const walletBalance = parseFloat(balance?.balance || "0");
-  const canAfford = walletBalance >= formData.amount;
+  const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
 
   const isFormValid =
-    formData.type !== "" &&
-    formData.smartCardNo.length >= 5 &&
-    formData.productsCode !== "" &&
-    customerName !== null &&
-    formData.amount > 0;
-
+  formData.type !== "" &&
+  formData.smartCardNo.length >= 5 &&
+  formData.productsCode !== "" &&
+  customerName !== null &&
+  formData.amount > 0;
+  
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canAfford) {
-      toast.error(
-        `Insufficient balance. Required: ₦${formData.amount.toLocaleString()}`,
-      );
-      return;
-    }
+         toast.error(getInadequateBalanceMessage(user?.role));
+         return;
+       }
+   
 
     if (!isFormValid) return;
 

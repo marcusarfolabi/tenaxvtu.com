@@ -10,11 +10,14 @@ import { dataApi } from "@/lib/api/data";
 import { toast } from "react-hot-toast";
 import SubmitButton from "@/components/common/SubmitButton";
 import FormSelect from "@/components/common/FormSelect";
+import { canAffordTransaction, getInadequateBalanceMessage } from "@/util/wallet-helper";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DataPage() {
+  const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
-
+  
   // State for plans from backend
   const [allPlans, setAllPlans] = useState<any[]>([]);
   const [filteredPlans, setFilteredPlans] = useState<any[]>([]);
@@ -54,7 +57,7 @@ export default function DataPage() {
         setAllPlans([]);
       });
   }, []);
- 
+
   useEffect(() => {
     if (Array.isArray(allPlans)) {
       const filtered = allPlans.filter(
@@ -62,7 +65,7 @@ export default function DataPage() {
       );
       setFilteredPlans(filtered);
     }
- 
+
     setFormData((prev) => ({
       ...prev,
       selectedPlanId: "",
@@ -71,7 +74,8 @@ export default function DataPage() {
     }));
   }, [formData.network, allPlans]);
 
-  const canAfford = parseFloat(balance?.balance || "0") >= formData.amount;
+  const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
+
   const isFormValid =
     formData.phone.length >= 11 && formData.selectedPlanId && canAfford;
 
@@ -79,6 +83,10 @@ export default function DataPage() {
     e.preventDefault();
     if (!isFormValid) return;
 
+    if (!canAfford) {
+      toast.error(getInadequateBalanceMessage(user?.role));
+      return;
+    }
     setIsPurchasing(true);
     try {
       await dataApi.buy({
@@ -105,7 +113,7 @@ export default function DataPage() {
     }
   };
 
-return (
+  return (
     <div className="space-y-6 pb-20">
       {/* Dynamic Balance Card - Fixed Brand Black */}
       <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-white shadow-2xl">
@@ -154,8 +162,8 @@ return (
                   setFormData({ ...formData, network: net as NetworkType })
                 }
                 className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${
-                  formData.network === net 
-                    ? "bg-brand-gold/10 border-brand-gold text-foreground shadow-sm" 
+                  formData.network === net
+                    ? "bg-brand-gold/10 border-brand-gold text-foreground shadow-sm"
                     : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-60 hover:opacity-100 hover:grayscale-0"
                 }`}
               >
@@ -168,7 +176,9 @@ return (
                     className="object-contain"
                   />
                 </div>
-                <span className="text-[9px] font-black uppercase tracking-tighter">{net}</span>
+                <span className="text-[9px] font-black uppercase tracking-tighter">
+                  {net}
+                </span>
               </button>
             ))}
           </div>
@@ -178,7 +188,7 @@ return (
             <FormInput
               label="Phone Number"
               name="phone"
-              type="tel" 
+              type="tel"
               inputMode="numeric"
               maxLength={11}
               value={formData.phone}
@@ -194,9 +204,9 @@ return (
           <FormSelect
             label="Select Plan"
             icon={List}
-            options={filteredPlans.map(p => ({
+            options={filteredPlans.map((p) => ({
               code: p.code,
-              name: `${p.name} - ₦${parseFloat(p.reseller_price).toLocaleString()}`
+              name: `${p.name} - ₦${parseFloat(p.reseller_price).toLocaleString()}`,
             }))}
             selectedCode={formData.selectedPlanId}
             onChange={(code) => {
@@ -239,7 +249,11 @@ return (
             loadingText="Processing..."
             disabled={!isFormValid || isPurchasing}
             isLoading={isPurchasing}
-            idleText={formData.amount > 0 ? `Pay ₦${formData.amount.toLocaleString()}` : `Buy ${formData.network} Data`}
+            idleText={
+              formData.amount > 0
+                ? `Pay ₦${formData.amount.toLocaleString()}`
+                : `Buy ${formData.network} Data`
+            }
             className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
           />
         </form>
