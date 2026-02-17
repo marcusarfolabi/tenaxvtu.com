@@ -12,15 +12,15 @@ import SubmitButton from "@/components/common/SubmitButton";
 import { PasswordInput } from "@/components/common/PasswordInput";
 import FormInput from "@/components/common/FormInput";
 
-import { 
-  GoogleReCaptchaProvider, 
-  useGoogleReCaptcha 
+import {
+  GoogleReCaptchaProvider,
+  useGoogleReCaptcha,
 } from "react-google-recaptcha-v3";
 
- function RegisterForm() {
+function RegisterForm() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [agreed, setAgreed] = useState(false);  
+  const [agreed, setAgreed] = useState(false);
 
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -35,7 +35,7 @@ import {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-     if (!executeRecaptcha) {
+    if (!executeRecaptcha) {
       toast.error("Security system not ready. Please refresh.");
       return;
     }
@@ -48,12 +48,12 @@ import {
     setIsLoading(true);
 
     try {
-
       const token = await executeRecaptcha("register_user");
 
       const dataToSubmit = {
         ...formData,
         currency: getUserCurrency(),
+        captcha_token: token,
       };
 
       await authApi.register(dataToSubmit);
@@ -65,25 +65,18 @@ import {
       router.push("/verify-otp");
     } catch (error: any) {
       const status = error.response?.status;
-      const errorMessage = error.response?.data?.message;
+      const data = error.response?.data;
 
       if (status === 429) {
-        toast.error(
-          "Security Alert: Too many attempts. Please slow down and try again in a few minutes.",
-          {
-            duration: 5000,
-            icon: "🛡️",
-          },
-        );
-      } else if (status === 422) {
-        toast.error(errorMessage || "Please check your input details.");
+        toast.error("Security Alert: Too many attempts.", { icon: "🛡️" });
+      } else if (status === 422 && data.errors) {
+        const firstError = Object.values(data.errors)[0];
+        const message = Array.isArray(firstError) ? firstError[0] : firstError;
+
+        toast.error(message || "Please check your input details.");
       } else {
-        toast.error(
-          errorMessage || "Registration failed. Please try again later.",
-        );
+        toast.error(data?.message || "Registration failed. Try again later.");
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -149,6 +142,7 @@ import {
               type="tel"
               placeholder="08033440133"
               minLength={11}
+              maxLength={11}
               icon={Phone}
               value={formData.phone}
               onChange={(e) =>
