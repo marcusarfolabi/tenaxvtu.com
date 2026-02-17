@@ -34,6 +34,8 @@ export default function CablePage() {
   const { balance, stats, refreshWallet } = useWallet({
     limit: 10,
     type: "CABLE",
+    role: user?.role,
+
   });
 
   const [formData, setFormData] = useState({

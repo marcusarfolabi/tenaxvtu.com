@@ -26,6 +26,7 @@ export default function ElectricityPage() {
   const { balance, stats, refreshWallet } = useWallet({
     limit: 10,
     type: "ELECTRICITY",
+    role: user?.role,
   });
   const [formData, setFormData] = useState({
     meterNo: "",

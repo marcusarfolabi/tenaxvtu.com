@@ -1,19 +1,12 @@
-export const canAffordTransaction = (
-  walletData: any, 
-  amount: string | number, 
-  userRole: string = 'user'
-): boolean => {
-  const chargeAmount = typeof amount === "string" ? parseFloat(amount || "0") : amount;
-  
-  if (isNaN(chargeAmount) || chargeAmount <= 0) return false;
+export const canAffordTransaction = (balanceData: any, amount: string | number, role: string = 'customer') => {
+  const numAmount = typeof amount === 'string' ? parseFloat(amount || "0") : amount;
+  if (!numAmount || numAmount <= 0) return true; 
  
-  if (userRole === 'agent') {
-    const providerBalance = parseFloat(walletData?.hw_balance || "0");
-    return providerBalance >= chargeAmount;
+  if (role === 'agent') {
+    return parseFloat(balanceData?.hw_balance || "0") >= numAmount;
   }
- 
-  const localBalance = parseFloat(walletData?.balance || "0");
-  return localBalance >= chargeAmount;
+
+  return parseFloat(balanceData?.balance || "0") >= numAmount;
 };
  
 export const getInadequateBalanceMessage = (userRole: string = 'user'): string => {

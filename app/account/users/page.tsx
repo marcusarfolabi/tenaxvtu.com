@@ -6,12 +6,20 @@ import {
   ChevronRight,
   TrendingUp,
   User as UserIcon,
+  Calendar,
+  CheckCircle2,
+  Mail,
+  Phone,
+  XCircle,
 } from "lucide-react";
 import { useUsers } from "@/hooks/useUser";
+import { Modal } from "../components/ui/Modal";
+import { formatActivityDate } from "@/util/date";
 
 export default function UserList({ limit = 10 }: { limit?: number }) {
   const [page, setPage] = useState(1);
   const { users, pagination, isLoading } = useUsers({ page, limit });
+  const [selectedUser, setSelectedUser] = useState<any>(null);  
 
   if (isLoading) {
     return (
@@ -57,7 +65,8 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
             {users.map((user: any, index: number) => (
               <div
                 key={user.id}
-                className="bg-background p-4 rounded-[2rem] flex items-center justify-between border border-foreground/5 shadow-sm hover:border-brand-gold/50 transition-all group"
+                onClick={() => setSelectedUser(user)}  
+                className="bg-background p-4 rounded-4xl flex items-center justify-between border border-foreground/5 shadow-sm hover:border-brand-gold/50 transition-all group"
               >
                 <div className="flex items-center gap-4">
                   {/* Rank or Icon */}
@@ -76,7 +85,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                     <p className="text-sm font-black text-foreground line-clamp-1">
                       {user.name || user.email.split("@")[0]}
                     </p>
-                    <p className="text-[10px] font-bold text-foreground/40 lowercase truncate max-w-[120px] sm:max-w-none">
+                    <p className="text-[10px] font-bold text-foreground/40 lowercase truncate max-w-30 sm:max-w-none">
                       {user.email}
                     </p>
                   </div>
@@ -97,7 +106,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 bg-foreground/[0.02] rounded-[2.5rem] border-2 border-dashed border-foreground/5">
+          <div className="text-center py-16 bg-foreground/2 rounded-[2.5rem] border-2 border-dashed border-foreground/5">
             <Users className="mx-auto text-foreground/10 mb-3" size={40} />
             <p className="text-foreground/40 font-black uppercase text-[10px] tracking-widest">No users found</p>
           </div>
@@ -131,6 +140,94 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
           </button>
         </div>
       )}
+
+      {/* User Detail Modal */}
+      <Modal
+        isOpen={!!selectedUser}
+        onClose={() => setSelectedUser(null)}
+        title="User Intelligence"
+      >
+        {selectedUser && (
+          <div className="p-6 space-y-6">
+            {/* Header: Name & Status */}
+            <div className="flex items-center gap-4 border-b border-foreground/5 pb-6">
+              <div className="w-16 h-16 rounded-3xl bg-brand-gold/10 flex items-center justify-center text-brand-gold">
+                <UserIcon size={32} />
+              </div>
+              <div>
+                <h4 className="text-xl font-black text-foreground">
+                  {selectedUser.name} {selectedUser.lastname}
+                </h4>
+                <div className="flex items-center gap-2 mt-1">
+                  {selectedUser.email_verified_at ? (
+                    <span className="flex items-center gap-1 text-[9px] font-black uppercase text-green-500 bg-green-500/10 px-2 py-1 rounded-lg">
+                      <CheckCircle2 size={10} /> Verified
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 text-[9px] font-black uppercase text-red-500 bg-red-500/10 px-2 py-1 rounded-lg">
+                      <XCircle size={10} /> Unverified
+                    </span>
+                  )}
+                  <span className="text-[9px] font-black uppercase text-foreground/30 bg-foreground/5 px-2 py-1 rounded-lg">
+                    ID: #{selectedUser.wallet?.wallet_id}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Financial Grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-foreground/5 p-4 rounded-3xl border border-foreground/5">
+                <p className="text-[9px] font-black text-foreground/40 uppercase mb-1">Current Balance</p>
+                <p className="text-lg font-black text-foreground">
+                  <span className="text-brand-gold mr-1">{selectedUser.wallet?.currency}</span>
+                  {parseFloat(selectedUser.wallet?.balance).toLocaleString()}
+                </p>
+              </div>
+              <div className="bg-brand-black p-4 rounded-3xl shadow-xl shadow-brand-gold/10">
+                <p className="text-[9px] font-black text-white/40 uppercase mb-1">Total Volume</p>
+                <p className="text-lg font-black text-brand-gold">
+                  ₦{parseFloat(selectedUser.transactions_sum_amount || 0).toLocaleString()}
+                </p>
+              </div>
+            </div>
+
+            {/* Detailed Info List */}
+            <div className="space-y-3 bg-foreground/2 p-4 rounded-3xl border border-foreground/5">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-foreground/40 font-bold">
+                  <Mail size={14} /> Email
+                </div>
+                <span className="font-black text-foreground lowercase">{selectedUser.email}</span>
+              </div>
+              
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-foreground/40 font-bold">
+                  <Phone size={14} /> Phone
+                </div>
+                <span className="font-black text-foreground">{selectedUser.phone}</span>
+              </div>
+
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 text-foreground/40 font-bold">
+                  <Calendar size={14} /> Joined Date
+                </div>
+                <span className="font-black text-foreground">
+                  {formatActivityDate(selectedUser.wallet?.created_at)}
+                </span>
+              </div>
+            </div>
+
+            {/* Action Button */}
+            <button 
+              onClick={() => setSelectedUser(null)}
+              className="w-full bg-foreground text-background py-4 rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all"
+            >
+              Close Profile
+            </button>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }

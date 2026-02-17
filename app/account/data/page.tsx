@@ -25,6 +25,7 @@ export default function DataPage() {
   const { balance, stats, refreshWallet } = useWallet({
     limit: 10,
     type: "DATA",
+    role: user?.role,
   });
 
   type NetworkType = "MTN" | "GLO" | "AIRTEL" | "9MOBILE";

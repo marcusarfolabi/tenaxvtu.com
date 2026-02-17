@@ -11,7 +11,6 @@ interface UseWalletProps {
   role?: string;
 }
 
-// Default to customer
 export const useWallet = ({
   page = 1,
   limit = 4,
@@ -24,15 +23,27 @@ export const useWallet = ({
   const {
     data: balance,
     isLoading: isBalanceLoading,
+    isFetching: isRefetching,
     error: balanceError,
+    refetch: triggerRefetch,
   } = useQuery({
-    queryKey: ["wallet-balance"],
+    queryKey: ["wallet-balance", role],
     queryFn: async () => {
       const res =
         role === "agent"
           ? await walletApi.getAgentBalance()
           : await walletApi.getBalance();
-      return res.data.data;
+
+      const rawData = res.data.data;
+
+      return {
+        balance: rawData.balance || "0.00",
+        commission: rawData.commission || "0.00",
+        currency: rawData.currency === "NGN" ? "₦" : rawData.currency || "₦",
+        hw_balance: rawData.hw_balance || 0,
+        hw_commission: rawData.hw_commission || 0,
+        ...rawData, // Spread the rest (id, wallet_id, etc)
+      };
     },
     refetchInterval: REFRESH_INTERVAL,
     staleTime: REFRESH_INTERVAL,
@@ -50,7 +61,7 @@ export const useWallet = ({
 
   // HELPER: Manual refresh function
   const refreshWallet = () => {
-    queryClient.invalidateQueries({ queryKey: ["wallet-balance"] });
+    triggerRefetch();
     queryClient.invalidateQueries({ queryKey: ["wallet-history"] });
   };
 
@@ -67,9 +78,22 @@ export const useWallet = ({
   });
 
   return {
+    // Data
     balance,
     hwProviderBalance: balance?.hw_balance || 0,
+    hwProviderCommission: balance?.hw_commission || 0,
     transactions: historyData?.history?.data || [],
+
+    // Status
+    isLoading: isBalanceLoading || isHistoryLoading,
+    isBalanceLoading,
+    isHistoryLoading,
+    isRefetching,
+    balanceError,
+
+    refreshWallet,
+    transferCommission,
+
     stats: {
       total_amount: historyData?.total_amount || 0,
     },
@@ -79,11 +103,5 @@ export const useWallet = ({
       last_page: historyData?.history?.last_page || 1,
       per_page: historyData?.history?.per_page || limit,
     },
-    isLoading: isBalanceLoading || isHistoryLoading,
-    refreshWallet,
-    isBalanceLoading,
-    isHistoryLoading,
-    balanceError,
-    transferCommission,
   };
 };

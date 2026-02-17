@@ -23,6 +23,7 @@ export default function AirtimePage() {
   const { balance, stats, refreshWallet } = useWallet({
     limit: 10,
     type: "AIRTIME",
+    role: user?.role,
   });
 
   type NetworkType = "MTN" | "GLO" | "AIRTEL" | "9MOBILE";
