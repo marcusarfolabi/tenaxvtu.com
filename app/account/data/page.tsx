@@ -247,7 +247,7 @@ export default function DataPage() {
 
           <SubmitButton
             loadingText="Processing..."
-            disabled={!isFormValid || isPurchasing}
+            disabled={!canAfford || !isFormValid || isPurchasing}
             isLoading={isPurchasing}
             idleText={
               formData.amount > 0

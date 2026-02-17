@@ -279,7 +279,7 @@ export default function ElectricityPage() {
 
           <SubmitButton
             loadingText="Processing..."
-            disabled={!isFormValid || isPurchasing || isValidating}
+            disabled={!canAfford || !isFormValid || isPurchasing || isValidating}
             isLoading={isPurchasing}
             idleText={
               customerName

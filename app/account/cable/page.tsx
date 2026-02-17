@@ -277,7 +277,7 @@ export default function CablePage() {
 
           <SubmitButton
             loadingText="Processing..."
-            disabled={!isFormValid || isPurchasing || isValidating}
+            disabled={!canAfford || !isFormValid || isPurchasing || isValidating}
             isLoading={isPurchasing}
             idleText={
               customerName

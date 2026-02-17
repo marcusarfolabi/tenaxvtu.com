@@ -207,7 +207,7 @@ export default function AirtimePage() {
           )}
 
           <SubmitButton
-            disabled={!isFormValid || isPurchasing}
+            disabled={!canAfford || !isFormValid || isPurchasing}
             isLoading={isPurchasing}
             idleText={`Buy ${formData.network} Airtime`}
             loadingText="Processing..."
