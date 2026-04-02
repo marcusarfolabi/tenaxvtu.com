@@ -42,7 +42,7 @@ export default function TopHeader({
 
   return (
     <header className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 border-b border-foreground/5 bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-300">
-      
+
       {/* Mobile Menu Toggle & Logo */}
       <div className="flex flex-1 items-center gap-4 lg:hidden">
         <button
@@ -57,11 +57,11 @@ export default function TopHeader({
 
       <div className="flex flex-1 gap-x-2 sm:gap-x-4 self-stretch justify-end items-center">
         <div className="flex items-center gap-x-2 sm:gap-x-4">
-          
+
           {/* THEME TOGGLE MODE - Placed before the bell */}
           <button
             onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-            className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground/40 hover:text-brand-gold transition-all active:scale-90"
+            className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground/40 hover:text-brand-red transition-all active:scale-90"
             aria-label="Toggle Theme"
           >
             {mounted && (resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />)}
@@ -69,7 +69,7 @@ export default function TopHeader({
 
           {/* NOTIFICATION BELL */}
           <Popover className="relative">
-            <Popover.Button className="p-2.5 text-foreground/40 hover:text-brand-gold hover:bg-foreground/5 rounded-xl transition-all relative outline-none">
+            <Popover.Button className="p-2.5 text-foreground/40 hover:text-brand-red hover:bg-foreground/5 rounded-xl transition-all relative outline-none">
               <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
               {unreadCount > 0 && (
                 <span className="absolute top-2.5 right-2.5 flex h-2.5 w-2.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-background">
@@ -90,7 +90,7 @@ export default function TopHeader({
                   <h3 className="font-black text-sm uppercase tracking-widest text-foreground">
                     Notifications
                   </h3>
-                  <Link href="/account/notifications" className="text-[10px] font-black text-brand-gold hover:opacity-80">
+                  <Link href="/account/notifications" className="text-[10px] font-black text-brand-red hover:opacity-80">
                     CLEAR ALL
                   </Link>
                 </div>
@@ -98,9 +98,9 @@ export default function TopHeader({
                 <div className="space-y-2 max-h-80 overflow-y-auto px-1 custom-scrollbar">
                   {notifications.length > 0 ? (
                     notifications.map((n: any) => (
-                      <div key={n.id} className="group p-3 hover:bg-foreground/5 rounded-2xl transition-all cursor-pointer border border-transparent hover:border-brand-gold/20">
+                      <div key={n.id} className="group p-3 hover:bg-foreground/5 rounded-2xl transition-all cursor-pointer border border-transparent hover:border-brand-red/20">
                         <div className="flex items-start gap-3">
-                          <div className="mt-1 h-2 w-2 rounded-full bg-brand-gold shrink-0" />
+                          <div className="mt-1 h-2 w-2 rounded-full bg-brand-red shrink-0" />
                           <div className="flex-1">
                             <div className="flex justify-between items-start">
                               <p className="text-[11px] font-black text-foreground leading-tight">
@@ -136,7 +136,7 @@ export default function TopHeader({
           {/* USER DROPDOWN */}
           <Menu as="div" className="relative">
             <Menu.Button className="flex items-center p-0.5 sm:p-1 group outline-none">
-              <div className="h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-gradient-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-gold text-[10px] sm:text-xs font-black border-2 border-background shadow-md group-hover:shadow-brand-gold/20 transition-all tracking-tighter">
+              <div className="h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-gradient-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-red text-[10px] sm:text-xs font-black border-2 border-background shadow-md group-hover:shadow-brand-red/20 transition-all tracking-tighter">
                 {getCustomInitials(user?.name ?? "")}
               </div>
             </Menu.Button>
@@ -157,14 +157,14 @@ export default function TopHeader({
                 <Menu.Item>
                   {({ active }) => (
                     <Link href="/account/profile" className={`flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-foreground/5 text-foreground" : "text-foreground/60"}`}>
-                      <User className="h-4 w-4 text-brand-gold" /> Profile Details
+                      <User className="h-4 w-4 text-brand-red" /> Profile Details
                     </Link>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
                     <Link href="/account/virtual-accounts" className={`flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-2xl transition-colors ${active ? "bg-foreground/5 text-foreground" : "text-foreground/60"}`}>
-                      <Settings className="h-4 w-4 text-brand-gold" /> Virtual Accounts
+                      <Settings className="h-4 w-4 text-brand-red" /> Virtual Accounts
                     </Link>
                   )}
                 </Menu.Item>

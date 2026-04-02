@@ -45,17 +45,17 @@ export default function FAQPage() {
     <div className="min-h-screen bg-gray-50 font-instrument pb-20">
       {/* Hero Section */}
       <div className="bg-brand-black text-white py-20 px-6 rounded-b-[3rem] text-center">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-16 h-16 bg-brand-gold/20 text-brand-gold rounded-2xl flex items-center justify-center mx-auto mb-6"
+          className="w-16 h-16 bg-brand-red/20 text-brand-red rounded-2xl flex items-center justify-center mx-auto mb-6"
         >
           <HelpCircle size={32} />
         </motion.div>
         <h1 className="text-4xl md:text-5xl font-black mb-4">Frequently Asked Questions</h1>
         <p className="text-gray-400 max-w-xl mx-auto font-medium">
-          Everything you need to know about Kakalinks. Can't find what you're looking for? 
-          <a href="/support" className="text-brand-gold ml-1 underline">Chat with us.</a>
+          Everything you need to know about {process.env.NEXT_PUBLIC_APP_NAME}. Can't find what you're looking for?
+          <a href="/support" className="text-brand-red ml-1 underline">Chat with us.</a>
         </p>
       </div>
 
@@ -64,23 +64,22 @@ export default function FAQPage() {
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className={`bg-white rounded-3xl border transition-all overflow-hidden ${
-                  isOpen ? "border-brand-gold shadow-lg" : "border-gray-100 shadow-sm"
-                }`}
+                className={`bg-white rounded-3xl border transition-all overflow-hidden ${isOpen ? "border-brand-red shadow-lg" : "border-gray-100 shadow-sm"
+                  }`}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   className="w-full px-8 py-6 flex items-center justify-between text-left"
                 >
-                  <span className={`font-bold text-lg ${isOpen ? "text-brand-black" : "text-gray-700"}`}>
+                  <span className={`font-bold text-lg ${isOpen ? "text-brand-burgundy" : "text-gray-700"}`}>
                     {faq.q}
                   </span>
-                  <div className={`transition-transform duration-300 ${isOpen ? "text-brand-gold" : "text-gray-400"}`}>
+                  <div className={`transition-transform duration-300 ${isOpen ? "text-brand-red" : "text-gray-400"}`}>
                     {isOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
                   </div>
                 </button>
@@ -109,9 +108,9 @@ export default function FAQPage() {
           <div className="relative z-10">
             <h3 className="text-xl font-black mb-2">Still have questions?</h3>
             <p className="text-gray-400 mb-6 text-sm">We're here to help you 24/7</p>
-            <a 
-              href="https://wa.me/2340000000000" 
-              className="inline-flex items-center gap-2 bg-brand-gold text-brand-black px-8 py-3 rounded-xl font-black uppercase text-xs tracking-widest"
+            <a
+              href="https://wa.me/2340000000000"
+              className="inline-flex items-center gap-2 bg-brand-red text-brand-burgundy px-8 py-3 rounded-xl font-black uppercase text-xs tracking-widest"
             >
               <MessageCircle size={18} /> WhatsApp Support
             </a>

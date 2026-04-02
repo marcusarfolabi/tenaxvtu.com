@@ -52,7 +52,7 @@ export default function ResetPassword() {
 
   const getStrengthColor = () => {
     if (strengthScore === 1) return "bg-red-500";
-    if (strengthScore === 2) return "bg-brand-gold";
+    if (strengthScore === 2) return "bg-brand-red";
     if (strengthScore === 3) return "bg-emerald-500";
     return "bg-gray-200";
   };
@@ -110,7 +110,7 @@ export default function ResetPassword() {
           </h1>
           <p className="text-foreground/60 mb-8 font-medium">
             Set a new password for{" "}
-            <span className="text-brand-gold font-bold">{formData.email}</span>
+            <span className="text-brand-red font-bold">{formData.email}</span>
           </p>
 
           <form className="space-y-6" onSubmit={handleResetSubmit}>
@@ -127,11 +127,10 @@ export default function ResetPassword() {
                   {[1, 2, 3].map((step) => (
                     <div
                       key={step}
-                      className={`h-full w-1/3 transition-all duration-500 ${
-                        strengthScore >= step
-                          ? getStrengthColor() // Ensure this function returns Tailwind classes like 'bg-emerald-500'
-                          : "bg-foreground/10"
-                      }`}
+                      className={`h-full w-1/3 transition-all duration-500 ${strengthScore >= step
+                        ? getStrengthColor() // Ensure this function returns Tailwind classes like 'bg-emerald-500'
+                        : "bg-foreground/10"
+                        }`}
                     />
                   ))}
                 </div>
@@ -141,11 +140,10 @@ export default function ResetPassword() {
                   {strengthRequirements.map((req, i) => (
                     <div key={i} className="flex items-center gap-2.5">
                       <div
-                        className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
-                          req.met
-                            ? "bg-emerald-500/20 text-emerald-500"
-                            : "bg-foreground/5 text-foreground/30"
-                        }`}
+                        className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${req.met
+                          ? "bg-emerald-500/20 text-emerald-500"
+                          : "bg-foreground/5 text-foreground/30"
+                          }`}
                       >
                         {req.met ? (
                           <Check size={12} strokeWidth={4} />
@@ -154,9 +152,8 @@ export default function ResetPassword() {
                         )}
                       </div>
                       <span
-                        className={`text-sm font-bold transition-colors ${
-                          req.met ? "text-foreground" : "text-foreground/40"
-                        }`}
+                        className={`text-sm font-bold transition-colors ${req.met ? "text-foreground" : "text-foreground/40"
+                          }`}
                       >
                         {req.label}
                       </span>
@@ -184,7 +181,7 @@ export default function ResetPassword() {
 
           <Link
             href="/login"
-            className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-gold transition-colors"
+            className="mt-8 flex items-center justify-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-red transition-colors"
           >
             <ArrowLeft size={16} />
             Back to Login

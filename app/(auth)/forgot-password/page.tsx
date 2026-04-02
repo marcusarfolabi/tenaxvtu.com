@@ -36,7 +36,7 @@ export default function ForgotPassword() {
     }
   };
 
-return (
+  return (
     /* 1. Main container uses themed background and grid pattern */
     <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Recover your" subtitle="account access." />
@@ -51,7 +51,7 @@ return (
             <ArrowLeft size={24} className="text-foreground" />
           </Link>
           <span className="font-black tracking-tighter text-xl text-foreground">
-            KAKALINKS
+            {process.env.NEXT_PUBLIC_APP_NAME}
           </span>
           <div className="w-10" />
         </div>
@@ -62,7 +62,7 @@ return (
           className="max-w-md mx-auto w-full"
         >
           {/* 2. Key Icon - Swapped hardcoded grays for themed variables */}
-          <div className="w-16 h-16 bg-brand-gold/10 border border-brand-gold/20 rounded-2xl flex items-center justify-center text-brand-gold mb-8 shadow-sm">
+          <div className="w-16 h-16 bg-brand-red/10 border border-brand-red/20 rounded-2xl flex items-center justify-center text-brand-red mb-8 shadow-sm">
             <KeyRound size={32} />
           </div>
 
@@ -97,7 +97,7 @@ return (
 
           {/* 3. Security Note - Changed to use themed gold tint for cohesion */}
           <div className="mt-8 p-4 bg-foreground/[0.03] rounded-2xl border border-foreground/5 flex items-start gap-3">
-            <ShieldCheck className="text-brand-gold shrink-0" size={18} />
+            <ShieldCheck className="text-brand-red shrink-0" size={18} />
             <p className="text-xs text-foreground/60 font-medium leading-relaxed">
               For your security, we never send passwords via email. You must use
               the six digit OTP code provided to set a new one.
@@ -108,7 +108,7 @@ return (
             <Link
               href="/login"
               /* Adjusted text-gray-400 to text-foreground/40 */
-              className="inline-flex items-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-gold transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-red transition-colors"
             >
               <ArrowLeft size={16} />
               Back to Login

@@ -37,21 +37,21 @@ export function TransactionDetailModal({
 
   if (!tx) return null;
 
-const handleDownload = async () => {
+  const handleDownload = async () => {
     const element = document.getElementById("receipt-content");
     if (!element) return;
 
     setIsDownloading(true);
     try {
       const canvas = await domToCanvas(element, {
-        scale: 3,  
+        scale: 3,
         // DO NOT hardcode #0a0a0a here. 
         // Set to null so it uses the CSS background-color from your theme.
-        backgroundColor: null, 
+        backgroundColor: null,
       });
 
       const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", [80, 160]); 
+      const pdf = new jsPDF("p", "mm", [80, 160]);
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const imgProps = pdf.getImageProperties(imgData);
@@ -95,11 +95,10 @@ const handleDownload = async () => {
       >
         <div className="flex flex-col items-center justify-center space-y-3 pb-8 border-b border-dashed border-foreground/10">
           <div
-            className={`w-16 h-16 rounded-full flex items-center justify-center ${
-              tx.status === "success" || tx.status === "1"
-                ? "bg-green-500/10"
-                : "bg-red-500/10"
-            }`}
+            className={`w-16 h-16 rounded-full flex items-center justify-center ${tx.status === "success" || tx.status === "1"
+              ? "bg-green-500/10"
+              : "bg-red-500/10"
+              }`}
           >
             {tx.status === "success" || tx.status === "1" ? (
               <CheckCircle2 className="text-green-500" size={32} />
@@ -122,11 +121,10 @@ const handleDownload = async () => {
 
           {/* Conditional Status Badge */}
           <span
-            className={`px-4 py-1.5 text-[10px] font-black rounded-full uppercase tracking-wider ${
-              tx.status === "success"
-                ? "bg-green-500/20 text-green-500"
-                : "bg-red-500/20 text-red-500"
-            }`}
+            className={`px-4 py-1.5 text-[10px] font-black rounded-full uppercase tracking-wider ${tx.status === "success"
+              ? "bg-green-500/20 text-green-500"
+              : "bg-red-500/20 text-red-500"
+              }`}
           >
             {tx.status === "success" ? "Successful" : "Failed"}
           </span>
@@ -150,7 +148,7 @@ const handleDownload = async () => {
             <DetailRow
               label="Token"
               value={tx.token}
-              icon={<Hash size={14} className="text-brand-gold" />}
+              icon={<Hash size={14} className="text-brand-red" />}
               isCopyable
             />
           )}
@@ -159,7 +157,7 @@ const handleDownload = async () => {
             <DetailRow
               label="Units"
               value={`${tx.unit} kWh`}
-              icon={<Zap size={14} className="text-brand-gold" />}
+              icon={<Zap size={14} className="text-brand-red" />}
             />
           )}
 
@@ -185,7 +183,7 @@ const handleDownload = async () => {
           </p>
           <div className="pt-6 border-t border-foreground/5 flex justify-center">
             <p className="text-[10px] font-black text-foreground/20 uppercase tracking-[0.4em]">
-              Kakalinks Official Receipt
+              {process.env.NEXT_PUBLIC_APP_NAME} Official Receipt
             </p>
           </div>
         </div>
@@ -194,7 +192,7 @@ const handleDownload = async () => {
       {/* Action Buttons - Always visible and themed */}
       <div className="p-4 grid grid-cols-2 gap-3 bg-foreground/5 rounded-b-3xl">
         <button
-           onClick={handleDownload}
+          onClick={handleDownload}
           disabled={isDownloading}
           className="flex items-center justify-center gap-2 h-12 bg-background border border-foreground/10 rounded-xl text-xs font-black uppercase text-foreground hover:bg-foreground/5 active:scale-95 transition-all"
         >
@@ -202,7 +200,7 @@ const handleDownload = async () => {
         </button>
         <button
           onClick={handleShare}
-          className="flex items-center justify-center gap-2 h-12 bg-brand-gold text-brand-black rounded-xl text-xs font-black uppercase active:scale-95 transition-all shadow-lg shadow-brand-gold/20"
+          className="flex items-center justify-center gap-2 h-12 bg-brand-red text-brand-burgundy rounded-xl text-xs font-black uppercase active:scale-95 transition-all shadow-lg shadow-brand-red/20"
         >
           <Share2 size={16} /> Share
         </button>
@@ -241,14 +239,14 @@ function DetailRow({
       </div>
       <div className="flex items-center gap-1.5 justify-end max-w-[60%]">
         <p
-          className={`text-xs font-black text-foreground text-right break-all transition-colors ${isCopyable ? "group-active:text-brand-gold" : ""}`}
+          className={`text-xs font-black text-foreground text-right break-all transition-colors ${isCopyable ? "group-active:text-brand-red" : ""}`}
         >
           {value}
         </p>
         {isCopyable && (
           <Copy
             size={12}
-            className="text-foreground/20 group-hover:text-brand-gold transition-colors shrink-0"
+            className="text-foreground/20 group-hover:text-brand-red transition-colors shrink-0"
           />
         )}
       </div>

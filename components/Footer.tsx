@@ -5,7 +5,7 @@ import {
   Twitter,
   Instagram,
   Linkedin,
-  Phone, 
+  Phone,
   MapPin,
   ArrowUpRight,
 } from "lucide-react";
@@ -18,14 +18,16 @@ export default function Footer() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
- 
+
   if (!mounted) return <footer className="bg-background py-20" />;
 
-  return ( 
+  const phoneNumber = process.env.NEXT_PUBLIC_SUPPORT_PHONE || "+234 (0) 800-Tenax Telecoms";
+  const emailAddress = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "info@vaspayment.us";
+  return (
     <footer className="bg-background text-foreground pt-20 pb-10 border-t border-foreground/5 transition-colors duration-300">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="space-y-6"> 
+          <div className="space-y-6">
             <Logo />
 
             <p className="text-foreground/50 text-sm leading-relaxed max-w-sm">
@@ -37,7 +39,7 @@ export default function Footer() {
                 <Link
                   key={i}
                   href="#"
-                  className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center hover:bg-brand-gold hover:text-brand-black transition-all"
+                  className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center hover:bg-brand-red hover:text-brand-burgundy transition-all"
                 >
                   <Icon size={18} />
                 </Link>
@@ -48,14 +50,14 @@ export default function Footer() {
           {/* Quick Nav */}
           <div>
             <h6 className="font-black text-sm uppercase tracking-[0.2em] text-foreground mb-6 flex items-center gap-2">
-              Our Services <span className="text-brand-gold">#</span>
+              Our Services <span className="text-brand-red">#</span>
             </h6>
             <ul className="space-y-4">
               {FOOTER_NAVIGATION.services.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-foreground/60 hover:text-brand-gold transition-colors flex items-center gap-1 group text-sm font-medium"
+                    className="text-foreground/60 hover:text-brand-red transition-colors flex items-center gap-1 group text-sm font-medium"
                   >
                     {link.name}
                     <ArrowUpRight
@@ -75,15 +77,25 @@ export default function Footer() {
             </h6>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-foreground/60">
-                <MapPin size={20} className="text-brand-gold shrink-0" />
+                <MapPin size={20} className="text-brand-red shrink-0" />
                 <span className="text-sm">
                   Victoria Island, Lagos, NG
                 </span>
               </li>
               <li className="flex items-center gap-3 text-foreground/60">
-                <Phone size={20} className="text-brand-gold shrink-0" />
+                <Phone size={20} className="text-brand-red shrink-0" />
                 <span className="text-sm">
-                  +234 (0) 800-KAKALINKS
+                  <a href={`tel:${phoneNumber}`} className="hover:text-brand-red transition-colors">
+                    Call Us
+                  </a>
+                </span>
+              </li>
+              <li className="flex items-center gap-3 text-foreground/60">
+                <MapPin size={20} className="text-brand-red shrink-0" />
+                <span className="text-sm">
+                  <a href={`mailto:${emailAddress}`} className="hover:text-brand-red transition-colors">
+                    Mail Us
+                  </a>
                 </span>
               </li>
             </ul>
@@ -94,7 +106,7 @@ export default function Footer() {
         <div className="pt-10 border-t border-foreground/5 flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright Left */}
           <p className="text-foreground/30 text-[11px] font-bold tracking-wide">
-            © {new Date().getFullYear()} KAKALINKS. All rights reserved.
+            © {new Date().getFullYear()} Tenax Telecoms. All rights reserved.
           </p>
 
           {/* Navigation Middle */}
@@ -105,10 +117,10 @@ export default function Footer() {
               { name: "Support", href: "/support" },
               { name: "FAQ", href: "/faq" }
             ].map((link) => (
-              <Link 
+              <Link
                 key={link.name}
                 href={link.href}
-                className="text-[10px] font-black uppercase tracking-[0.15em] text-foreground/40 hover:text-brand-gold transition-colors"
+                className="text-[10px] font-black uppercase tracking-[0.15em] text-foreground/40 hover:text-brand-red transition-colors"
               >
                 {link.name}
               </Link>
@@ -117,7 +129,7 @@ export default function Footer() {
 
           {/* Right Label */}
           <div className="hidden md:block text-right">
-             <span className="text-[9px] text-brand-gold/40 font-black tracking-widest uppercase">Kakalinks</span>
+            <span className="text-[9px] text-brand-red/40 font-black tracking-widest uppercase">Tenax Telecoms</span>
           </div>
         </div>
       </div>

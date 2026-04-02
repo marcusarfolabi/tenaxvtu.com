@@ -94,10 +94,9 @@ const FormSelect: React.FC<FormSelectProps> = ({
                   <Listbox.Option
                     key={option.code}
                     className={({ active }) =>
-                      `relative cursor-default select-none py-3 pl-12 pr-4 transition-colors ${
-                        active
-                          ? "bg-brand-gold/10 text-brand-gold"
-                          : "text-foreground"
+                      `relative cursor-default select-none py-3 pl-12 pr-4 transition-colors ${active
+                        ? "bg-brand-red/10 text-brand-red"
+                        : "text-foreground"
                       }`
                     }
                     value={option.code}
@@ -123,13 +122,13 @@ const FormSelect: React.FC<FormSelectProps> = ({
                             </span>
                           )}
                           {option.reseller_price && (
-                            <span className="text-[10px] text-brand-gold font-bold">
+                            <span className="text-[10px] text-brand-red font-bold">
                               ₦{parseFloat(String(option.reseller_price)).toLocaleString()}
                             </span>
                           )}
                         </div>
                         {selected && (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-brand-gold">
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-brand-red">
                             <Check size={18} strokeWidth={3} />
                           </span>
                         )}

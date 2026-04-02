@@ -175,7 +175,7 @@ export default function PlanManagementPage() {
             placeholder="Search plans..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-12 pr-6 py-3 bg-foreground/5 rounded-2xl border-none focus:ring-2 focus:ring-brand-gold w-full md:w-64 text-sm font-medium"
+            className="pl-12 pr-6 py-3 bg-foreground/5 rounded-2xl border-none focus:ring-2 focus:ring-brand-red w-full md:w-64 text-sm font-medium"
           />
         </div>
       </div>
@@ -215,14 +215,14 @@ export default function PlanManagementPage() {
               >
                 <div className="flex flex-col md:grid md:grid-cols-5 gap-4 items-center">
                   <div className="flex items-center gap-4 w-full md:w-auto">
-                    <div className="w-10 h-10 rounded-xl bg-brand-gold/10 flex items-center justify-center shrink-0">
-                      <Database size={20} className="text-brand-gold" />
+                    <div className="w-10 h-10 rounded-xl bg-brand-red/10 flex items-center justify-center shrink-0">
+                      <Database size={20} className="text-brand-red" />
                     </div>
                     <div>
                       <p className="font-bold text-sm leading-none">
                         {plan.name}
                       </p>
-                      <span className="text-[10px] font-black text-brand-gold uppercase">
+                      <span className="text-[10px] font-black text-brand-red uppercase">
                         {plan.network}
                       </span>
                     </div>
@@ -241,7 +241,7 @@ export default function PlanManagementPage() {
                       <span className="md:hidden text-[9px] font-black text-foreground/30 uppercase">
                         Selling Cost
                       </span>
-                      <p className="text-sm font-black text-brand-gold">
+                      <p className="text-sm font-black text-brand-red">
                         ₦{parseFloat(plan.reseller_price).toLocaleString()}
                       </p>
                     </div>
@@ -260,7 +260,7 @@ export default function PlanManagementPage() {
                   </div>
 
                   <div className="w-full flex items-center justify-between gap-1">
-                  {/* <div className="w-full md:w-auto text-right"> */}
+                    {/* <div className="w-full md:w-auto text-right"> */}
                     <div className="flex items-center gap-3">
                       <Switch
                         checked={plan.status === "active"}
@@ -295,7 +295,7 @@ export default function PlanManagementPage() {
 
                     <button
                       onClick={() => openUpdateModal(plan)}
-                      className="w-full md:w-auto flex items-center justify-center gap-2 bg-foreground/5 hover:bg-brand-gold hover:text-brand-black p-2.5 rounded-xl transition-all font-bold text-xs"
+                      className="w-full md:w-auto flex items-center justify-center gap-2 bg-foreground/5 hover:bg-brand-red hover:text-brand-burgundy p-2.5 rounded-xl transition-all font-bold text-xs"
                     >
                       <Edit3 size={14} /> Update Price
                     </button>
@@ -341,11 +341,10 @@ export default function PlanManagementPage() {
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all ${
-                        currentPage === pageNum
-                          ? "bg-brand-gold text-brand-black shadow-lg shadow-brand-gold/20"
-                          : "hover:bg-foreground/5 text-foreground/40"
-                      }`}
+                      className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all ${currentPage === pageNum
+                        ? "bg-brand-red text-brand-burgundy shadow-lg shadow-brand-red/20"
+                        : "hover:bg-foreground/5 text-foreground/40"
+                        }`}
                     >
                       {pageNum}
                     </button>
@@ -399,12 +398,12 @@ export default function PlanManagementPage() {
             </div>
           </div>
 
-          <div className="bg-brand-gold/5 p-4 rounded-2xl border border-brand-gold/10 flex items-center gap-4">
-            <div className="p-2 bg-brand-gold/20 rounded-lg text-brand-gold">
+          <div className="bg-brand-red/5 p-4 rounded-2xl border border-brand-red/10 flex items-center gap-4">
+            <div className="p-2 bg-brand-red/20 rounded-lg text-brand-red">
               <Zap size={20} />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase text-brand-gold/60">
+              <p className="text-[10px] font-black uppercase text-brand-red/60">
                 Selected Plan
               </p>
               <p className="text-sm font-bold">

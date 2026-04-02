@@ -71,8 +71,8 @@ export default function VerifyIdentity() {
     <div className="max-w-md mx-auto space-y-8 pb-20">
       <div className="text-center space-y-3">
         {/* Shield icon for trust */}
-        <div className="mx-auto w-16 h-16 bg-brand-gold/10 rounded-3xl flex items-center justify-center mb-4">
-          <ShieldCheck size={32} className="text-brand-gold" />
+        <div className="mx-auto w-16 h-16 bg-brand-red/10 rounded-3xl flex items-center justify-center mb-4">
+          <ShieldCheck size={32} className="text-brand-red" />
         </div>
         <h1 className="text-2xl font-black text-foreground tracking-tight">
           Identity Verification
@@ -162,7 +162,7 @@ export default function VerifyIdentity() {
             isLoading={loading}
             loadingText="Verifying..."
             idleText="Securely Submit Details"
-            className="h-14 rounded-2xl w-full shadow-lg shadow-brand-gold/10"
+            className="h-14 rounded-2xl w-full shadow-lg shadow-brand-red/10"
           />
           <p className="mt-4 text-center text-[9px] text-foreground/30 font-bold uppercase tracking-tighter">
             🔒 Your data is encrypted and never stored in plain text

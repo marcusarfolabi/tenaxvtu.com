@@ -1,10 +1,10 @@
 {
-  "name": "Kakalinks",
-  "short_name": "Kakalinks",
+  "name": "TenaxVtu",
+  "short_name": "TenaxVtu",
   "description": "Instant Airtime, Data & Bill Payments",
   "start_url": "/",
-  "theme_color": "#D4AF37",
-  "background_color": "#0A0A0A",
+  "theme_color": "#a32626",
+  "background_color": "#5c1111",
   "display": "standalone",
   "icons": [
     {

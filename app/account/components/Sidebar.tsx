@@ -12,14 +12,14 @@ interface SidebarProps {
 
 export default function Sidebar({
   mobile = false,
-  closeSidebar = () => {},
+  closeSidebar = () => { },
 }: SidebarProps) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
   const filteredMenu = ACCOUNT_MENU.filter((item) => {
     const isRestrictedPath =
-      item.href === "/account/users" ||  item.href === "/account/users/sales" || item.href === "/account/data/list";
+      item.href === "/account/users" || item.href === "/account/users/sales" || item.href === "/account/data/list";
 
     if (isRestrictedPath) {
       return user?.role !== "customer";
@@ -44,18 +44,16 @@ export default function Sidebar({
                   <Link
                     href={item.href}
                     onClick={closeSidebar}
-                    className={`group flex items-center gap-x-3 rounded-2xl p-3 text-sm font-bold transition-all duration-300 whitespace-nowrap ${
-                      isActive
-                        ? "bg-brand-gold text-brand-black shadow-lg shadow-brand-gold/20 scale-[1.02]"
-                        : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
-                    }`}
+                    className={`group flex items-center gap-x-3 rounded-2xl p-3 text-sm font-bold transition-all duration-300 whitespace-nowrap ${isActive
+                      ? "bg-brand-red text-brand-burgundy shadow-lg shadow-brand-red/20 scale-[1.02]"
+                      : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
+                      }`}
                   >
                     <item.icon
-                      className={`h-5 w-5 shrink-0 transition-colors ${
-                        isActive
-                          ? "text-brand-black"
-                          : "text-foreground/30 group-hover:text-brand-gold"
-                      }`}
+                      className={`h-5 w-5 shrink-0 transition-colors ${isActive
+                        ? "text-brand-burgundy"
+                        : "text-foreground/30 group-hover:text-brand-red"
+                        }`}
                     />
                     {item.name}
                   </Link>
@@ -74,9 +72,9 @@ export default function Sidebar({
             {/* Top Up Wallet - Added a subtle border to make it pop more in light mode */}
             <Link
               href="/account/virtual-accounts"
-              className="group flex gap-x-3 rounded-2xl p-3 text-sm font-black text-brand-gold bg-brand-gold/5 border border-brand-gold/10 hover:bg-brand-gold/10 transition-all active:scale-95"
+              className="group flex gap-x-3 rounded-2xl p-3 text-sm font-black text-brand-red bg-brand-red/5 border border-brand-red/10 hover:bg-brand-red/10 transition-all active:scale-95"
             >
-              <PlusCircle className="h-5 w-5 text-brand-gold" />
+              <PlusCircle className="h-5 w-5 text-brand-red" />
               Top Up Wallet
             </Link>
 

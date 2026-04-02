@@ -95,16 +95,16 @@ export default function MainPerformanceChart({
                 textTransform: "uppercase",
               }}
             />
-            {/* Using brand-gold color variable logic */}
+            {/* Using brand-red color variable logic */}
             <Bar
               dataKey="sales"
-              fill="var(--brand-gold, #EAB308)"
+              fill="var(--brand-red, #EAB308)"
               radius={[6, 6, 0, 0]}
               barSize={20}
             />
             <Bar
               dataKey="profit"
-              fill="var(--brand-gold, #EAB308)"
+              fill="var(--brand-red, #EAB308)"
               fillOpacity={0.2}
               radius={[6, 6, 0, 0]}
               barSize={20}

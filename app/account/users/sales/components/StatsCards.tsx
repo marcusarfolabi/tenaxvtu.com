@@ -6,24 +6,24 @@ export function StatCards({ totals, isLoading }: { totals: any; isLoading?: bool
   console.log("💎 StatCards Render Data:", totals);
 
   const items = [
-    { 
-      label: 'Total Sales', 
-      value: totals?.total_sales ? `₦${Number(totals.total_sales).toLocaleString()}` : '₦0', 
-      icon: <ShoppingBag size={20} />, 
-      color: 'text-brand-gold',
-      bgColor: 'bg-brand-gold/10'
+    {
+      label: 'Total Sales',
+      value: totals?.total_sales ? `₦${Number(totals.total_sales).toLocaleString()}` : '₦0',
+      icon: <ShoppingBag size={20} />,
+      color: 'text-brand-red',
+      bgColor: 'bg-brand-red/10'
     },
-    { 
-      label: 'Total Profit', 
-      value: totals?.total_profit ? `₦${Number(totals.total_profit).toLocaleString()}` : '₦0', 
-      icon: <TrendingUp size={20} />, 
+    {
+      label: 'Total Profit',
+      value: totals?.total_profit ? `₦${Number(totals.total_profit).toLocaleString()}` : '₦0',
+      icon: <TrendingUp size={20} />,
       color: 'text-green-500', // Success green typically stays semantic
       bgColor: 'bg-green-500/10'
     },
-    { 
-      label: 'Total Count', 
-      value: totals?.total_count ?? 0, 
-      icon: <Hash size={20} />, 
+    {
+      label: 'Total Count',
+      value: totals?.total_count ?? 0,
+      icon: <Hash size={20} />,
       color: 'text-foreground/60',
       bgColor: 'bg-foreground/5'
     },
@@ -32,8 +32,8 @@ export function StatCards({ totals, isLoading }: { totals: any; isLoading?: bool
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {items.map((item) => (
-        <div 
-          key={item.label} 
+        <div
+          key={item.label}
           className="bg-background border border-foreground/5 p-6 rounded-[2rem] min-h-[140px] flex flex-col justify-center transition-all duration-300 hover:border-foreground/10"
         >
           {isLoading ? (

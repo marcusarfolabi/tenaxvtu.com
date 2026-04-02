@@ -39,16 +39,14 @@ export default function Navbar() {
   return (
     <Disclosure
       as="nav"
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-foreground/5 py-3 shadow-xl shadow-black/5"
-          : "bg-transparent py-6"
-      }`}
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled
+        ? "bg-background/80 backdrop-blur-xl border-b border-foreground/5 py-3 shadow-xl shadow-black/5"
+        : "bg-transparent py-6"
+        }`}
     >
       {({ open }) => (
         <>
           <div className="container mx-auto px-6 flex justify-between items-center">
-            {/* Logo - Adaptive (Ensure Logo uses text-foreground internally) */}
             <Logo />
 
             {/* Desktop Navigation */}
@@ -58,7 +56,7 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="text-[13px] font-black uppercase tracking-widest text-foreground/60 hover:text-brand-gold transition-colors"
+                    className="text-[13px] font-black uppercase tracking-widest text-foreground/60 hover:text-brand-red transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -92,9 +90,9 @@ export default function Navbar() {
               )}
               <Link
                 href="/login"
-                className="px-6 py-3.5 bg-foreground text-background rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-brand-gold hover:text-brand-black transition-all flex items-center gap-2 active:scale-95"
+                className="px-6 py-3.5 bg-foreground text-background rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-brand-red hover:text-brand-burgundy transition-all flex items-center gap-2 active:scale-95"
               >
-                <Smartphone size={16} className="text-brand-gold" />
+                <Smartphone size={16} className="text-brand-red" />
                 Get Started
               </Link>
             </div>
@@ -114,7 +112,7 @@ export default function Navbar() {
                     <Moon size={20} />
                   ))}
               </button>
-               {installPrompt && (
+              {installPrompt && (
                 <button
                   aria-label="download app"
                   onClick={handleInstallClick}
@@ -148,7 +146,7 @@ export default function Navbar() {
                     className="text-sm font-black text-foreground uppercase tracking-widest flex justify-between items-center p-4 hover:bg-foreground/5 rounded-2xl transition-all"
                   >
                     {link.name}
-                    <ChevronRight size={16} className="text-brand-gold" />
+                    <ChevronRight size={16} className="text-brand-red" />
                   </DisclosureButton>
                 ))}
 
@@ -156,12 +154,12 @@ export default function Navbar() {
                   <DisclosureButton
                     as={Link}
                     href="/register"
-                    className="w-full py-5 bg-brand-gold text-brand-black rounded-2xl font-black text-[12px] uppercase tracking-[0.2em] shadow-lg shadow-brand-gold/20 flex items-center justify-center gap-3"
+                    className="w-full py-5 bg-brand-red text-brand-burgundy rounded-2xl font-black text-[12px] uppercase tracking-[0.2em] shadow-lg shadow-brand-red/20 flex items-center justify-center gap-3"
                   >
                     <Smartphone size={20} />
                     Sign Up Free
                   </DisclosureButton>
-                 
+
                 </div>
               </div>
             </DisclosurePanel>

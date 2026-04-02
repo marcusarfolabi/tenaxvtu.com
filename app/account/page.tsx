@@ -30,10 +30,10 @@ export default function Account() {
         ))}
       </div>
 
-      <div className="relative w-full h-32 bg-linear-to-r from-brand-gold to-[#B8860B] rounded-3xl overflow-hidden group">
+      <div className="relative w-full h-32 bg-linear-to-r from-brand-red to-[#B8860B] rounded-3xl overflow-hidden group">
         <div className="absolute inset-0 bg-grid-pattern opacity-20" />
         <div className="relative h-full flex flex-col justify-center px-6">
-          <h3 className="text-brand-black font-black text-lg leading-tight">
+          <h3 className="text-brand-burgundy font-black text-lg leading-tight">
             Refer & Earn <br />{" "}
             <span className="text-white">₦500 per friend</span>
           </h3>

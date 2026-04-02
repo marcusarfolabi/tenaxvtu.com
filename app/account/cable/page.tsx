@@ -94,19 +94,19 @@ export default function CablePage() {
   const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
 
   const isFormValid =
-  formData.type !== "" &&
-  formData.smartCardNo.length >= 5 &&
-  formData.productsCode !== "" &&
-  customerName !== null &&
-  formData.amount > 0;
-  
+    formData.type !== "" &&
+    formData.smartCardNo.length >= 5 &&
+    formData.productsCode !== "" &&
+    customerName !== null &&
+    formData.amount > 0;
+
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canAfford) {
-         toast.error(getInadequateBalanceMessage(user?.role));
-         return;
-       }
-   
+      toast.error(getInadequateBalanceMessage(user?.role));
+      return;
+    }
+
 
     if (!isFormValid) return;
 
@@ -150,7 +150,7 @@ export default function CablePage() {
           </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-gold/20"
+            className="mt-6 flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-red/20"
           >
             <Tv size={16} /> Renew Subscription
           </button>
@@ -239,7 +239,7 @@ export default function CablePage() {
               onBlur={validateDecoder}
             />
             {isValidating && (
-              <p className="text-[10px] text-brand-gold font-black uppercase tracking-widest animate-pulse px-2">
+              <p className="text-[10px] text-brand-red font-black uppercase tracking-widest animate-pulse px-2">
                 Validating Decoder...
               </p>
             )}
@@ -286,7 +286,7 @@ export default function CablePage() {
                 ? `Pay ₦${formData.amount.toLocaleString()}`
                 : "Validate Decoder"
             }
-            className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
+            className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"
           />
         </form>
       </Modal>

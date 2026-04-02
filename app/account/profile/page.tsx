@@ -79,7 +79,7 @@ export default function ProfilePage() {
         {/* SECTION 1: BASIC INFO */}
         <section className="bg-background rounded-[2.5rem] p-6 sm:p-8 border border-foreground/5 shadow-2xl transition-colors">
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 bg-brand-gold/10 rounded-2xl flex items-center justify-center text-brand-gold">
+            <div className="w-12 h-12 bg-brand-red/10 rounded-2xl flex items-center justify-center text-brand-red">
               <User size={24} />
             </div>
             <div>
@@ -133,7 +133,7 @@ export default function ProfilePage() {
               isLoading={isUpdatingProfile}
               idleText="Save Changes"
               loadingText="Updating..."
-              className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
+              className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"
             />
           </form>
         </section>
@@ -202,7 +202,7 @@ export default function ProfilePage() {
               isLoading={isUpdatingPassword}
               idleText="Update Password"
               loadingText="Securing..."
-              className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
+              className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"
             />
           </form>
         </section>

@@ -167,7 +167,7 @@ function RegisterForm() {
                   type="checkbox"
                   checked={agreed}
                   onChange={(e) => setAgreed(e.target.checked)}
-                  className="w-5 h-5 border-2 border-foreground/20 rounded text-brand-gold focus:ring-brand-gold cursor-pointer accent-brand-gold bg-background transition-colors"
+                  className="w-5 h-5 border-2 border-foreground/20 rounded text-brand-red focus:ring-brand-red cursor-pointer accent-brand-red bg-background transition-colors"
                 />
               </div>
               <label
@@ -177,14 +177,14 @@ function RegisterForm() {
                 I agree to the{" "}
                 <Link
                   href="/terms"
-                  className="text-brand-gold font-bold hover:underline"
+                  className="text-brand-red font-bold hover:underline"
                 >
                   Terms & Conditions
                 </Link>{" "}
                 and{" "}
                 <Link
                   href="/privacy"
-                  className="text-brand-gold font-bold hover:underline"
+                  className="text-brand-red font-bold hover:underline"
                 >
                   Privacy Policy
                 </Link>{" "}
@@ -206,7 +206,7 @@ function RegisterForm() {
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="text-brand-gold font-black hover:underline transition-all"
+                className="text-brand-red font-black hover:underline transition-all"
               >
                 Sign In
               </Link>

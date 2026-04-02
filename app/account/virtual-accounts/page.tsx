@@ -11,7 +11,7 @@ const AccountSkeleton = () => (
   <div className="space-y-6 animate-pulse">
     {/* Info Banner Skeleton */}
     <div className="h-12 bg-foreground/5 rounded-2xl border border-foreground/5" />
-    
+
     {/* Banking Slip Skeleton */}
     <div className="bg-background rounded-[2.5rem] border border-foreground/5 overflow-hidden shadow-sm">
       <div className="bg-foreground/5 p-6 flex items-center gap-3">
@@ -97,22 +97,22 @@ export default function VirtualAccountPage() {
         ) : (
           <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Info Banner */}
-            <div className="flex gap-3 bg-brand-gold/5 p-4 rounded-2xl border border-brand-gold/10">
-              <Info className="text-brand-gold shrink-0" size={18} />
+            <div className="flex gap-3 bg-brand-red/5 p-4 rounded-2xl border border-brand-red/10">
+              <Info className="text-brand-red shrink-0" size={18} />
               <p className="text-[11px] font-bold text-foreground/60 leading-tight">
-                Funds sent to this account reflect in your <span className="text-foreground underline decoration-brand-gold">Main Balance</span> automatically.
+                Funds sent to this account reflect in your <span className="text-foreground underline decoration-brand-red">Main Balance</span> automatically.
               </p>
             </div>
 
             {/* The "Banking Slip" UI */}
-            <div className="bg-background rounded-[2.5rem] shadow-2xl shadow-brand-gold/5 overflow-hidden border border-foreground/5">
+            <div className="bg-background rounded-[2.5rem] shadow-2xl shadow-brand-red/5 overflow-hidden border border-foreground/5">
               <div className="bg-brand-black p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3 text-white">
-                  <div className="bg-brand-gold rounded-lg p-2">
-                    <Landmark size={20} className="text-brand-black" />
+                  <div className="bg-brand-red rounded-lg p-2">
+                    <Landmark size={20} className="text-brand-burgundy" />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black text-brand-gold uppercase tracking-widest">Receiving Bank</p>
+                    <p className="text-[10px] font-black text-brand-red uppercase tracking-widest">Receiving Bank</p>
                     <p className="font-black text-sm uppercase">
                       {activeAccount?.bankName || "Digital Bank"}
                     </p>
@@ -130,7 +130,7 @@ export default function VirtualAccountPage() {
                     </span>
                     <div className="flex justify-center mt-3">
                       <div className="flex items-center gap-2 bg-foreground/5 border border-foreground/5 px-4 py-1.5 rounded-full">
-                        {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-brand-gold" />}
+                        {copied ? <Check size={14} className="text-green-500" /> : <Copy size={14} className="text-brand-red" />}
                         <span className="text-[10px] font-black text-foreground/40 uppercase tracking-widest">
                           {copied ? "Copied" : "Tap to copy"}
                         </span>
@@ -151,21 +151,21 @@ export default function VirtualAccountPage() {
                   <div className="text-right space-y-1">
                     <label className="text-[10px] font-black text-foreground/30 uppercase tracking-widest">Status</label>
                     <div className="flex justify-end items-center gap-1.5">
-                       <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                       <p className="text-xs font-black text-green-600 uppercase">
+                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                      <p className="text-xs font-black text-green-600 uppercase">
                         {accountData?.status || "Active"}
-                       </p>
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <button 
+            <button
               onClick={handleCopy}
-              className="w-full bg-brand-black text-white h-16 rounded-2xl font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 border-b-4 border-brand-gold active:translate-y-1 active:border-b-0"
+              className="w-full bg-brand-black text-white h-16 rounded-2xl font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 border-b-4 border-brand-red active:translate-y-1 active:border-b-0"
             >
-              {copied ? <Check size={20} /> : <Copy size={20} className="text-brand-gold" />}
+              {copied ? <Check size={20} /> : <Copy size={20} className="text-brand-red" />}
               {copied ? "Copied" : "Copy Account Details"}
             </button>
           </div>

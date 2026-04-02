@@ -16,7 +16,7 @@ export default function DataStatsPage({ stats: initialStats }: { stats: any }) {
   });
 
   const [isExporting, setIsExporting] = useState(false);
-  
+
   const { stats, isLoading } = useSalesStats(filters, initialStats);
 
   const handleDownload = async () => {
@@ -24,7 +24,7 @@ export default function DataStatsPage({ stats: initialStats }: { stats: any }) {
     try {
       // Small delay ensures the UI is settled before capture
       await new Promise(resolve => setTimeout(resolve, 100));
-      
+
       await downloadDashboardPDF(
         "analytics-report",
         `Data-Report-${filters.from}-to-${filters.to}`
@@ -56,12 +56,12 @@ export default function DataStatsPage({ stats: initialStats }: { stats: any }) {
 
         <div className="flex items-center gap-3">
           {isLoading && (
-            <Loader2 className="animate-spin text-brand-gold" size={18} />
+            <Loader2 className="animate-spin text-brand-red" size={18} />
           )}
           <button
             onClick={handleDownload}
             disabled={isExporting || isLoading}
-            className="flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition-all disabled:opacity-50"
+            className="flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition-all disabled:opacity-50"
           >
             <Download size={16} />
             {isExporting ? "Generating..." : "Download PDF"}
@@ -72,9 +72,8 @@ export default function DataStatsPage({ stats: initialStats }: { stats: any }) {
       <div
         id="analytics-report"
         data-rendering="pdf"
-        className={`print-safe space-y-6 bg-background border border-foreground/5 p-6 rounded-[2.5rem] transition-opacity duration-300 ${
-          isLoading ? "opacity-50 pointer-events-none" : "opacity-100"
-        }`}
+        className={`print-safe space-y-6 bg-background border border-foreground/5 p-6 rounded-[2.5rem] transition-opacity duration-300 ${isLoading ? "opacity-50 pointer-events-none" : "opacity-100"
+          }`}
       >
         <StatCards totals={stats?.totals} isLoading={isLoading} />
 

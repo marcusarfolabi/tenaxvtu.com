@@ -52,7 +52,7 @@ export function TransactionList({
           </h2>
           <Link
             href="/account/transactions"
-            className="text-brand-gold text-xs font-black flex items-center gap-1 active:opacity-70 transition-opacity"
+            className="text-brand-red text-xs font-black flex items-center gap-1 active:opacity-70 transition-opacity"
           >
             SEE ALL <ChevronRight size={14} strokeWidth={3} />
           </Link>
@@ -70,7 +70,7 @@ export function TransactionList({
               <div
                 key={tx.id}
                 onClick={() => setSelectedTx(tx)}
-                className="bg-background p-4 rounded-3xl flex items-center justify-between border border-foreground/5 shadow-sm active:scale-[0.98] transition-all cursor-pointer hover:border-brand-gold/20"
+                className="bg-background p-4 rounded-3xl flex items-center justify-between border border-foreground/5 shadow-sm active:scale-[0.98] transition-all cursor-pointer hover:border-brand-red/20"
               >
                 <div className="flex items-center gap-3">
                   {/* Logo Container with adaptive theme */}
@@ -85,7 +85,7 @@ export function TransactionList({
                         priority={true}
                       />
                     ) : (
-                      <PhoneForwarded className="text-brand-gold" size={20} />
+                      <PhoneForwarded className="text-brand-red" size={20} />
                     )}
                   </div>
 
@@ -103,11 +103,10 @@ export function TransactionList({
 
                 <div className="text-right">
                   <span
-                    className={`text-[8px] px-2 py-0.5 rounded-full font-black uppercase ${
-                      tx.status === "success"
-                        ? "bg-green-500/10 text-green-500"
-                        : "bg-red-500/10 text-red-500"
-                    }`}
+                    className={`text-[8px] px-2 py-0.5 rounded-full font-black uppercase ${tx.status === "success"
+                      ? "bg-green-500/10 text-green-500"
+                      : "bg-red-500/10 text-red-500"
+                      }`}
                   >
                     {tx.status === "success" ? "Completed" : "Failed"}
                   </span>
@@ -135,7 +134,7 @@ export function TransactionList({
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1 || isLoading}
-            className="p-2 rounded-xl cursor-pointer hover:bg-brand-gold/80 bg-brand-gold text-brand-black disabled:opacity-20 transition-all"
+            className="p-2 rounded-xl cursor-pointer hover:bg-brand-red/80 bg-brand-red text-brand-burgundy disabled:opacity-20 transition-all"
           >
             <ChevronLeft size={20} className="font-black" />
           </button>
@@ -149,7 +148,7 @@ export function TransactionList({
               setPage((p) => Math.min(pagination.last_page, p + 1))
             }
             disabled={page === pagination.last_page || isLoading}
-            className="p-2 rounded-xl cursor-pointer hover:bg-brand-gold/80 bg-brand-gold text-brand-black disabled:opacity-20 transition-all"
+            className="p-2 rounded-xl cursor-pointer hover:bg-brand-red/80 bg-brand-red text-brand-burgundy disabled:opacity-20 transition-all"
           >
             <ChevronRight size={20} className="font-black" />
           </button>

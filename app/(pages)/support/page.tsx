@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { 
-  MessageSquare, Mail, User, ArrowRight, Headset, CheckCircle2, Lock 
+import {
+  MessageSquare, Mail, User, ArrowRight, Headset, CheckCircle2, Lock
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import FormInput from "@/components/common/FormInput";
@@ -14,11 +14,11 @@ export default function SupportPage() {
   const [submitted, setSubmitted] = useState(false);
   const [isRateLimited, setIsRateLimited] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  
+
   // Anti-Abuse States
   const [captchaAnswer, setCaptchaAnswer] = useState("");
   const [challenge, setChallenge] = useState({ question: "", answer: 0 });
-  
+
   // Logic to hide email from scrapers
   const [displayEmail, setDisplayEmail] = useState("");
 
@@ -26,7 +26,7 @@ export default function SupportPage() {
 
   useEffect(() => {
     // Construct email logically to bypass basic scrapers
-    const parts = ["support", "kakalinks.com"];
+    const parts = ["support", "tenaxvtu.com"];
     setDisplayEmail(parts.join("@"));
 
     const today = new Date().toDateString();
@@ -42,14 +42,14 @@ export default function SupportPage() {
     const type = types[Math.floor(Math.random() * types.length)];
     let q = ""; let a = 0;
 
-    switch(type) {
-      case 'math': 
+    switch (type) {
+      case 'math':
         const x = Math.floor(Math.random() * 10) + 5;
         const y = Math.floor(Math.random() * 5) + 2;
         q = `Solve: ${x} + ${y} = ?`; a = x + y;
         break;
       case 'english':
-        q = `How many letters are in "Kakalinks"?`; a = 9;
+        q = `How many letters are in "{process.env.NEXT_PUBLIC_APP_NAME}"?`; a = 9;
         break;
       case 'physics':
         q = `Force = Mass × ? (1=Accel, 2=Time, 3=Heat)`; a = 1;
@@ -61,14 +61,14 @@ export default function SupportPage() {
   const isCaptchaCorrect = parseInt(captchaAnswer) === challenge.answer;
 
   const openWhatsApp = () => {
-    const url = `https://wa.me/${WHATSAPP_PHONE}?text=Hello Kakalinks Support, I need help with...`;
+    const url = `https://wa.me/${WHATSAPP_PHONE}?text=Hello {process.env.NEXT_PUBLIC_APP_NAME} Support, I need help with...`;
     window.open(url, "_blank");
   };
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isCaptchaCorrect) return toast.error("Incorrect security answer!");
-    
+
     setLoading(true);
     try {
       await authApi.contactUs(formData);
@@ -90,7 +90,7 @@ export default function SupportPage() {
     <div className="min-h-screen bg-white pb-20 font-instrument">
       <div className="bg-brand-black text-white py-16 px-6 rounded-b-[3rem] relative overflow-hidden mb-18">
         <div className="max-w-4xl mx-auto relative z-10 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-brand-gold/10 text-brand-gold px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 bg-brand-red/10 text-brand-red px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">
             <Headset size={16} /> 24/7 Help Center
           </motion.div>
           <h1 className="text-4xl md:text-5xl font-black mb-4">How can we help?</h1>
@@ -112,19 +112,19 @@ export default function SupportPage() {
                 <FormInput label="Full Name" icon={User} placeholder="John Doe" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required />
                 <FormInput label="Email Address" type="email" icon={Mail} placeholder="john@example.com" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required />
               </div>
-              <textarea rows={4} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 focus:border-brand-gold outline-none transition-all" placeholder="Message" required />
-              
-              <div className="p-5 bg-brand-gold/5 border border-brand-gold/20 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <p className="text-sm font-bold text-brand-black">{challenge.question}</p>
-                <input type="number" value={captchaAnswer} onChange={(e) => setCaptchaAnswer(e.target.value)} className="w-full md:w-32 bg-white border-2 border-gray-200 rounded-xl px-4 py-2 font-bold focus:border-brand-gold outline-none" />
+              <textarea rows={4} value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })} className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl p-4 focus:border-brand-red outline-none transition-all" placeholder="Message" required />
+
+              <div className="p-5 bg-brand-red/5 border border-brand-red/20 rounded-2xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <p className="text-sm font-bold text-brand-burgundy">{challenge.question}</p>
+                <input type="number" value={captchaAnswer} onChange={(e) => setCaptchaAnswer(e.target.value)} className="w-full md:w-32 bg-white border-2 border-gray-200 rounded-xl px-4 py-2 font-bold focus:border-brand-red outline-none" />
               </div>
 
-              <SubmitButton 
-                idleText="Send Message" 
-                loadingText="Verifying..." 
-                isLoading={loading} 
+              <SubmitButton
+                idleText="Send Message"
+                loadingText="Verifying..."
+                isLoading={loading}
                 disabled={!isCaptchaCorrect}
-                className={`h-14 rounded-2xl w-full ${!isCaptchaCorrect ? 'opacity-50' : ''}`} 
+                className={`h-14 rounded-2xl w-full ${!isCaptchaCorrect ? 'opacity-50' : ''}`}
               />
             </form>
           ) : (
@@ -144,9 +144,9 @@ export default function SupportPage() {
           </motion.button>
 
           <motion.div whileHover={{ y: -5 }} className="w-full bg-brand-black p-8 rounded-[2.5rem] text-white">
-            <div className="w-12 h-12 bg-brand-gold text-brand-black rounded-2xl flex items-center justify-center mb-6"><Mail size={24} /></div>
+            <div className="w-12 h-12 bg-brand-red text-brand-burgundy rounded-2xl flex items-center justify-center mb-6"><Mail size={24} /></div>
             <h3 className="text-xl font-black mb-2">Email</h3>
-            <a href={`mailto:${displayEmail}`} className="text-brand-gold font-bold text-sm">
+            <a href={`mailto:${displayEmail}`} className="text-brand-red font-bold text-sm">
               {displayEmail || "Loading..."}
             </a>
           </motion.div>

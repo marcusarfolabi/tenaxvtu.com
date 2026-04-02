@@ -1,12 +1,8 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://kakalinks.com";
-
-  // In a real production app, you could fetch dynamic 
-  // blog posts or services from your API here.
-  // const posts = await fetch('https://api.kakalinks.com/posts').then(res => res.json());
-
+  const baseUrl = "https://tenaxvtu.com";
+ 
   const routes = [
     "",
     "/login",

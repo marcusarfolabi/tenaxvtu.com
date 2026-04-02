@@ -2,65 +2,65 @@
 
 @theme {
   /* Fonts */
-  --font-sans:
-    var(--font-instrument-sans), "Instrument Sans", ui-sans-serif, system-ui,
-    sans-serif;
-
-  /* Keep your custom variable if you want to use font-main class specifically */
+  --font-sans: var(--font-instrument-sans), "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
   --font-main: var(--font-instrument-sans), "Instrument Sans", sans-serif;
-  /* Kakalinks Brand Colors */
-  --color-brand-gold: #d4af37;
-  --color-brand-black: #0a0a0a;
 
-  /* Map CSS Variables to Tailwind Colors */
+  --color-brand-red: var(--brand-primary);
+  --color-brand-dark: #1a1a1a;
+  --color-brand-burgundy: #5c1111;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* SaaS Logic Colors */
   --color-primary: var(--brand-primary);
   --color-secondary: var(--brand-secondary);
 
-  /* Animation definitions in v4 use @keyframes within the theme or standard CSS */
+  --color-border: color-mix(in srgb, var(--foreground) 10%, transparent);
+  --color-muted: color-mix(in srgb, var(--foreground) 5%, transparent);
+
   --animate-float: float 3s ease-in-out infinite;
   --animate-marquee: marquee 30s linear infinite;
 
   @keyframes float {
+
     0%,
     100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-10px);
     }
   }
+
   @keyframes marquee {
     from {
       transform: translateX(0);
     }
+
     to {
       transform: translateX(-50%);
     }
   }
 }
 
-/* 1. Theme Variables */
 :root {
   --background: #ffffff;
-  --foreground: #0a0a0a;
-  --brand-primary: #d4af37;
-  --brand-secondary: #0a0a0a;
-}
+  --foreground: #1a1a1a;
 
-/* Tailwind v4 uses [data-theme='dark'] or .dark depending on your config, 
-   but usually, .dark is the standard for class-based switching */
+  --brand-primary: #8b1a1a;
+  --brand-secondary: #5c1111;
+  --brand-accent: #f5f5f5;
+} 
 .dark {
   --background: #0a0a0a;
-  --foreground: #ffffff;
-  --brand-primary: #d4af37;
-  --brand-secondary: #ffffff;
+  --foreground: #f5f5f5;
+
+  --brand-primary: #a32626;
+  --brand-secondary: #8b1a1a;
+  --brand-accent: #1a1a1a;
 }
 
-/* 2. Base Styles */
 @layer base {
   body {
     background-color: var(--background);
@@ -72,17 +72,21 @@
   ::-webkit-scrollbar {
     width: 8px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: #e5e7eb;
     border-radius: 10px;
     border: 2px solid var(--background);
   }
+
   .dark ::-webkit-scrollbar-thumb {
     background: #374151;
   }
+
   ::-webkit-scrollbar-thumb:hover {
     background: var(--brand-primary);
   }
@@ -90,10 +94,10 @@
 
 /* 3. Global Components */
 @layer components {
-.print-safe {
+  .print-safe {
     /* 1. Remove the hardcoded background/color from here! */
-    --brand-gold: #d4af37 !important;
-    
+    --brand-red: #8b1a1a !important;
+
     /* 2. Keep only structural/chart fixes here */
     transition: none !important;
   }
@@ -102,23 +106,24 @@
   .print-safe .recharts-cartesian-grid-horizontal line,
   .print-safe .recharts-cartesian-grid-vertical line {
     stroke: rgba(128, 128, 128, 0.2) !important;
-  } 
+  }
+
   .input-primary,
   .select-primary {
     /* Use decimal points for opacity in v4 if /4 is not registering */
     @apply w-full h-14 pl-12 pr-4 transition-all duration-200 outline-none rounded-2xl font-bold text-sm;
-    @apply bg-foreground/[0.04] border border-foreground/[0.05] text-foreground;
+    @apply bg-foreground/4 border border-foreground/5 text-foreground;
     @apply placeholder:text-foreground/30;
   }
 
   .input-primary:hover,
   .select-primary:hover {
-    @apply border-foreground/10 bg-foreground/[0.06];
+    @apply border-foreground/10 bg-foreground/6;
   }
 
   .input-primary:focus,
   .select-primary:focus {
-    @apply bg-background border-brand-gold/50 ring-4 ring-brand-gold/5;
+    @apply bg-background border-brand-red/50 ring-4 ring-brand-red/5;
   }
 
   .select-primary {

@@ -61,8 +61,8 @@ export function TransferModal({
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-4xl bg-brand-black border border-white/10 p-8 text-left align-middle shadow-2xl transition-all">
                 <div className="flex justify-between items-center mb-8">
                   <Dialog.Title className="text-xl font-black text-white flex items-center gap-3">
-                    <div className="p-2 bg-brand-gold/10 rounded-xl">
-                      <ArrowRightLeft className="text-brand-gold" size={20} />
+                    <div className="p-2 bg-brand-red/10 rounded-xl">
+                      <ArrowRightLeft className="text-brand-red" size={20} />
                     </div>
                     Transfer to Main
                   </Dialog.Title>
@@ -81,11 +81,11 @@ export function TransferModal({
                     </label>
                     <Listbox value={selected} onChange={setSelected}>
                       <div className="relative">
-                        <Listbox.Button className="relative w-full cursor-pointer rounded-2xl bg-white/5 py-4 pl-5 pr-10 text-left text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-gold/50 transition-all">
+                        <Listbox.Button className="relative w-full cursor-pointer rounded-2xl bg-white/5 py-4 pl-5 pr-10 text-left text-white border border-white/10 focus:outline-none focus:ring-2 focus:ring-brand-red/50 transition-all">
                           <span className="block truncate font-bold text-sm">
                             {selected.name}
                           </span>
-                          <span className="block text-xs text-brand-gold font-black mt-0.5">
+                          <span className="block text-xs text-brand-red font-black mt-0.5">
                             {format(selected.value)}
                           </span>
                           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
@@ -105,27 +105,26 @@ export function TransferModal({
                                 key={opt.id}
                                 value={opt}
                                 className={({ active }) =>
-                                  `relative cursor-pointer select-none py-3.5 pl-11 pr-4 rounded-xl transition-all mb-1 last:mb-0 ${
-                                    active
-                                      ? "bg-brand-gold text-brand-black"
-                                      : "text-white/70"
+                                  `relative cursor-pointer select-none py-3.5 pl-11 pr-4 rounded-xl transition-all mb-1 last:mb-0 ${active
+                                    ? "bg-brand-red text-brand-burgundy"
+                                    : "text-white/70"
                                   }`
                                 }
                               >
                                 {({ selected: isSelected }) => (
                                   <>
                                     <span
-                                      className={`block truncate font-bold ${isSelected ? "text-brand-black" : "text-white"}`}
+                                      className={`block truncate font-bold ${isSelected ? "text-brand-burgundy" : "text-white"}`}
                                     >
                                       {opt.name}
                                     </span>
                                     <span
-                                      className={`text-[10px] block font-black ${isSelected ? "text-brand-black/60" : "text-brand-gold"}`}
+                                      className={`text-[10px] block font-black ${isSelected ? "text-brand-burgundy/60" : "text-brand-red"}`}
                                     >
                                       {format(opt.value)}
                                     </span>
                                     {isSelected && (
-                                      <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-brand-black">
+                                      <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-brand-burgundy">
                                         <Check
                                           className="h-4 w-4"
                                           strokeWidth={3}
@@ -148,7 +147,7 @@ export function TransferModal({
                         isPending || parseFloat(selected.value.toString()) <= 0
                       }
                       onClick={() => onTransfer(selected.id as any)}
-                      className="w-full cursor-pointer bg-brand-gold text-brand-black py-4 rounded-2xl font-black uppercase tracking-tight shadow-lg shadow-brand-gold/10 hover:shadow-brand-gold/20 active:scale-[0.98] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="w-full cursor-pointer bg-brand-red text-brand-burgundy py-4 rounded-2xl font-black uppercase tracking-tight shadow-lg shadow-brand-red/10 hover:shadow-brand-red/20 active:scale-[0.98] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       {isPending ? (
                         <span className="flex items-center justify-center gap-2">

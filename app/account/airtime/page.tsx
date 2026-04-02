@@ -37,7 +37,7 @@ export default function AirtimePage() {
     amount: "",
     network: "MTN",
   });
- 
+
   const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
 
   const isFormValid =
@@ -86,7 +86,7 @@ export default function AirtimePage() {
           </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all shadow-lg shadow-brand-gold/20"
+            className="mt-6 flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all shadow-lg shadow-brand-red/20"
           >
             <Smartphone size={16} /> Buy Airtime
           </button>
@@ -117,11 +117,10 @@ export default function AirtimePage() {
                   key={net}
                   type="button"
                   onClick={() => setFormData({ ...formData, network: net })}
-                  className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${
-                    formData.network === net
-                      ? "bg-brand-gold/10 border-brand-gold text-foreground shadow-sm"
-                      : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-50 hover:opacity-100 hover:grayscale-0"
-                  }`}
+                  className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${formData.network === net
+                    ? "bg-brand-red/10 border-brand-red text-foreground shadow-sm"
+                    : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-50 hover:opacity-100 hover:grayscale-0"
+                    }`}
                 >
                   <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center border border-foreground/5 shadow-inner">
                     <Image
@@ -152,7 +151,7 @@ export default function AirtimePage() {
                   onClick={() =>
                     setFormData({ ...formData, phone: user.phone })
                   }
-                  className="text-[9px] font-black text-brand-gold bg-brand-gold/10 px-2.5 py-1 rounded-lg active:scale-90 transition-all uppercase"
+                  className="text-[9px] font-black text-brand-red bg-brand-red/10 px-2.5 py-1 rounded-lg active:scale-90 transition-all uppercase"
                 >
                   Buy for Self
                 </button>
@@ -212,7 +211,7 @@ export default function AirtimePage() {
             isLoading={isPurchasing}
             idleText={`Buy ${formData.network} Airtime`}
             loadingText="Processing..."
-            className="h-14 rounded-2xl shadow-lg shadow-brand-gold/20"
+            className="h-14 rounded-2xl shadow-lg shadow-brand-red/20"
           />
         </form>
       </Modal>

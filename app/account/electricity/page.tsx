@@ -93,7 +93,7 @@ export default function ElectricityPage() {
   };
 
   const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
- 
+
   const amountNum = Number(formData.amount) || 0;
   const minNum = Number(minAmount) || 0;
 
@@ -159,7 +159,7 @@ export default function ElectricityPage() {
           </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-gold/20"
+            className="mt-6 flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-red/20"
           >
             <Zap size={16} /> Pay Electricity
           </button>
@@ -207,11 +207,10 @@ export default function ElectricityPage() {
                 key={t}
                 type="button"
                 onClick={() => setFormData({ ...formData, type: t as any })}
-                className={`flex-1 py-2.5 rounded-xl text-[10px] font-black transition-all uppercase tracking-widest ${
-                  formData.type === t
-                    ? "bg-background shadow-sm text-foreground"
-                    : "text-foreground/40 hover:text-foreground/60"
-                }`}
+                className={`flex-1 py-2.5 rounded-xl text-[10px] font-black transition-all uppercase tracking-widest ${formData.type === t
+                  ? "bg-background shadow-sm text-foreground"
+                  : "text-foreground/40 hover:text-foreground/60"
+                  }`}
               >
                 {t}
               </button>
@@ -231,7 +230,7 @@ export default function ElectricityPage() {
             />
 
             {isValidating && (
-              <p className="text-[10px] text-brand-gold font-black uppercase tracking-widest animate-pulse px-2">
+              <p className="text-[10px] text-brand-red font-black uppercase tracking-widest animate-pulse px-2">
                 Verifying Meter...
               </p>
             )}
@@ -287,7 +286,7 @@ export default function ElectricityPage() {
                 ? `Pay ₦${(formData.amount || 0).toLocaleString()}`
                 : "Validate Meter to Continue"
             }
-            className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
+            className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"
           />
         </form>
       </Modal>

@@ -31,16 +31,16 @@ export function BalanceCard({ onTopup }: BalanceCardProps) {
     role: user?.role,
   });
   const isAgent = user?.role === "agent";
- 
 
-// Inside BalanceCard component
-const format = (value: string | number = "0.00") => {
-  const amount = typeof value === 'string' ? parseFloat(value) : value;
-  return `${balance?.currency || "₦"}${amount.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-};
+
+  // Inside BalanceCard component
+  const format = (value: string | number = "0.00") => {
+    const amount = typeof value === 'string' ? parseFloat(value) : value;
+    return `${balance?.currency || "₦"}${amount.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  };
 
   const handleTransfer = (type: "commission") => {
     transferCommission.mutate(type, {
@@ -49,19 +49,18 @@ const format = (value: string | number = "0.00") => {
       },
     });
   };
- 
+
   return (
     <div
       className={`relative overflow-hidden rounded-[2.5rem] p-8 shadow-2xl transition-all duration-700 border border-white/10 group
-      ${
-        isAgent
+      ${isAgent
           ? "bg-linear-to-br from-slate-900 via-brand-black to-slate-900"
-          : "bg-brand-black hover:shadow-brand-gold/20"
-      }`}
+          : "bg-brand-black hover:shadow-brand-red/20"
+        }`}
     >
       {/* Premium Glassmorphism Backgrounds */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-brand-gold/15 rounded-full -mr-20 -mt-20 blur-[80px] group-hover:bg-brand-gold/25 transition-colors duration-700" />
-      <div className="absolute bottom-0 left-0 w-40 h-40 bg-brand-gold/5 rounded-full -ml-20 -mb-20 blur-[60px]" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-brand-red/15 rounded-full -mr-20 -mt-20 blur-[80px] group-hover:bg-brand-red/25 transition-colors duration-700" />
+      <div className="absolute bottom-0 left-0 w-40 h-40 bg-brand-red/5 rounded-full -ml-20 -mb-20 blur-[60px]" />
 
       <div className="relative z-10 flex flex-col h-full justify-between">
         <div className="flex justify-between items-start">
@@ -72,7 +71,7 @@ const format = (value: string | number = "0.00") => {
                 {isAgent ? "HonourWorld Master Balance" : "Personal Wallet"}
               </p>
               {isAgent && (
-                <span className="flex items-center gap-1 bg-brand-gold/10 text-brand-gold px-2 py-0.5 rounded-full text-[9px] font-bold border border-brand-gold/20 uppercase">
+                <span className="flex items-center gap-1 bg-brand-red/10 text-brand-red px-2 py-0.5 rounded-full text-[9px] font-bold border border-brand-red/20 uppercase">
                   <ShieldCheck size={10} /> Secure Agent Access
                 </span>
               )}
@@ -95,7 +94,7 @@ const format = (value: string | number = "0.00") => {
               </h1>
               <button
                 onClick={() => setShowBalance(!showBalance)}
-                className="p-2.5 bg-white/5 rounded-xl text-white/30 hover:text-brand-gold hover:bg-white/10 transition-all active:scale-90"
+                className="p-2.5 bg-white/5 rounded-xl text-white/30 hover:text-brand-red hover:bg-white/10 transition-all active:scale-90"
               >
                 {showBalance ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
@@ -103,11 +102,11 @@ const format = (value: string | number = "0.00") => {
 
             {/* Sub-balances / Commission Section */}
             <div className="flex items-center gap-6 mt-6">
-              <div className="flex flex-col border-l-2 border-brand-gold/30 pl-4 py-1">
+              <div className="flex flex-col border-l-2 border-brand-red/30 pl-4 py-1">
                 <span className="text-[10px] text-white/40 font-bold uppercase tracking-widest">
                   Total Commission
                 </span>
-                <span className="text-brand-gold text-lg font-black mt-0.5">
+                <span className="text-brand-red text-lg font-black mt-0.5">
                   {showBalance ? format(balance?.commission) : "•••"}
                 </span>
               </div>
@@ -136,7 +135,7 @@ const format = (value: string | number = "0.00") => {
               >
                 <RefreshCw
                   size={24}
-                  className="text-brand-gold group-hover/btn:scale-110 transition-transform"
+                  className="text-brand-red group-hover/btn:scale-110 transition-transform"
                 />
                 <span className="text-[9px] font-black uppercase text-white/60">
                   Sync API
@@ -147,7 +146,7 @@ const format = (value: string | number = "0.00") => {
               <>
                 <button
                   onClick={onTopup}
-                  className="bg-brand-gold hover:bg-yellow-500 text-brand-black p-4 rounded-3xl flex flex-col items-center gap-2 transition-all active:scale-95 shadow-xl shadow-brand-gold/20 group/btn"
+                  className="bg-brand-red hover:bg-yellow-500 text-brand-burgundy p-4 rounded-3xl flex flex-col items-center gap-2 transition-all active:scale-95 shadow-xl shadow-brand-red/20 group/btn"
                 >
                   <Plus
                     size={24}
@@ -165,7 +164,7 @@ const format = (value: string | number = "0.00") => {
                 >
                   <ArrowRightLeft
                     size={24}
-                    className="text-brand-gold group-hover/btn:rotate-12 transition-transform"
+                    className="text-brand-red group-hover/btn:rotate-12 transition-transform"
                   />
                   <span className="text-[9px] font-black uppercase">Move</span>
                 </button>

@@ -17,7 +17,7 @@ export default function DataPage() {
   const { user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPurchasing, setIsPurchasing] = useState(false);
-  
+
   // State for plans from backend
   const [allPlans, setAllPlans] = useState<any[]>([]);
   const [filteredPlans, setFilteredPlans] = useState<any[]>([]);
@@ -130,7 +130,7 @@ export default function DataPage() {
           </h2>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-gold text-brand-black px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-gold/20"
+            className="mt-6 flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-red/20"
           >
             <Database size={16} /> Buy Data
           </button>
@@ -162,11 +162,10 @@ export default function DataPage() {
                 onClick={() =>
                   setFormData({ ...formData, network: net as NetworkType })
                 }
-                className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${
-                  formData.network === net
-                    ? "bg-brand-gold/10 border-brand-gold text-foreground shadow-sm"
-                    : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-60 hover:opacity-100 hover:grayscale-0"
-                }`}
+                className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${formData.network === net
+                  ? "bg-brand-red/10 border-brand-red text-foreground shadow-sm"
+                  : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-60 hover:opacity-100 hover:grayscale-0"
+                  }`}
               >
                 <div className="w-8 h-8 rounded-full overflow-hidden bg-white border border-foreground/5 shadow-inner flex items-center justify-center p-0.5">
                   <Image
@@ -255,7 +254,7 @@ export default function DataPage() {
                 ? `Pay ₦${formData.amount.toLocaleString()}`
                 : `Buy ${formData.network} Data`
             }
-            className="h-14 rounded-2xl shadow-lg shadow-brand-gold/10"
+            className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"
           />
         </form>
       </Modal>

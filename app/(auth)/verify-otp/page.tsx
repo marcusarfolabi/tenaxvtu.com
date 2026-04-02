@@ -138,9 +138,9 @@ export default function VerifyOTP() {
 
   const maskedEmail = email
     ? email.replace(
-        /(.{2})(.*)(?=@)/,
-        (_, gp1, gp2) => gp1 + "*".repeat(gp2.length),
-      )
+      /(.{2})(.*)(?=@)/,
+      (_, gp1, gp2) => gp1 + "*".repeat(gp2.length),
+    )
     : "";
 
   return (
@@ -153,7 +153,7 @@ export default function VerifyOTP() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto w-full"
         >
-          <div className="w-16 h-16 bg-brand-gold/10 rounded-2xl flex items-center justify-center text-brand-gold mb-8 shadow-lg shadow-brand-gold/5">
+          <div className="w-16 h-16 bg-brand-red/10 rounded-2xl flex items-center justify-center text-brand-red mb-8 shadow-lg shadow-brand-red/5">
             <Mail size={32} />
           </div>
 
@@ -162,7 +162,7 @@ export default function VerifyOTP() {
           </h1>
           <p className="text-foreground/60 mb-10 font-medium">
             We sent a 6-digit code to{" "}
-            <span className="text-brand-gold font-bold">
+            <span className="text-brand-red font-bold">
               {maskedEmail || "your email"}
             </span>
           </p>
@@ -189,7 +189,7 @@ export default function VerifyOTP() {
                   onPaste={handlePaste}
                   onChange={(e) => handleChange(e.target.value, index)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
-                  className="w-12 h-14 md:w-14 md:h-16 text-center text-2xl font-black bg-foreground/5 border-2 border-foreground/10 rounded-2xl focus:border-brand-gold focus:bg-background focus:ring-4 focus:ring-brand-gold/10 text-foreground outline-none transition-all"
+                  className="w-12 h-14 md:w-14 md:h-16 text-center text-2xl font-black bg-foreground/5 border-2 border-foreground/10 rounded-2xl focus:border-brand-red focus:bg-background focus:ring-4 focus:ring-brand-red/10 text-foreground outline-none transition-all"
                 />
               ))}
             </div>
@@ -200,13 +200,13 @@ export default function VerifyOTP() {
               loadingText="Verifying..."
             />
           </form>
- 
+
           <div className="mt-8 text-center min-h-10">
             {canResend ? (
               <button
                 type="button"
                 onClick={handleResend}
-                className="flex items-center gap-2 mx-auto text-sm font-black text-brand-gold hover:opacity-80 transition-all active:scale-95"
+                className="flex items-center gap-2 mx-auto text-sm font-black text-brand-red hover:opacity-80 transition-all active:scale-95"
               >
                 <RefreshCw size={16} />
                 Resend Code
@@ -223,7 +223,7 @@ export default function VerifyOTP() {
 
           <Link
             href="/login"
-            className="mt-12 flex items-center justify-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-gold transition-colors"
+            className="mt-12 flex items-center justify-center gap-2 text-sm font-black text-foreground/40 hover:text-brand-red transition-colors"
           >
             <ArrowLeft size={16} />
             Back to Login

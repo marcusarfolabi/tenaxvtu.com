@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/', '/_next/'],
     },
-    sitemap: 'https://kakalinks.com/sitemap.xml',
+    sitemap: 'https://tenaxvtu.com/sitemap.xml',
   };
 }

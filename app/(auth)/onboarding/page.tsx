@@ -71,7 +71,7 @@ export default function Onboarding() {
     } catch (error: any) {
       toast.error(
         error.response?.data?.message ||
-          "Onboarding failed. Please check your credentials.",
+        "Onboarding failed. Please check your credentials.",
       );
     } finally {
       setIsLoading(false);
@@ -95,7 +95,7 @@ export default function Onboarding() {
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: step >= num ? "100%" : "0%" }}
-                  className="absolute inset-0 bg-brand-gold shadow-[0_0_10px_rgba(212,175,55,0.3)]"
+                  className="absolute inset-0 bg-brand-red shadow-[0_0_10px_rgba(212,175,55,0.3)]"
                 />
               </div>
             ))}
@@ -184,7 +184,7 @@ export default function Onboarding() {
                       icon={Globe}
                       value={formData.domain}
                       onChange={handleInputChange}
-                      placeholder="https://kakalinks.com"
+                      placeholder="https://tenaxvtu.com"
                     />
 
                     <FormInput
@@ -194,7 +194,7 @@ export default function Onboarding() {
                       icon={Mail}
                       value={formData.supportEmail}
                       onChange={handleInputChange}
-                      placeholder="support@kakalinks.com"
+                      placeholder={process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
                     />
 
                     <FormInput
@@ -205,7 +205,7 @@ export default function Onboarding() {
                       icon={PhoneIcon}
                       value={formData.supportContactPhone}
                       onChange={handleInputChange}
-                      placeholder="2349035155129"
+                      placeholder={process.env.NEXT_PUBLIC_SUPPORT_PHONE}
                     />
                     <p className="text-[10px] text-foreground/40 -mt-2 font-bold uppercase tracking-wider">
                       Must start with 234 followed by 10 digits.
@@ -228,7 +228,7 @@ export default function Onboarding() {
                       <h1 className="text-3xl font-black text-foreground">
                         Payment Gateway
                       </h1>
-                      <span className="bg-brand-gold/20 text-brand-gold text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-widest border border-brand-gold/30">
+                      <span className="bg-brand-red/20 text-brand-red text-[10px] px-2 py-1 rounded-full font-bold uppercase tracking-widest border border-brand-red/30">
                         Monnify
                       </span>
                     </div>
@@ -276,8 +276,7 @@ export default function Onboarding() {
                 <button
                   type="button"
                   onClick={prevStep}
-                  // Cleaned up the Back button to use themed vars and better hover states
-                  className="w-1/3 h-16 cursor-pointer rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 active:scale-[0.98] border-2 border-brand-gold/30 text-foreground hover:bg-brand-gold/10 hover:border-brand-gold"
+                  className="w-1/3 h-16 cursor-pointer rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 active:scale-[0.98] border-2 border-brand-red/30 text-foreground hover:bg-brand-red/10 hover:border-brand-red"
                 >
                   <ArrowLeft size={20} />
                 </button>

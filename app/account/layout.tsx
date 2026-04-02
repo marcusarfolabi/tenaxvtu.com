@@ -17,7 +17,7 @@ export default function CustomerLayout({
 
   const whatsappNumber = process.env.NEXT_PUBLIC_SUPPORT_PHONE;
   const message = encodeURIComponent(
-    "Hello Kakalinks Support, I need assistance with my account.",
+    `Hello ${process.env.NEXT_PUBLIC_APP_NAME} Support, I need assistance with my account.`
   );
 
   return (
@@ -122,8 +122,8 @@ export default function CustomerLayout({
 
             {/* Notification Dot */}
             <span className="absolute -top-1 -right-1 flex h-5 w-5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-5 w-5 bg-brand-gold border-4 border-brand-black"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-red opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-5 w-5 bg-brand-red border-4 border-brand-black"></span>
             </span>
           </div>
         </a>

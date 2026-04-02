@@ -49,7 +49,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
     );
   }
 
-  
+
   return (
     <div className="space-y-6">
       {/* Summary Stat Card - Locked Brand Black */}
@@ -61,7 +61,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
           <h2 className="text-5xl font-black mb-4 tracking-tighter">
             {pagination.total.toLocaleString()}
           </h2>
-          <div className="flex items-center gap-2 text-brand-gold text-[10px] font-black uppercase tracking-wider bg-white/5 border border-white/10 w-fit px-4 py-2 rounded-2xl backdrop-blur-md">
+          <div className="flex items-center gap-2 text-brand-red text-[10px] font-black uppercase tracking-wider bg-white/5 border border-white/10 w-fit px-4 py-2 rounded-2xl backdrop-blur-md">
             <TrendingUp size={14} /> Ranked by Activity
           </div>
         </div>
@@ -88,19 +88,19 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
               <div
                 key={user.id}
                 onClick={() => setSelectedUser(user)}
-                className="bg-background p-4 rounded-4xl flex items-center justify-between border border-foreground/5 shadow-sm hover:border-brand-gold/50 transition-all group"
+                className="bg-background p-4 rounded-4xl flex items-center justify-between border border-foreground/5 shadow-sm hover:border-brand-red/50 transition-all group"
               >
                 <div className="flex items-center gap-4">
                   {/* Rank or Icon */}
                   <div className="relative">
-                    <div className="w-12 h-12 rounded-2xl bg-foreground/5 flex items-center justify-center border border-foreground/5 transition-colors group-hover:bg-brand-gold/10">
+                    <div className="w-12 h-12 rounded-2xl bg-foreground/5 flex items-center justify-center border border-foreground/5 transition-colors group-hover:bg-brand-red/10">
                       <UserIcon
-                        className="text-foreground/40 group-hover:text-brand-gold"
+                        className="text-foreground/40 group-hover:text-brand-red"
                         size={20}
                       />
                     </div>
                     {index < 3 && (
-                      <div className="absolute -top-1 -left-1 w-5 h-5 bg-brand-gold text-brand-black text-[10px] font-black rounded-full flex items-center justify-center border-2 border-background">
+                      <div className="absolute -top-1 -left-1 w-5 h-5 bg-brand-red text-brand-burgundy text-[10px] font-black rounded-full flex items-center justify-center border-2 border-background">
                         {index + 1}
                       </div>
                     )}
@@ -118,7 +118,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
 
                 <div className="text-right">
                   <p className="text-sm font-black text-foreground tracking-tight">
-                    <span className="text-[10px] text-brand-gold mr-0.5">
+                    <span className="text-[10px] text-brand-red mr-0.5">
                       ₦
                     </span>
                     {parseFloat(
@@ -148,7 +148,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-gold text-brand-black disabled:opacity-20 transition-all active:scale-90"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-red text-brand-burgundy disabled:opacity-20 transition-all active:scale-90"
           >
             <ChevronLeft size={20} />
           </button>
@@ -166,7 +166,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
           <button
             onClick={() => setPage((p) => Math.min(pagination.lastPage, p + 1))}
             disabled={page === pagination.lastPage}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-gold text-brand-black disabled:opacity-20 transition-all active:scale-90"
+            className="w-10 h-10 flex items-center justify-center rounded-xl bg-brand-red text-brand-burgundy disabled:opacity-20 transition-all active:scale-90"
           >
             <ChevronRight size={20} />
           </button>
@@ -183,7 +183,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
           <div className="p-6 space-y-6">
             {/* Header: Name & Status */}
             <div className="flex items-center gap-4 border-b border-foreground/5 pb-6">
-              <div className="w-16 h-16 rounded-3xl bg-brand-gold/10 flex items-center justify-center text-brand-gold">
+              <div className="w-16 h-16 rounded-3xl bg-brand-red/10 flex items-center justify-center text-brand-red">
                 <UserIcon size={32} />
               </div>
               <div>
@@ -223,19 +223,19 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   Current Balance
                 </p>
                 <p className="text-lg font-black text-foreground">
-                  <span className="text-brand-gold mr-1">
+                  <span className="text-brand-red mr-1">
                     {selectedUser.wallet?.currency}
                   </span>
                   {parseFloat(selectedUser.wallet?.balance).toLocaleString()}
                 </p>
               </div>
-              <div className="bg-brand-black p-4 rounded-3xl shadow-xl shadow-brand-gold/10">
+              <div className="bg-brand-black p-4 rounded-3xl shadow-xl shadow-brand-red/10">
                 <p className="text-[9px] font-black text-white/40 uppercase mb-1">
                   Total Volume
                 </p>
-                <p className="text-lg font-black text-brand-gold">
-                    {selectedUser.wallet?.currency}
-                
+                <p className="text-lg font-black text-brand-red">
+                  {selectedUser.wallet?.currency}
+
                   {parseFloat(
                     selectedUser.transactions_sum_amount || 0,
                   ).toLocaleString()}
@@ -286,7 +286,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
               />
 
               {isUpdating && (
-                <p className="text-[10px] animate-pulse text-brand-gold font-black uppercase text-center">
+                <p className="text-[10px] animate-pulse text-brand-red font-black uppercase text-center">
                   Syncing status...
                 </p>
               )}

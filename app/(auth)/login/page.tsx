@@ -50,9 +50,9 @@ export default function Login() {
           >
             <ArrowLeft size={24} />
           </Link>
-          {/* text-brand-black -> text-foreground */}
+          {/* text-brand-burgundy -> text-foreground */}
           <span className="font-black tracking-tighter text-xl text-foreground">
-            KAKALINKS
+            {process.env.NEXT_PUBLIC_APP_NAME}
           </span>
           <div className="w-10" />
         </div>
@@ -62,7 +62,7 @@ export default function Login() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto w-full"
         >
-          {/* text-brand-black -> text-foreground */}
+          {/* text-brand-burgundy -> text-foreground */}
           <h1 className="text-3xl font-black text-foreground mb-2">
             Login to Account
           </h1>
@@ -71,13 +71,13 @@ export default function Login() {
             Continue saving on your data and bills today.
           </p>
 
-          <form className="space-y-5" onSubmit={handleSubmit} method="POST"> 
+          <form className="space-y-5" onSubmit={handleSubmit} method="POST">
             <FormInput
               label="Email Address"
               name="email"
               type="email"
               inputMode="email"
-              autoComplete="username" 
+              autoComplete="username"
               placeholder="john@example.com"
               icon={Mail}
               value={formData.email}
@@ -85,11 +85,11 @@ export default function Login() {
                 setFormData({ ...formData, email: e.target.value })
               }
             />
- 
+
             <PasswordInput
               label="Password"
               name="password"
-              autoComplete="current-password"  
+              autoComplete="current-password"
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -99,7 +99,7 @@ export default function Login() {
                 <Link
                   href="/forgot-password"
                   // Using text-foreground/40 for that subtle "muted" look
-                  className="text-xs font-bold text-foreground/40 hover:text-brand-gold transition-colors"
+                  className="text-xs font-bold text-foreground/40 hover:text-brand-red transition-colors"
                 >
                   Forgot Password?
                 </Link>
@@ -110,16 +110,16 @@ export default function Login() {
               isLoading={isLoading}
               idleText="Login to Dashboard"
               loadingText="Authenticating..."
-              className="w-full mt-2" 
+              className="w-full mt-2"
             />
           </form>
-          
+
           <div className="mt-8 text-center">
             <p className="text-foreground/60 font-medium">
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="text-brand-gold font-black hover:underline transition-all"
+                className="text-brand-red font-black hover:underline transition-all"
               >
                 Sign Up
               </Link>
