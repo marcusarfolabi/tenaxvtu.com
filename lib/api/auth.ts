@@ -12,15 +12,12 @@ export interface ContactData {
 }
 
 export const authApi = {
-  // Onboarding (Agent Tenant creation)
   onboarding: (data: OnboardingData) => api.post("/auth/onboarding", data),
 
   login: (credentials: LoginCredentials) =>
     api.post("/auth/login", credentials),
 
-  // register: (data: RegisterData) => api.post("/auth/register", data),
   register: (data: RegisterData) => {
-    // This returns "https://yourclientdomain.com" (No trailing slash)
     const origin = typeof window !== "undefined" ? window.location.origin : "";
 
     return api.post("/auth/register", data, {
