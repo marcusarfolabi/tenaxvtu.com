@@ -24,10 +24,10 @@ export default function AuthSidebar({
 
   return (
     <>
-      <div className="lg:hidden w-full bg-foreground/3 border-b border-foreground/5 py-6 px-6 flex items-center justify-center relative overflow-hidden transition-colors duration-500">
+      {/* <div className="lg:hidden w-full bg-foreground/3 border-b border-foreground/5 py-6 px-6 flex items-center justify-center relative overflow-hidden transition-colors duration-500">
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none" />
         <Logo />
-      </div>
+      </div> */}
 
       <div className="hidden lg:flex lg:w-1/2 bg-foreground/3 p-16 flex-col justify-between relative overflow-hidden min-h-screen transition-colors duration-500">
         <div className="absolute inset-0 bg-background/50 dark:bg-transparent pointer-events-none" />
@@ -35,7 +35,7 @@ export default function AuthSidebar({
         <div className="absolute inset-0 bg-grid-pattern opacity-[0.05] dark:opacity-[0.02] pointer-events-none" />
 
         <div className="relative z-10">
-          <Logo />
+          {/* <Logo /> */}
         </div>
         <div className="relative z-10">
           <h2 className="text-6xl font-black text-foreground leading-none mb-8 tracking-tighter">

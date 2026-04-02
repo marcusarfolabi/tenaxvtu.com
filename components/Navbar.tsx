@@ -82,6 +82,7 @@ export default function Navbar() {
               {installPrompt && (
                 <button
                   aria-label="download app"
+                  title="Install Tenax VTU App"
                   onClick={handleInstallClick}
                   className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground transition-all active:scale-90 animate-pulse"
                 >
