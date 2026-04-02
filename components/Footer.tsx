@@ -85,17 +85,17 @@ export default function Footer() {
               <li className="flex items-center gap-3 text-foreground/60">
                 <Phone size={20} className="text-brand-red shrink-0" />
                 <span className="text-sm">
-                  <a href={`tel:${phoneNumber}`} className="hover:text-brand-red transition-colors">
+                  <Link href={`tel:${phoneNumber}`} className="hover:text-brand-red transition-colors">
                     Call Us
-                  </a>
+                  </Link>
                 </span>
               </li>
               <li className="flex items-center gap-3 text-foreground/60">
                 <MapPin size={20} className="text-brand-red shrink-0" />
                 <span className="text-sm">
-                  <a href={`mailto:${emailAddress}`} className="hover:text-brand-red transition-colors">
+                  <Link href={`mailto:${emailAddress}`} className="hover:text-brand-red transition-colors">
                     Mail Us
-                  </a>
+                  </Link>
                 </span>
               </li>
             </ul>

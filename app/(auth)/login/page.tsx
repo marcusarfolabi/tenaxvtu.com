@@ -37,7 +37,6 @@ export default function Login() {
   };
 
   return (
-    // Changed bg-white to bg-background and added the grid pattern
     <div className="min-h-screen bg-background text-foreground flex flex-col lg:flex-row bg-grid-pattern">
       <AuthSidebar title="Welcome back to" subtitle="your dashboard." />
 
@@ -45,12 +44,10 @@ export default function Login() {
         <div className="lg:hidden flex items-center justify-between mb-12">
           <Link
             href="/"
-            // Swapped hover:bg-gray-100 for a themed opacity
             className="p-2 hover:bg-foreground/5 rounded-full transition-colors"
           >
             <ArrowLeft size={24} />
           </Link>
-          {/* text-brand-burgundy -> text-foreground */}
           <span className="font-black tracking-tighter text-xl text-foreground">
             {process.env.NEXT_PUBLIC_APP_NAME}
           </span>
@@ -62,11 +59,9 @@ export default function Login() {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-md mx-auto w-full"
         >
-          {/* text-brand-burgundy -> text-foreground */}
           <h1 className="text-3xl font-black text-foreground mb-2">
             Login to Account
           </h1>
-          {/* text-gray-500 -> text-foreground/60 */}
           <p className="text-foreground/60 mb-8 font-medium">
             Continue saving on your data and bills today.
           </p>
@@ -98,7 +93,6 @@ export default function Login() {
               <div className="flex items-center justify-between mt-1">
                 <Link
                   href="/forgot-password"
-                  // Using text-foreground/40 for that subtle "muted" look
                   className="text-xs font-bold text-foreground/40 hover:text-brand-red transition-colors"
                 >
                   Forgot Password?

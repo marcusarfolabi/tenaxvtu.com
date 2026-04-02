@@ -29,57 +29,54 @@ export default function PrivacyPolicy() {
   ];
 
   return (
-    <div className="min-h-screen bg-white font-instrument pb-20">
-      {/* Header */}
-      <div className="bg-brand-black text-white py-20 px-6 rounded-b-[3rem] text-center mb-12">
-        <div className="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-500 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">
+    <div className="min-h-screen bg-background text-foreground font-main pb-20 transition-colors duration-300">
+
+      <div className="bg-brand-dark text-white py-20 px-6 rounded-b-[3rem] text-center mb-12">
+        <div className="inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest mb-6">
           <ShieldCheck size={16} /> Secure & Encrypted
         </div>
         <h1 className="text-4xl md:text-5xl font-black mb-4">Privacy Policy</h1>
-        <p className="text-gray-400 max-w-xl mx-auto">
+        <p className="opacity-50 max-w-xl mx-auto font-medium">
           Last Updated: {lastUpdated} • Compliant with NDPA 2023
         </p>
       </div>
 
       <div className="max-w-4xl mx-auto px-6">
-        {/* Policy Intro */}
-        <div className="prose prose-lg max-w-none mb-16 text-gray-600">
-          <p className="leading-relaxed">
-            At <strong>{process.env.NEXT_PUBLIC_APP_NAME}</strong>, we respect your privacy and are committed to protecting your personal data.
+        <div className="max-w-none mb-16 text-foreground/80">
+          <p className="text-lg leading-relaxed font-medium">
+            At <strong className="text-brand-red">{process.env.NEXT_PUBLIC_APP_NAME}</strong>, we respect your privacy and are committed to protecting your personal data.
             This policy outlines how we handle your information when you use our VTU, bill payment, and agent services.
           </p>
         </div>
 
-        {/* Dynamic Sections */}
         <div className="grid md:grid-cols-2 gap-8 mb-16">
-          {sections.map((section, index) => (
+          {sections.map((section: any, index: number) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="p-8 border border-gray-100 rounded-4xl bg-gray-50/50 hover:bg-white hover:shadow-xl transition-all group"
+              className="p-8 border border-foreground/10 rounded-4xl bg-foreground/5 hover:bg-background hover:shadow-xl hover:border-brand-red/30 transition-all group"
             >
-              <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 bg-background text-brand-red rounded-2xl shadow-sm flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 {section.icon}
               </div>
-              <h3 className="text-xl font-black text-brand-burgundy mb-4">{section.title}</h3>
-              <p className="text-gray-500 text-sm leading-relaxed font-medium">
+              <h3 className="text-xl font-black text-brand-red mb-4">{section.title}</h3>
+              <p className="text-foreground/60 text-sm leading-relaxed font-medium">
                 {section.content}
               </p>
             </motion.div>
           ))}
         </div>
 
-        {/* Legal Text Area */}
-        <div className="bg-brand-black p-10 rounded-[3rem] text-white relative overflow-hidden">
+        <div className="bg-brand-dark p-10 rounded-[3rem] text-white relative overflow-hidden">
           <div className="relative z-10">
             <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
               <Scale className="text-brand-red" /> Your Legal Rights
             </h2>
-            <div className="space-y-4 text-gray-400 text-sm leading-relaxed">
+            <div className="space-y-4 text-white/60 text-sm leading-relaxed font-medium">
               <p>Under the Nigeria Data Protection Act, you have the right to:</p>
-              <ul className="list-disc pl-5 space-y-2">
+              <ul className="list-disc pl-5 space-y-2 marker:text-brand-red">
                 <li>Request access to your personal data.</li>
                 <li>Request correction of any inaccurate data.</li>
                 <li>Object to processing of your data for direct marketing.</li>
@@ -87,7 +84,7 @@ export default function PrivacyPolicy() {
               </ul>
               <p className="mt-8 pt-6 border-t border-white/10">
                 For any privacy concerns, contact our Data Protection Officer at
-                <span className="text-brand-red ml-1">privacy@tenaxvtu.com</span>
+                <span className="text-brand-red ml-1 font-bold">privacy@tenaxvtu.com</span>
               </p>
             </div>
           </div>

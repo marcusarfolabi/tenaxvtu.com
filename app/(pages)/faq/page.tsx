@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, HelpCircle, MessageCircle } from "lucide-react";
+import Link from "next/link";
 
 const faqs = [
   {
@@ -40,11 +41,12 @@ const faqs = [
 
 export default function FAQPage() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const whatsappLink = `https://wa.me/${process.env.NEXT_PUBLIC_SUPPORT_PHONE}?text=Hello%20Tenax%20Support!%20I%20have%20a%20question%20about%20your%20services.`;
 
   return (
-    <div className="min-h-screen bg-gray-50 font-instrument pb-20">
-      {/* Hero Section */}
-      <div className="bg-brand-black text-white py-20 px-6 rounded-b-[3rem] text-center">
+    <div className="min-h-screen bg-background text-foreground font-main pb-20 transition-colors duration-300">
+
+      <div className="bg-brand-dark text-white py-20 px-6 rounded-b-[3rem] text-center border-b border-white/5">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -53,9 +55,9 @@ export default function FAQPage() {
           <HelpCircle size={32} />
         </motion.div>
         <h1 className="text-4xl md:text-5xl font-black mb-4">Frequently Asked Questions</h1>
-        <p className="text-gray-400 max-w-xl mx-auto font-medium">
+        <p className="opacity-60 max-w-xl mx-auto font-medium">
           Everything you need to know about {process.env.NEXT_PUBLIC_APP_NAME}. Can't find what you're looking for?
-          <a href="/support" className="text-brand-red ml-1 underline">Chat with us.</a>
+          <Link href="/support" className="text-brand-red ml-1 underline">Chat with us.</Link>
         </p>
       </div>
 
@@ -69,17 +71,19 @@ export default function FAQPage() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className={`bg-white rounded-3xl border transition-all overflow-hidden ${isOpen ? "border-brand-red shadow-lg" : "border-gray-100 shadow-sm"
+                className={`rounded-3xl border transition-all overflow-hidden ${isOpen
+                    ? "border-brand-red shadow-lg ring-1 ring-brand-red/20 bg-background"
+                    : "bg-background border-foreground/10 shadow-sm"
                   }`}
               >
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   className="w-full px-8 py-6 flex items-center justify-between text-left"
                 >
-                  <span className={`font-bold text-lg ${isOpen ? "text-brand-burgundy" : "text-gray-700"}`}>
+                  <span className={`font-bold text-lg transition-colors ${isOpen ? "text-brand-red" : "text-foreground"}`}>
                     {faq.q}
                   </span>
-                  <div className={`transition-transform duration-300 ${isOpen ? "text-brand-red" : "text-gray-400"}`}>
+                  <div className={`transition-transform duration-300 ${isOpen ? "text-brand-red" : "text-foreground/40"}`}>
                     {isOpen ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
                   </div>
                 </button>
@@ -92,7 +96,7 @@ export default function FAQPage() {
                       exit={{ height: 0, opacity: 0 }}
                       className="px-8 pb-6"
                     >
-                      <div className="pt-2 border-t border-gray-50 text-gray-500 leading-relaxed font-medium">
+                      <div className="pt-2 border-t border-foreground/5 text-foreground/60 leading-relaxed font-medium">
                         {faq.a}
                       </div>
                     </motion.div>
@@ -103,19 +107,18 @@ export default function FAQPage() {
           })}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="mt-16 p-8 bg-brand-black rounded-[2.5rem] text-center text-white relative overflow-hidden">
+        <div className="mt-16 p-8 bg-brand-dark rounded-[2.5rem] text-center text-white relative overflow-hidden">
           <div className="relative z-10">
             <h3 className="text-xl font-black mb-2">Still have questions?</h3>
-            <p className="text-gray-400 mb-6 text-sm">We're here to help you 24/7</p>
-            <a
-              href="https://wa.me/2340000000000"
-              className="inline-flex items-center gap-2 bg-brand-red text-brand-burgundy px-8 py-3 rounded-xl font-black uppercase text-xs tracking-widest"
+            <p className="opacity-50 mb-6 text-sm">We're here to help you 24/7</p>
+            <Link
+              href={whatsappLink}
+              className="inline-flex items-center gap-2 bg-brand-red text-white px-8 py-3 rounded-xl font-black uppercase text-xs tracking-widest hover:brightness-110 transition-all"
             >
               <MessageCircle size={18} /> WhatsApp Support
-            </a>
+            </Link>
           </div>
-          <div className="absolute top-0 right-0 p-4 opacity-10">
+          <div className="absolute top-0 right-0 p-4 opacity-5 text-white">
             <HelpCircle size={120} />
           </div>
         </div>
