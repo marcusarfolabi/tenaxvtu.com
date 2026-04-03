@@ -56,8 +56,9 @@ export default function VirtualAccountPage() {
       try {
         const res = await walletApi.virtualAccount();
         setAccountData(res.data.data);
-      } catch (error) {
-        toast.error("Unable to load account details");
+      } catch (error : any) { 
+        const apiMessage = error.response?.data?.message || "Unable to load account details";
+        toast.error(apiMessage); 
       } finally {
         setLoading(false);
       }

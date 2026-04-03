@@ -42,7 +42,7 @@ export const useWallet = ({
         currency: rawData.currency === "NGN" ? "₦" : rawData.currency || "₦",
         hw_balance: rawData.hw_balance || 0,
         hw_commission: rawData.hw_commission || 0,
-        ...rawData, // Spread the rest (id, wallet_id, etc)
+        ...rawData,  
       };
     },
     refetchInterval: REFRESH_INTERVAL,
@@ -59,7 +59,6 @@ export const useWallet = ({
     staleTime: 5000,
   });
 
-  // HELPER: Manual refresh function
   const refreshWallet = () => {
     triggerRefetch();
     queryClient.invalidateQueries({ queryKey: ["wallet-history"] });

@@ -94,7 +94,6 @@ export default function TopHeader({
                     CLEAR ALL
                   </Link>
                 </div>
-                {/* ... rest of notification panel ... */}
                 <div className="space-y-2 max-h-80 overflow-y-auto px-1 custom-scrollbar">
                   {notifications.length > 0 ? (
                     notifications.map((n: any) => (
@@ -112,9 +111,8 @@ export default function TopHeader({
                             </div>
                             <p className="text-[10px] text-foreground/50 mt-1 flex items-center gap-1">
                               <span className="font-bold text-foreground/70">
-                                {n.location?.split(",")[0]}
-                              </span>
-                              • {n.ip}
+                                {n.location? n.location : "Unknown Location"}
+                              </span> 
                             </p>
                           </div>
                         </div>
@@ -135,8 +133,8 @@ export default function TopHeader({
 
           {/* USER DROPDOWN */}
           <Menu as="div" className="relative">
-            <Menu.Button className="flex items-center p-0.5 sm:p-1 group outline-none">
-              <div className="h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-gradient-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-red text-[10px] sm:text-xs font-black border-2 border-background shadow-md group-hover:shadow-brand-red/20 transition-all tracking-tighter">
+            <Menu.Button className="flex items-center p-0.5 sm:p-1 group outline-none cursor-pointer">
+              <div className="h-9 w-9 sm:h-11 sm:w-11 rounded-full bg-linear-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-red text-[10px] sm:text-xs font-black border-2 border-background shadow-md group-hover:shadow-brand-red/20 transition-all tracking-tighter">
                 {getCustomInitials(user?.name ?? "")}
               </div>
             </Menu.Button>

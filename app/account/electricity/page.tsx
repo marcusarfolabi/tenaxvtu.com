@@ -14,6 +14,7 @@ import {
   getInadequateBalanceMessage,
 } from "@/util/wallet-helper";
 import { useAuth } from "@/context/AuthContext";
+import { formatCurrency } from "@/util/getUserCurrency";
 
 export default function ElectricityPage() {
   const { user } = useAuth();
@@ -148,23 +149,23 @@ export default function ElectricityPage() {
   return (
     <div className="space-y-6 pb-20">
       {/* Power Stats Card - Locked to Brand Black */}
-      <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-white shadow-2xl">
+      <div className="relative overflow-hidden bg-brand-black rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
         <div className="relative z-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">
             Total Power Units
           </p>
-          <h2 className="text-4xl font-black mt-1 tracking-tighter">
-            {balance?.currency || "₦"}
-            {(stats?.total_amount || 0).toLocaleString()}
+          <h2 className="text-3xl md:text-4xl font-black mt-1 tracking-tighter text-foreground">
+            {formatCurrency(stats?.total_amount || 0)}
           </h2>
           <button
+            title="Buy Electricity Token"
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-red/20"
+            className="mt-6 flex cursor-pointer items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all active:scale-95 shadow-lg shadow-brand-red/10"
           >
-            <Zap size={16} /> Pay Electricity
+            <Zap size={16} aria-label="Buy Electricity Token" /> Pay Electricity
           </button>
         </div>
-        <Zap className="absolute -right-4 -bottom-4 text-white/5 w-40 h-40 rotate-12" />
+        <Zap className="absolute -right-4 -bottom-4 text-foreground/5 w-32 h-32 md:w-40 md:h-40 rotate-12" />
       </div>
 
       {/* History Section */}
@@ -208,8 +209,8 @@ export default function ElectricityPage() {
                 type="button"
                 onClick={() => setFormData({ ...formData, type: t as any })}
                 className={`flex-1 py-2.5 rounded-xl text-[10px] font-black transition-all uppercase tracking-widest ${formData.type === t
-                  ? "bg-background shadow-sm text-foreground"
-                  : "text-foreground/40 hover:text-foreground/60"
+                    ? "bg-background shadow-sm text-foreground"
+                    : "text-foreground/40 hover:text-foreground/60"
                   }`}
               >
                 {t}
@@ -236,17 +237,17 @@ export default function ElectricityPage() {
             )}
 
             {customerName && (
-              <div className="flex items-start gap-3 px-4 py-3 bg-green-500/10 rounded-2xl border border-green-500/20">
-                <UserCheck size={18} className="text-green-500 mt-0.5" />
+              <div className="flex items-start gap-3 px-4 py-3 bg-foreground/5 rounded-2xl border border-foreground/10">
+                <UserCheck size={18} className="text-brand-red mt-0.5" />
                 <div className="flex flex-col">
-                  <p className="text-[8px] text-green-500/60 font-black uppercase tracking-tighter leading-none mb-1">
+                  <p className="text-[8px] text-foreground/40 font-black uppercase tracking-tighter leading-none mb-1">
                     Verified Owner
                   </p>
-                  <p className="text-xs font-black text-green-500 uppercase leading-tight">
+                  <p className="text-xs font-black text-foreground uppercase leading-tight">
                     {customerName}
                   </p>
-                  <p className="text-[9px] text-green-500/80 font-bold mt-1.5 bg-green-500/10 self-start px-2 py-0.5 rounded-md">
-                    MIN: ₦{minAmount.toLocaleString()}
+                  <p className="text-[9px] text-brand-red font-black mt-1.5 bg-brand-red/10 self-start px-2 py-0.5 rounded-md">
+                    MIN: {formatCurrency(minAmount)}
                   </p>
                 </div>
               </div>
@@ -258,7 +259,7 @@ export default function ElectricityPage() {
               label="Amount"
               type="number"
               icon={Wallet}
-              placeholder={`Min ₦${minAmount}`}
+              placeholder={`Min ${formatCurrency(minAmount)}`}
               value={formData.amount || ""}
               onChange={(e) =>
                 setFormData({ ...formData, amount: parseFloat(e.target.value) })
@@ -283,7 +284,7 @@ export default function ElectricityPage() {
             isLoading={isPurchasing}
             idleText={
               customerName
-                ? `Pay ₦${(formData.amount || 0).toLocaleString()}`
+                ? `Pay ${formatCurrency(formData.amount || 0)}`
                 : "Validate Meter to Continue"
             }
             className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"

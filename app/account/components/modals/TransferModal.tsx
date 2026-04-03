@@ -2,6 +2,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
 import { ChevronDown, Check, ArrowRightLeft, X } from "lucide-react";
+import { formatCurrency } from "@/util/getUserCurrency";
 
 interface TransferModalProps {
   isOpen: boolean;
@@ -86,7 +87,7 @@ export function TransferModal({
                             {selected.name}
                           </span>
                           <span className="block text-xs text-brand-red font-black mt-0.5">
-                            {format(selected.value)}
+                            {formatCurrency(selected.value)}
                           </span>
                           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
                             <ChevronDown className="h-5 w-5 text-white/20" />

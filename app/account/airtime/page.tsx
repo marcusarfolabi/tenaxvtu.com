@@ -15,6 +15,7 @@ import {
   getInadequateBalanceMessage,
 } from "@/util/wallet-helper";
 import { detectNetwork } from "@/util/detectNetwork";
+import { formatCurrency } from "@/util/getUserCurrency";
 
 export default function AirtimePage() {
   const { user } = useAuth();
@@ -92,25 +93,24 @@ export default function AirtimePage() {
 
   return (
     <div className="space-y-6 pb-20">
-      <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-white shadow-2xl">
+      {/* Premium Stats Card */}
+      <div className="relative overflow-hidden bg-brand-black rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
         <div className="relative z-10">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">
             Total Airtime Purchase
           </p>
-          <h2 className="text-4xl font-black mt-1 tracking-tighter">
-            {balance?.currency || "₦"}
-            {(stats?.total_amount || 0).toLocaleString(undefined, {
-              minimumFractionDigits: 2,
-            })}
+          <h2 className="text-3xl md:text-4xl font-black mt-1 tracking-tighter text-foreground">
+            {formatCurrency(stats?.total_amount || 0)}
           </h2>
           <button
+            title="Buy Airtime"
             onClick={() => setIsModalOpen(true)}
-            className="mt-6 flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all shadow-lg shadow-brand-red/20"
+            className="mt-6 cursor-pointer flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all shadow-lg shadow-brand-red/10"
           >
-            <Smartphone size={16} /> Buy Airtime
+            <Smartphone size={16} aria-label="Buy airtime" /> Buy Airtime
           </button>
         </div>
-        <Zap className="absolute -right-4 -bottom-4 text-white/5 w-40 h-40 rotate-12" />
+        <Zap className="absolute -right-4 -bottom-4 text-foreground/5 w-32 h-32 md:w-40 md:h-40 rotate-12" />
       </div>
 
       {/* History Section */}
@@ -128,34 +128,31 @@ export default function AirtimePage() {
         title="Purchase Airtime"
       >
         <form onSubmit={handlePurchase} className="p-6 space-y-6">
-          {/* Network Selector */}
           <div className="grid grid-cols-4 gap-2 mb-2">
-            {(["MTN", "GLO", "AIRTEL", "9MOBILE"] as NetworkType[]).map(
-              (net) => (
-                <button
-                  key={net}
-                  type="button"
-                  onClick={() => setFormData({ ...formData, network: net })}
-                  className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${formData.network === net
+            {(["MTN", "GLO", "AIRTEL", "9MOBILE"] as NetworkType[]).map((net) => (
+              <button
+                key={net}
+                type="button"
+                onClick={() => setFormData({ ...formData, network: net })}
+                className={`py-3 rounded-2xl flex flex-col items-center gap-2 border transition-all active:scale-95 ${formData.network === net
                     ? "bg-brand-red/10 border-brand-red text-foreground shadow-sm"
                     : "bg-foreground/5 border-transparent text-foreground/40 grayscale opacity-50 hover:opacity-100 hover:grayscale-0"
-                    }`}
-                >
-                  <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center border border-foreground/5 shadow-inner">
-                    <Image
-                      src={`/providers/${net.toLowerCase()}.png`}
-                      alt={net}
-                      width={40}
-                      height={40}
-                      className="w-full h-full object-cover p-1"
-                    />
-                  </div>
-                  <span className="text-[9px] font-black uppercase tracking-tighter">
-                    {net}
-                  </span>
-                </button>
-              ),
-            )}
+                  }`}
+              >
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-foreground/10 flex items-center justify-center border border-foreground/5 shadow-inner">
+                  <Image
+                    src={`/providers/${net.toLowerCase()}.png`}
+                    alt={net}
+                    width={40}
+                    height={40}
+                    className="w-full h-full object-cover p-1"
+                  />
+                </div>
+                <span className="text-[9px] font-black uppercase tracking-tighter">
+                  {net}
+                </span>
+              </button>
+            ))}
           </div>
 
           {/* Phone Number Input */}
@@ -167,9 +164,7 @@ export default function AirtimePage() {
               {user?.phone && (
                 <button
                   type="button"
-                  onClick={() =>
-                    setFormData({ ...formData, phone: user.phone })
-                  }
+                  onClick={() => setFormData({ ...formData, phone: user.phone })}
                   className="text-[9px] font-black text-brand-red bg-brand-red/10 px-2.5 py-1 rounded-lg active:scale-90 transition-all uppercase"
                 >
                   Buy for Self
@@ -182,7 +177,7 @@ export default function AirtimePage() {
               inputMode="tel"
               maxLength={11}
               value={formData.phone}
-              onChange={handlePhoneChange} 
+              onChange={handlePhoneChange}
               icon={Phone}
               placeholder="080..."
             />
@@ -194,11 +189,9 @@ export default function AirtimePage() {
             type="number"
             min={50}
             value={formData.amount}
-            onChange={(e) =>
-              setFormData({ ...formData, amount: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
             icon={Hash}
-            placeholder="Min ₦50"
+            placeholder="Min ₦ 50"
           />
 
           {/* Wallet Balance Display */}
@@ -210,17 +203,20 @@ export default function AirtimePage() {
               </span>
             </div>
             <span
-              className={`text-xs font-black ${!canAfford ? "text-red-500" : "text-foreground"}`}
+              className={`text-xs font-black ${!canAfford ? "text-brand-red" : "text-foreground"
+                }`}
             >
-              {balance?.currency}
-              {balance?.balance}
+              {formatCurrency(balance?.balance)}
             </span>
           </div>
 
           {!canAfford && formData.amount && (
-            <p className="text-[10px] font-bold text-red-500 text-center animate-pulse">
-              <XCircle size={12} /> Insufficient wallet balance
-            </p>
+            <div className="flex items-center justify-center gap-1.5 text-brand-red animate-pulse">
+              <XCircle size={12} />
+              <p className="text-[10px] font-bold uppercase tracking-tight">
+                Insufficient wallet balance
+              </p>
+            </div>
           )}
 
           <SubmitButton
@@ -228,7 +224,7 @@ export default function AirtimePage() {
             isLoading={isPurchasing}
             idleText={`Buy ${formData.network} Airtime`}
             loadingText="Processing..."
-            className="h-14 rounded-2xl shadow-lg shadow-brand-red/20"
+            className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"
           />
         </form>
       </Modal>
