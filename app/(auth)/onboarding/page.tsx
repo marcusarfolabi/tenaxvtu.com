@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe, Mail, ArrowLeft, ShieldAlert, Lock, Phone as PhoneIcon } from "lucide-react";
+import { Globe, Mail, ArrowLeft, ShieldAlert, Lock, Phone as PhoneIcon, Briefcase } from "lucide-react";
 import AuthSidebar from "@/components/AuthSidebar";
 import toast from "react-hot-toast";
 import { authApi } from "@/lib/api/auth";
@@ -19,6 +19,7 @@ export default function Onboarding() {
 
   const [formData, setFormData] = useState({
     email: "",
+    name: "",
     password: "",
     adminPassword: "",
     domain: process.env.NEXT_PUBLIC_APP_URL || "",
@@ -49,6 +50,7 @@ export default function Onboarding() {
     try {
       await authApi.onboarding({
         email: formData.email,
+        name: formData.name,
         domain: formData.domain,
         password: formData.password,
         admin_password: formData.adminPassword,
@@ -195,6 +197,15 @@ export default function Onboarding() {
                   </div>
 
                   <div className="space-y-4">
+                    <FormInput
+                      label="Business Name"
+                      name="name"
+                      type="text"
+                      icon={Briefcase}
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      placeholder="ABC Enterprises"
+                    />
                     <FormInput
                       label="Target Domain Name"
                       name="domain"

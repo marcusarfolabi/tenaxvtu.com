@@ -34,16 +34,17 @@ export interface RegisterData {
     refer_id?: string;
 }
 
-export interface OnboardingData { 
-    email: string; 
-    domain: string;
-    password: string;
-    admin_password?: string;
-    support_email?: string;
-    support_phone?: string;
-    monnify_key: string;
-    monnify_secret: string;
-    monnify_contract: string;
+export interface OnboardingData {
+  email: string;
+  name: string;
+  domain: string;
+  password: string;
+  admin_password?: string;
+  support_email?: string;
+  support_phone?: string;
+  monnify_key: string;
+  monnify_secret: string;
+  monnify_contract: string;
 }
 
 export interface ResetPasswordData {
