@@ -208,7 +208,7 @@ export default function ElectricityPage() {
                 key={t}
                 type="button"
                 onClick={() => setFormData({ ...formData, type: t as any })}
-                className={`flex-1 py-2.5 rounded-xl text-[10px] font-black transition-all uppercase tracking-widest ${formData.type === t
+                className={`flex-1 cursor-pointer py-2.5 rounded-xl text-[10px] font-black transition-all uppercase tracking-widest ${formData.type === t
                     ? "bg-background shadow-sm text-foreground"
                     : "text-foreground/40 hover:text-foreground/60"
                   }`}
@@ -254,7 +254,7 @@ export default function ElectricityPage() {
             )}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
             <FormInput
               label="Amount"
               type="number"
@@ -270,6 +270,7 @@ export default function ElectricityPage() {
               label="Recipient Phone"
               icon={Phone}
               type="tel"
+              maxLength={11}
               placeholder="For Token Delivery"
               value={formData.phoneNumber}
               onChange={(e) =>

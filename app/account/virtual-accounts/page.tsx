@@ -59,6 +59,7 @@ export default function VirtualAccountPage() {
       } catch (error : any) { 
         const apiMessage = error.response?.data?.message || "Unable to load account details";
         toast.error(apiMessage); 
+        router.replace("/account/identity-verification");  
       } finally {
         setLoading(false);
       }
