@@ -102,12 +102,23 @@ export default function DataPage() {
 
   return (
     <div className="space-y-6 pb-20"> 
-      <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-foreground border border-foreground/10">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">Total Data</p>
-        <h2 className="text-4xl font-black mt-1">{formatCurrency(stats?.total_amount || 0)}</h2>
-        <button onClick={() => setIsModalOpen(true)} className="mt-6 cursor-pointer flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase shadow-lg shadow-brand-red/10">
-          <Database size={16} aria-label="Buy Data" /> Buy Data
-        </button>
+       <div className="relative overflow-hidden bg-brand-black rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
+        <div className="relative z-10">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">
+            Total Airtime Purchase
+          </p>
+          <h2 className="text-3xl md:text-4xl font-black mt-1 tracking-tighter text-foreground">
+            {formatCurrency(stats?.total_amount || 0)}
+          </h2>
+          <button
+            title="Buy Airtime"
+            onClick={() => setIsModalOpen(true)}
+            className="mt-6 cursor-pointer flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all shadow-lg shadow-brand-red/10"
+          >
+            <Database size={16} aria-label="Buy Data" /> Buy Data
+          </button>
+        </div>
+        <Database className="absolute -right-4 -bottom-4 text-foreground/5 w-32 h-32 md:w-40 md:h-40 rotate-12" />
       </div>
 
         {/* History Section */}

@@ -86,7 +86,6 @@ export default function AirtimePage() {
 
   return (
     <div className="space-y-6 pb-20">
-      {/* Premium Stats Card */}
       <div className="relative overflow-hidden bg-brand-black rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
         <div className="relative z-10">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">
