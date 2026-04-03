@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useMemo } from "react";
-import { Phone, Wallet, Database, List, XCircle, CheckCircle2 } from "lucide-react";
+import { Phone, Database, List } from "lucide-react";
 import { useWallet } from "@/hooks/useWallet";
 import { TransactionList } from "../components/TransactionList";
 import { Modal } from "../components/ui/Modal";
@@ -106,9 +106,17 @@ export default function DataPage() {
       <div className="relative overflow-hidden bg-brand-black rounded-[2.5rem] p-8 text-foreground border border-foreground/10">
         <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">Total Data</p>
         <h2 className="text-4xl font-black mt-1">{formatCurrency(stats?.total_amount || 0)}</h2>
-        <button onClick={() => setIsModalOpen(true)} className="mt-6 flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase shadow-lg shadow-brand-red/10">
-          <Database size={16} /> Buy Data
+        <button onClick={() => setIsModalOpen(true)} className="mt-6 cursor-pointer flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase shadow-lg shadow-brand-red/10">
+          <Database size={16} aria-label="Buy Data" /> Buy Data
         </button>
+      </div>
+
+        {/* History Section */}
+      <div className="space-y-4">
+        <h3 className="font-black text-foreground/40 px-1 uppercase text-[10px] tracking-[0.2em]">
+          Data History
+        </h3>
+        <TransactionList limit={10} showTitle={false} type="DATA" />
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Purchase Data">

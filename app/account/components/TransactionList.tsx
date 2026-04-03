@@ -92,7 +92,12 @@ export function TransactionList({
                   <div>
                     <p className="text-sm font-black text-foreground line-clamp-1">
                       {tx.network
-                        ? `${tx.network} Airtime`
+                        ? `${tx.network} ${tx.type === "DATA" ? "Data Purchase" :
+                          tx.type === "AIRTIME" ? "Airtime Top-up" :
+                            tx.type === "CABLE" ? "Cable Subscription" :
+                              tx.type === "ELECTRICITY" ? "Electricity Token" :
+                                "Transaction"
+                        }`
                         : tx.remark || "Wallet Transaction"}
                     </p>
                     <p className="text-[10px] font-bold text-foreground/40 uppercase tracking-wider">
@@ -130,28 +135,48 @@ export function TransactionList({
 
       {/* Pagination Controls */}
       {pagination.last_page > 1 && (
-        <div className="flex items-center justify-between bg-background p-2 rounded-2xl border border-foreground/5 shadow-sm">
+        <div className="mt-8 flex items-center justify-between p-1.5 rounded-[2rem] bg-foreground/[0.03] border border-foreground/10 backdrop-blur-md shadow-2xl">
+
+          {/* PREVIOUS BUTTON (Less) */}
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1 || isLoading}
-            className="p-2 rounded-xl cursor-pointer hover:bg-brand-red/80 bg-brand-red text-brand-burgundy disabled:opacity-20 transition-all"
+            className="group relative flex items-center gap-2 px-6 py-3 rounded-[1.5rem] overflow-hidden transition-all duration-300 disabled:opacity-20 active:scale-95 cursor-pointer"
           >
-            <ChevronLeft size={20} className="font-black" />
+            {/* Background layer */}
+            <div className={`absolute inset-0 transition-colors duration-300 ${page === 1 ? 'bg-foreground/5' : 'bg-brand-red shadow-[0_0_20px_rgba(255,69,69,0.2)] group-hover:bg-brand-red/90'}`} />
+
+            <span className="relative text-[11px] font-black text-brand-burgundy uppercase tracking-[0.15em] transition-transform group-hover:-translate-x-1">
+              Less
+            </span>
           </button>
 
-          <span className="text-[10px] font-black text-foreground/40 uppercase tracking-widest">
-            Page {page} of {pagination.last_page}
-          </span>
+          {/* PAGE INDICATOR */}
+          <div className="flex flex-col items-center">
+            <span className="text-[9px] font-black text-foreground/30 uppercase tracking-[0.2em] mb-0.5">
+              Interval
+            </span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-sm font-black text-foreground">{page}</span>
+              <span className="text-[10px] font-bold text-foreground/20">/</span>
+              <span className="text-[10px] font-bold text-foreground/40">{pagination.last_page}</span>
+            </div>
+          </div>
 
+          {/* NEXT BUTTON (More) */}
           <button
-            onClick={() =>
-              setPage((p) => Math.min(pagination.last_page, p + 1))
-            }
+            onClick={() => setPage((p) => Math.min(pagination.last_page, p + 1))}
             disabled={page === pagination.last_page || isLoading}
-            className="p-2 rounded-xl cursor-pointer hover:bg-brand-red/80 bg-brand-red text-brand-burgundy disabled:opacity-20 transition-all"
+            className="group relative flex items-center gap-2 px-6 py-3 rounded-[1.5rem] overflow-hidden transition-all duration-300 disabled:opacity-20 active:scale-95 cursor-pointer"
           >
-            <ChevronRight size={20} className="font-black" />
+            {/* Background layer with a subtle glow effect */}
+            <div className={`absolute inset-0 transition-colors duration-300 ${page === pagination.last_page ? 'bg-foreground/5' : 'bg-brand-red shadow-[0_0_20px_rgba(255,69,69,0.2)] group-hover:bg-brand-red/90'}`} />
+
+            <span className="relative text-[11px] font-black text-brand-burgundy uppercase tracking-[0.15em] transition-transform group-hover:translate-x-1">
+              More 
+            </span>
           </button>
+
         </div>
       )}
 

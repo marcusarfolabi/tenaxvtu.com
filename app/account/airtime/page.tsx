@@ -14,7 +14,6 @@ import {
   canAffordTransaction,
   getInadequateBalanceMessage,
 } from "@/util/wallet-helper";
-import { detectNetwork } from "@/util/detectNetwork";
 import { formatCurrency } from "@/util/getUserCurrency";
 import { useNetworkDetection } from "@/hooks/useNetworkDetection";
 
