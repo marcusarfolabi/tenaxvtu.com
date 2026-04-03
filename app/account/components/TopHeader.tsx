@@ -51,24 +51,22 @@ export default function TopHeader({ onMenuClick }: { onMenuClick: () => void }) 
   return (
     <header className="sticky top-0 z-40 flex h-20 shrink-0 items-center gap-x-4 border-b border-foreground/5 bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 transition-colors duration-300">
 
-      {/* MOBILE TRIGGER & LOGO */}
       <div className="flex flex-1 items-center gap-4 lg:hidden">
         <Logo />
       </div>
 
       <div className="flex flex-1 gap-x-4 justify-end items-center">
 
-        {/* THEME TOGGLE */}
         <button
           onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-          className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground/40 hover:text-brand-red transition-all"
+          className="p-2.5 cursor-pointer rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground/40 hover:text-brand-red transition-all"
         >
           {mounted && (resolvedTheme === "dark" ? <Sun size={20} /> : <Moon size={20} />)}
         </button>
 
         {/* NOTIFICATIONS */}
         <Popover className="relative">
-          <Popover.Button className="p-2.5 rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground/40 hover:text-brand-red transition-all relative">
+          <Popover.Button className="p-2.5 cursor-pointer rounded-xl bg-foreground/5 border border-foreground/5 hover:bg-foreground/10 text-foreground/40 hover:text-brand-red transition-all relative">
             <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
             {unreadCount > 0 && (
               <span className="absolute top-2.5 right-2.5 flex h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-background" />
@@ -117,7 +115,7 @@ export default function TopHeader({ onMenuClick }: { onMenuClick: () => void }) 
         {/* USER ACCOUNT MENU */}
         <Menu as="div" className="relative">
           <MenuButton className="flex items-center p-1 group outline-none">
-            <div className="h-10 w-10 rounded-full bg-linear-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-red text-xs font-black border-2 border-background shadow-md transition-all group-hover:scale-105">
+            <div className="p-2.5 cursor-pointer rounded-full bg-linear-to-br from-brand-black to-gray-800 flex items-center justify-center text-brand-red text-xs font-black border-2 border-background shadow-md transition-all group-hover:scale-105">
               {mounted ? userInitials : "U"}
             </div>
           </MenuButton>

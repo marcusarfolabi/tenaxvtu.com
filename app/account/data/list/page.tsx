@@ -17,6 +17,7 @@ import FormInput from "@/components/common/FormInput";
 import SubmitButton from "@/components/common/SubmitButton";
 import { Modal } from "../../components/ui/Modal";
 import { Switch } from "@headlessui/react";
+import { formatCurrency } from "@/util/getUserCurrency";
 
 // --- SKELETON COMPONENT ---
 const PlanSkeleton = () => (
@@ -48,6 +49,7 @@ export default function PlanManagementPage() {
   const [plans, setPlans] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
+  const [activeTab, setActiveTab] = useState("ALL");
 
   // Modal State
   const [selectedPlan, setSelectedPlan] = useState<any>(null);
@@ -64,9 +66,10 @@ export default function PlanManagementPage() {
     fetchPlans();
   }, []);
 
+  // Reset pagination when search OR tab changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, activeTab]);
 
   const fetchPlans = async () => {
     setIsLoading(true);
@@ -81,14 +84,23 @@ export default function PlanManagementPage() {
     }
   };
 
-  // --- PAGINATION LOGIC ---
+  // --- GROUPING LOGIC ---
+  const networks = useMemo(() => {
+    const unique = Array.from(new Set(plans.map((p) => p.network.toUpperCase())));
+    return ["ALL", ...unique.sort()];
+  }, [plans]);
+
   const filteredPlans = useMemo(() => {
-    return plans.filter(
-      (p) =>
+    return plans.filter((p) => {
+      const matchesSearch =
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.network.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
-  }, [plans, searchTerm]);
+        p.network.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesTab = activeTab === "ALL" || p.network.toUpperCase() === activeTab;
+
+      return matchesSearch && matchesTab;
+    });
+  }, [plans, searchTerm, activeTab]);
 
   const totalPages = Math.ceil(filteredPlans.length / pageSize);
 
@@ -138,7 +150,6 @@ export default function PlanManagementPage() {
         `${plan.name} is now ${plan.status === "active" ? "inactive" : "active"}`,
       );
 
-      // Update local state
       setPlans((prev) =>
         prev.map((p) =>
           p.code === plan.code
@@ -180,6 +191,22 @@ export default function PlanManagementPage() {
         </div>
       </div>
 
+      {/* --- NETWORK TABS --- */}
+      <div className="flex items-center justify-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+        {networks.map((net) => (
+          <button
+            key={net}
+            onClick={() => setActiveTab(net)}
+            className={`px-6 py-2.5 cursor-pointer rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${activeTab === net
+                ? "bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20"
+                : "bg-background border-foreground/10 text-foreground/40 hover:border-brand-red/40"
+              }`}
+          >
+            {net}
+          </button>
+        ))}
+      </div>
+
       {/* Responsive Table/Stack */}
       <div className="bg-background rounded-[2.5rem] overflow-hidden border border-foreground/5 shadow-xl">
         {/* Desktop Header */}
@@ -203,7 +230,6 @@ export default function PlanManagementPage() {
 
         <div className="divide-y divide-foreground/5">
           {isLoading ? (
-            // Show 6 skeletons while loading
             Array(6)
               .fill(0)
               .map((_, i) => <PlanSkeleton key={i} />)
@@ -233,8 +259,8 @@ export default function PlanManagementPage() {
                       <span className="md:hidden text-[9px] font-black text-foreground/30 uppercase">
                         API
                       </span>
-                      <p className="text-sm font-bold text-foreground">
-                        ₦{parseFloat(plan.price).toLocaleString()}
+                      <p className="text-sm font-bold text-foreground"> 
+                        {formatCurrency(plan.price)}
                       </p>
                     </div>
                     <div className="flex flex-col md:items-center">
@@ -242,7 +268,7 @@ export default function PlanManagementPage() {
                         Selling Cost
                       </span>
                       <p className="text-sm font-black text-brand-red">
-                        ₦{parseFloat(plan.reseller_price).toLocaleString()}
+                        {formatCurrency(plan.reseller_price)} 
                       </p>
                     </div>
                     <div className="flex flex-col md:items-center text-right md:text-center">
@@ -260,7 +286,6 @@ export default function PlanManagementPage() {
                   </div>
 
                   <div className="w-full flex items-center justify-between gap-1">
-                    {/* <div className="w-full md:w-auto text-right"> */}
                     <div className="flex items-center gap-3">
                       <Switch
                         checked={plan.status === "active"}
@@ -306,11 +331,12 @@ export default function PlanManagementPage() {
           ) : (
             <div className="p-20 text-center">
               <p className="text-foreground/40 font-bold text-sm">
-                No plans found matching your search.
+                No plans found matching your selection.
               </p>
             </div>
           )}
         </div>
+
         {/* Pagination Controls */}
         {!isLoading && totalPages > 1 && (
           <div className="bg-foreground/2 px-8 py-4 flex items-center justify-between border-t border-foreground/5">
@@ -321,14 +347,13 @@ export default function PlanManagementPage() {
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="p-2 rounded-lg hover:bg-foreground/5 disabled:opacity-20 transition-all"
+                className="p-2 rounded-lg hover:bg-foreground/5 disabled:opacity-20 transition-all cursor-pointer"
               >
                 <ChevronLeft size={18} />
               </button>
               <div className="flex gap-1">
                 {[...Array(totalPages)].map((_, i) => {
                   const pageNum = i + 1;
-                  // Only show 3 pages if there are many, for mobile sanity
                   if (
                     totalPages > 5 &&
                     Math.abs(pageNum - currentPage) > 1 &&
@@ -341,7 +366,7 @@ export default function PlanManagementPage() {
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all ${currentPage === pageNum
+                      className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all cursor-pointer ${currentPage === pageNum
                         ? "bg-brand-red text-brand-burgundy shadow-lg shadow-brand-red/20"
                         : "hover:bg-foreground/5 text-foreground/40"
                         }`}
@@ -356,7 +381,7 @@ export default function PlanManagementPage() {
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-lg hover:bg-foreground/5 disabled:opacity-20 transition-all"
+                className="p-2 rounded-lg hover:bg-foreground/5 disabled:opacity-20 transition-all cursor-pointer"
               >
                 <ChevronRight size={18} />
               </button>
@@ -365,14 +390,12 @@ export default function PlanManagementPage() {
         )}
       </div>
 
-      {/* Modal remains same as your snippet, just ensuring selectedPlan? is used safely */}
       <Modal
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         title="Update Plan Price"
       >
         <form onSubmit={handleUpdatePrice} className="p-6 space-y-6">
-          {/* Info Cards Row */}
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-foreground/5 p-4 rounded-2xl border border-foreground/5">
               <div className="flex items-center gap-2 text-foreground/40 mb-1">
@@ -382,7 +405,7 @@ export default function PlanManagementPage() {
                 </span>
               </div>
               <p className="text-lg font-black tracking-tight">
-                ₦{parseFloat(selectedPlan?.price || "0").toLocaleString()}
+                {formatCurrency(selectedPlan?.price || "0")}
               </p>
             </div>
             <div className="bg-foreground/5 p-4 rounded-2xl border border-foreground/5">
@@ -413,7 +436,7 @@ export default function PlanManagementPage() {
           </div>
 
           <FormInput
-            label="New Reseller Price (₦)"
+            label="New Reseller Price (NGN)"
             name="reseller_price"
             type="number"
             value={newResellerPrice}

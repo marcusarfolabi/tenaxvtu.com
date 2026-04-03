@@ -24,7 +24,7 @@ export function TransactionList({
   type,
 }: TransactionListProps) {
   const [page, setPage] = useState(1);
-  const [selectedTx, setSelectedTx] = useState<any>(null); // State for modal
+  const [selectedTx, setSelectedTx] = useState<any>(null);  
 
   const { transactions, pagination, isLoading, balance } = useWallet({
     page,
@@ -36,7 +36,7 @@ export function TransactionList({
   if (isLoading) {
     return (
       <div className="space-y-3 animate-pulse">
-        {[...Array(limit || 3)].map((_, i) => (
+        {[...Array(3)].map((_, i) => (
           <div key={i} className="h-20 bg-gray-100 rounded-2xl w-full" />
         ))}
       </div>
@@ -73,7 +73,6 @@ export function TransactionList({
                 className="bg-background p-4 rounded-3xl flex items-center justify-between border border-foreground/5 shadow-sm active:scale-[0.98] transition-all cursor-pointer hover:border-brand-red/20"
               >
                 <div className="flex items-center gap-3">
-                  {/* Logo Container with adaptive theme */}
                   <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-foreground/5 border border-foreground/10 overflow-hidden shrink-0">
                     {providerIcon ? (
                       <Image
@@ -135,17 +134,14 @@ export function TransactionList({
 
       {/* Pagination Controls */}
       {pagination.last_page > 1 && (
-        <div className="mt-8 flex items-center justify-between p-1.5 rounded-[2rem] bg-foreground/[0.03] border border-foreground/10 backdrop-blur-md shadow-2xl">
+        <div className="mt-8 flex items-center justify-between p-1.5 rounded-4xl bg-foreground/3 border border-foreground/10 backdrop-blur-md shadow-2xl">
 
-          {/* PREVIOUS BUTTON (Less) */}
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1 || isLoading}
-            className="group relative flex items-center gap-2 px-6 py-3 rounded-[1.5rem] overflow-hidden transition-all duration-300 disabled:opacity-20 active:scale-95 cursor-pointer"
+            className="group relative flex items-center gap-2 px-6 py-3 rounded-3xl overflow-hidden transition-all duration-300 disabled:opacity-20 active:scale-95 cursor-pointer"
           >
-            {/* Background layer */}
             <div className={`absolute inset-0 transition-colors duration-300 ${page === 1 ? 'bg-foreground/5' : 'bg-brand-red shadow-[0_0_20px_rgba(255,69,69,0.2)] group-hover:bg-brand-red/90'}`} />
-
             <span className="relative text-[11px] font-black text-brand-burgundy uppercase tracking-[0.15em] transition-transform group-hover:-translate-x-1">
               Less
             </span>
@@ -167,11 +163,9 @@ export function TransactionList({
           <button
             onClick={() => setPage((p) => Math.min(pagination.last_page, p + 1))}
             disabled={page === pagination.last_page || isLoading}
-            className="group relative flex items-center gap-2 px-6 py-3 rounded-[1.5rem] overflow-hidden transition-all duration-300 disabled:opacity-20 active:scale-95 cursor-pointer"
+            className="group relative flex items-center gap-2 px-6 py-3 rounded-3xl overflow-hidden transition-all duration-300 disabled:opacity-20 active:scale-95 cursor-pointer"
           >
-            {/* Background layer with a subtle glow effect */}
             <div className={`absolute inset-0 transition-colors duration-300 ${page === pagination.last_page ? 'bg-foreground/5' : 'bg-brand-red shadow-[0_0_20px_rgba(255,69,69,0.2)] group-hover:bg-brand-red/90'}`} />
-
             <span className="relative text-[11px] font-black text-brand-burgundy uppercase tracking-[0.15em] transition-transform group-hover:translate-x-1">
               More 
             </span>

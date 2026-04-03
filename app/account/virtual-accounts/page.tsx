@@ -2,17 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronLeft, Copy, Check, Info, Landmark, Share2, Wallet } from "lucide-react";
+import { Copy, Check, Info, Landmark, Wallet } from "lucide-react";
 import { walletApi } from "@/lib/api/wallet";
 import { toast } from "react-hot-toast";
 
-// --- SKELETON COMPONENT ---
 const AccountSkeleton = () => (
   <div className="space-y-6 animate-pulse">
-    {/* Info Banner Skeleton */}
     <div className="h-12 bg-foreground/5 rounded-2xl border border-foreground/5" />
 
-    {/* Banking Slip Skeleton */}
     <div className="bg-background rounded-[2.5rem] border border-foreground/5 overflow-hidden shadow-sm">
       <div className="bg-foreground/5 p-6 flex items-center gap-3">
         <div className="w-10 h-10 bg-foreground/10 rounded-lg" />
@@ -24,7 +21,7 @@ const AccountSkeleton = () => (
       <div className="p-8 space-y-8">
         <div className="flex flex-col items-center space-y-3">
           <div className="h-3 w-24 bg-foreground/5 rounded" />
-          <div className="h-12 w-full max-w-[200px] bg-foreground/10 rounded-xl" />
+          <div className="h-12 w-full max-w-50 bg-foreground/10 rounded-xl" />
           <div className="h-8 w-32 bg-foreground/5 rounded-full" />
         </div>
         <div className="border-t border-dashed border-foreground/10" />
@@ -40,7 +37,6 @@ const AccountSkeleton = () => (
         </div>
       </div>
     </div>
-    {/* Button Skeleton */}
     <div className="h-16 bg-foreground/10 rounded-2xl w-full" />
   </div>
 );
@@ -56,10 +52,10 @@ export default function VirtualAccountPage() {
       try {
         const res = await walletApi.virtualAccount();
         setAccountData(res.data.data);
-      } catch (error : any) { 
+      } catch (error: any) {
         const apiMessage = error.response?.data?.message || "Unable to load account details";
-        toast.error(apiMessage); 
-        router.replace("/account/identity-verification");  
+        toast.error(apiMessage);
+        router.replace("/account/identity-verification");
       } finally {
         setLoading(false);
       }
@@ -80,8 +76,8 @@ export default function VirtualAccountPage() {
 
   return (
     <div className="min-h-screen bg-background transition-colors duration-300">
-      
-      <div className="space-y-6 pb-20"> 
+
+      <div className="space-y-6 pb-20">
         {loading ? (
           <AccountSkeleton />
         ) : (
@@ -94,7 +90,6 @@ export default function VirtualAccountPage() {
               </p>
             </div>
 
-            {/* The "Banking Slip" UI */}
             <div className="bg-background rounded-[2.5rem] shadow-2xl shadow-brand-red/5 overflow-hidden border border-foreground/5">
               <div className="bg-brand-black p-6 flex items-center justify-between">
                 <div className="flex items-center gap-3 text-white">

@@ -65,7 +65,7 @@ export default function VerifyIdentity() {
   return (
     <div className="max-w-md mx-auto space-y-6 pb-20">
       <div className="text-center space-y-2">
-        <div className="mx-auto w-14 h-14 bg-brand-red/10 rounded-[1.5rem] flex items-center justify-center mb-2">
+        <div className="mx-auto w-14 h-14 bg-brand-red/10 rounded-3xl flex items-center justify-center mb-2">
           <ShieldCheck size={28} className="text-brand-red" />
         </div>
         <h1 className="text-xl font-black text-foreground uppercase tracking-tight">

@@ -1,15 +1,9 @@
 "use client";
-import { useState } from "react";
 import TopHeader from "./components/TopHeader";
 import Sidebar from "./components/Sidebar";
 import VerificationBanner from "@/components/common/VerificationBanner";
 import {
-  MessageCircle,
-  LayoutGrid,
-  ArrowUpRight,
-  History,
-  UserCircle2,
-  CreditCard
+  MessageCircle, 
 } from "lucide-react";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
@@ -41,7 +35,6 @@ export default function CustomerLayout({
           </div>
         </div>
 
-        {/* CONTENT AREA */}
         <div className="lg:pl-64 flex flex-col min-h-screen">
           <TopHeader onMenuClick={() => { }} /> 
 
@@ -51,8 +44,7 @@ export default function CustomerLayout({
           </main>
         </div>
 
-        {/* MOBILE BOTTOM NAVIGATION (GTBank Style) */}
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-[100] bg-background/80 backdrop-blur-xl border-t border-foreground/5 px-4 pb-safe-area-inset-bottom">
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-100 bg-background/80 backdrop-blur-xl border-t border-foreground/5 px-4 pb-safe-area-inset-bottom">
           <div className="flex justify-between items-center h-16 max-w-md mx-auto">
             {ACCOUNT_MENU.map((item) => {
               const isActive = pathname === item.href;
@@ -77,12 +69,11 @@ export default function CustomerLayout({
           </div>
         </nav>
 
-        {/* FLOATING WHATSAPP ICON (Pushed up to clear footer) */}
         <a
           href={`https://wa.me/${whatsappNumber}?text=${message}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="fixed bottom-24 right-6 z-[60] group flex items-center"
+          className="fixed bottom-24 right-6 z-60 group flex items-center"
         >
           <div className="w-14 h-14 bg-background border border-foreground/10 text-foreground rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-90 relative">
             <MessageCircle size={24} fill="currentColor" className="text-foreground" />

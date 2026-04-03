@@ -95,11 +95,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   },
                   success: {
                     duration: 4000,
-                    iconTheme: { primary: "#8B1A1A", secondary: "white" },
+                    iconTheme: { primary: "#22C55E", secondary: "white" },
                     style: { border: "1px solid rgba(34, 197, 94, 0.2)" },
                   },
                   error: {
                     duration: 5000,
+                    iconTheme: { primary: "#EF4444", secondary: "white" },
                     style: { border: "1px solid rgba(239, 68, 68, 0.2)" },
                   },
                 }}
