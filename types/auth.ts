@@ -36,7 +36,7 @@ export interface RegisterData {
 
 export interface OnboardingData {
   email: string;
-  name: string;
+  business_name: string;
   domain: string;
   password: string;
   admin_password?: string;

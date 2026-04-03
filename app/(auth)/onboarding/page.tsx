@@ -19,7 +19,7 @@ export default function Onboarding() {
 
   const [formData, setFormData] = useState({
     email: "",
-    name: "",
+    business_name: "",
     password: "",
     adminPassword: "",
     domain: process.env.NEXT_PUBLIC_APP_URL || "",
@@ -50,7 +50,7 @@ export default function Onboarding() {
     try {
       await authApi.onboarding({
         email: formData.email,
-        name: formData.name,
+        business_name: formData.business_name,
         domain: formData.domain,
         password: formData.password,
         admin_password: formData.adminPassword,
@@ -199,10 +199,10 @@ export default function Onboarding() {
                   <div className="space-y-4">
                     <FormInput
                       label="Business Name"
-                      name="name"
+                      name="business_name"
                       type="text"
                       icon={Briefcase}
-                      value={formData.name}
+                      value={formData.business_name}
                       onChange={handleInputChange}
                       placeholder="ABC Enterprises"
                     />
