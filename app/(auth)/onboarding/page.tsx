@@ -69,10 +69,29 @@ export default function Onboarding() {
 
       router.push("/account");
     } catch (error: any) {
-      toast.error(
-        error.response?.data?.message ||
-        "Onboarding failed. Please check your credentials.",
-      );
+      const validationErrors = error.response?.data?.errors;
+      let errorMessage = error.response?.data?.message || "Onboarding failed. Please check your credentials.";
+
+      if (validationErrors) { 
+        const firstErrorField = Object.values(validationErrors)[0] as string[];
+        if (firstErrorField && firstErrorField.length > 0) {
+          errorMessage = firstErrorField[0];
+        }
+      }
+
+      toast.error(errorMessage, {
+        style: {
+          borderRadius: '16px',
+          background: '#1a1a1a',
+          color: '#fff',
+          border: '1px solid rgba(139,26,26,0.5)',
+        },
+        iconTheme: {
+          primary: '#8b1a1a',
+          secondary: '#fff',
+        },
+      });
+
     } finally {
       setIsLoading(false);
     }
