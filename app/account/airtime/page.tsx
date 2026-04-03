@@ -14,6 +14,7 @@ import {
   canAffordTransaction,
   getInadequateBalanceMessage,
 } from "@/util/wallet-helper";
+import { detectNetwork } from "@/util/detectNetwork";
 
 export default function AirtimePage() {
   const { user } = useAuth();
@@ -43,8 +44,26 @@ export default function AirtimePage() {
   const isFormValid =
     formData.phone.length >= 11 && formData.amount && canAfford;
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    const cleaned = val.replace(/\D/g, '');
+    const detected = detectNetwork(cleaned);
+    setFormData((prev) => ({
+      ...prev,
+      phone: cleaned,
+      network: detected ? detected : prev.network
+    }));
+  };
+  
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const amountNum = parseFloat(formData.amount);
+    if (isNaN(amountNum) || amountNum <= 0) {
+      toast.error("Invalid amount provided");
+      return;
+    }
+    
     if (!isFormValid) return;
 
     if (!canAfford) {
@@ -163,9 +182,7 @@ export default function AirtimePage() {
               inputMode="tel"
               maxLength={11}
               value={formData.phone}
-              onChange={(e) =>
-                setFormData({ ...formData, phone: e.target.value })
-              }
+              onChange={handlePhoneChange} 
               icon={Phone}
               placeholder="080..."
             />
