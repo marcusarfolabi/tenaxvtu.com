@@ -79,7 +79,7 @@ export default function Footer() {
               <li className="flex items-start gap-3 text-foreground/60">
                 <MapPin size={20} className="text-brand-red shrink-0" />
                 <span className="text-sm">
-                  Victoria Island, Lagos, NG
+                  {process.env.NEXT_PUBLIC_ADDRESS || "VI, Lagos, Nigeria"}
                 </span>
               </li>
               <li className="flex items-center gap-3 text-foreground/60">
@@ -106,7 +106,7 @@ export default function Footer() {
         <div className="pt-10 border-t border-foreground/5 flex flex-col md:flex-row justify-between items-center gap-6">
           {/* Copyright Left */}
           <p className="text-foreground/30 text-[11px] font-bold tracking-wide">
-            © {new Date().getFullYear()} Tenax Telecoms. All rights reserved.
+            © {new Date().getFullYear()} {process.env.NEXT_PUBLIC_APP_NAME} Telecoms. All rights reserved.
           </p>
 
           {/* Navigation Middle */}
