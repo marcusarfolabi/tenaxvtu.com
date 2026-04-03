@@ -80,20 +80,8 @@ export default function VirtualAccountPage() {
 
   return (
     <div className="min-h-screen bg-background transition-colors duration-300">
-      {/* Header */}
-      <div className="bg-background/80 backdrop-blur-md px-4 py-6 flex items-center justify-between sticky top-0 z-20 border-b border-foreground/5">
-        <button onClick={() => router.back()} className="p-2 hover:bg-foreground/5 rounded-xl transition-colors text-foreground">
-          <ChevronLeft size={24} />
-        </button>
-        <h1 className="text-[10px] font-black text-foreground uppercase tracking-[0.2em]">
-          Top-up Wallet
-        </h1>
-        <button className="p-2 text-foreground/20">
-          <Share2 size={20} />
-        </button>
-      </div>
-
-      <main className="p-5 max-w-md mx-auto">
+      
+      <div className="space-y-6 pb-20"> 
         {loading ? (
           <AccountSkeleton />
         ) : (
@@ -146,7 +134,7 @@ export default function VirtualAccountPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label className="text-[10px] font-black text-foreground/30 uppercase tracking-widest">Account Name</label>
-                    <p className="text-sm font-black text-foreground uppercase break-words leading-tight">
+                    <p className="text-sm font-black text-foreground uppercase wrap-break-words leading-tight">
                       {activeAccount?.accountName || accountData?.account_name}
                     </p>
                   </div>
@@ -172,7 +160,7 @@ export default function VirtualAccountPage() {
             </button>
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 }

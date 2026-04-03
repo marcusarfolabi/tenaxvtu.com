@@ -12,7 +12,7 @@ export default function VerifyIdentity() {
   const { user, refreshUser } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [method, setMethod] = useState<"BVN" | "NIN">("BVN"); // State to toggle method
+  const [method, setMethod] = useState<"BVN" | "NIN">("BVN");  
 
   const [formData, setFormData] = useState({
     bvn: "",
