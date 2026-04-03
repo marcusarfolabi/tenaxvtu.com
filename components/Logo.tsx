@@ -22,7 +22,7 @@ export default function Logo({ className = "" }: LogoProps) {
         <div className="absolute inset-0 bg-brand-red/20 blur-xl rounded-full -z-10 opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>
 
-      <span className="font-black text-xl tracking-tighter uppercase text-foreground transition-colors duration-300">
+      <span className="font-black text-md tracking-tighter uppercase text-foreground transition-colors duration-300">
         {appName} <span className="text-brand-red">.</span>
       </span>
     </Link>
