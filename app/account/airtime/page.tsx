@@ -16,6 +16,7 @@ import {
 } from "@/util/wallet-helper";
 import { detectNetwork } from "@/util/detectNetwork";
 import { formatCurrency } from "@/util/getUserCurrency";
+import { useNetworkDetection } from "@/hooks/useNetworkDetection";
 
 export default function AirtimePage() {
   const { user } = useAuth();
@@ -45,21 +46,14 @@ export default function AirtimePage() {
   const isFormValid =
     formData.phone.length >= 11 && formData.amount && canAfford;
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-    const cleaned = val.replace(/\D/g, '');
-    const detected = detectNetwork(cleaned);
-    setFormData((prev) => ({
-      ...prev,
-      phone: cleaned,
-      network: detected ? detected : prev.network
-    }));
-  };
+  const { handlePhoneChange } = useNetworkDetection(setFormData);
+ 
   
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const amountNum = parseFloat(formData.amount);
+    
     if (isNaN(amountNum) || amountNum <= 0) {
       toast.error("Invalid amount provided");
       return;
