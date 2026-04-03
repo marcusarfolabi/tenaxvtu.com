@@ -21,9 +21,9 @@ export default function Onboarding() {
     email: "",
     password: "",
     adminPassword: "",
-    domain: "",
-    supportEmail: "",
-    supportContactPhone: "",
+    domain: process.env.NEXT_PUBLIC_APP_URL || "",
+    supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "",
+    supportContactPhone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || "",
     monnifyApiKey: "",
     monnifySecretKey: "",
     monnifyContractCode: "",
@@ -200,9 +200,9 @@ export default function Onboarding() {
                       name="domain"
                       type="url"
                       icon={Globe}
-                      value={formData.domain || process.env.NEXT_PUBLIC_APP_URL}
+                      value={formData.domain}
                       onChange={handleInputChange}
-                      placeholder={process.env.NEXT_PUBLIC_APP_URL || "https://yourdomain.com"}
+                      placeholder="https://yourdomain.com"
                     />
 
                     <FormInput
@@ -210,9 +210,9 @@ export default function Onboarding() {
                       name="supportEmail"
                       type="email"
                       icon={Mail}
-                      value={formData.supportEmail || process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
+                      value={formData.supportEmail}
                       onChange={handleInputChange}
-                      placeholder={process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
+                      placeholder="support@example.com"
                     />
 
                     <FormInput
@@ -221,9 +221,9 @@ export default function Onboarding() {
                       type="tel"
                       maxLength={13}
                       icon={PhoneIcon}
-                      value={formData.supportContactPhone || process.env.NEXT_PUBLIC_SUPPORT_PHONE}
+                      value={formData.supportContactPhone} 
                       onChange={handleInputChange}
-                      placeholder={process.env.NEXT_PUBLIC_SUPPORT_PHONE}
+                      placeholder="234..."
                     />
                     <p className="text-[10px] text-foreground/40 -mt-2 font-bold uppercase tracking-wider">
                       Must start with 234 followed by 10 digits.
