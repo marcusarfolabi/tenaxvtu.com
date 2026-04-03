@@ -21,7 +21,7 @@ export default function Services() {
           {SERVICES.map((s, i) => (
             <div
               key={i}
-              className="group relative cursor-pointer p-8 rounded-[2.5rem] border border-foreground/5 transition-all duration-500 hover:border-brand-red hover:shadow-2xl hover:shadow-brand-red/10 bg-foreground/[0.02] dark:bg-foreground/[0.04] hover:-translate-y-2"
+              className="group relative cursor-pointer p-8 rounded-[2.5rem] border border-foreground/5 transition-all duration-500 hover:border-brand-red hover:shadow-2xl hover:shadow-brand-red/10 bg-foreground/2 dark:bg-foreground/4 hover:-translate-y-2"
             >
               <div
                 className={`w-14 h-14 ${s.color} rounded-2xl flex items-center justify-center mb-8 shadow-sm group-hover:rotate-6 transition-transform duration-300`}
