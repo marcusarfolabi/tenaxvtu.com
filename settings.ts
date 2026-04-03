@@ -12,7 +12,9 @@ import {
   Headphones,
   ShieldCheck,
   GraduationCap,
-  Wallet
+  Wallet,
+  Settings,
+  User
 } from "lucide-react";
  
 export const MAIN_NAVIGATION = [
@@ -46,14 +48,23 @@ export const FOOTER_NAVIGATION = {
 export const ACCOUNT_MENU = [
   { name: "Home", href: "/account", icon: HomeIcon },
   { name: "Airtime", href: "/account/airtime", icon: Smartphone },
-  { name: "Data Bundle", href: "/account/data", icon: Database },
-  { name: "Cable TV", href: "/account/cable", icon: Tv },
-  { name: "Electricity", href: "/account/electricity", icon: Zap },
-  { name: "Transactions", href: "/account/transactions", icon: History },
-  { name: "Customers", href: "/account/users", icon: Users },
-  { name: "Data Plans", href: "/account/data/list", icon: List },
-  { name: "Sales Overview", href: "/account/users/sales", icon: WalletCards },
+  { name: "Data", href: "/account/data", icon: Database },
+  { name: "Cable", href: "/account/cable", icon: Tv },
+  { name: "Power", href: "/account/electricity", icon: Zap }, 
 ];
+
+export const MENU_CONFIG = {
+  common: [
+    { href: "/account/profile", icon: User, label: "Profile Details" },
+    { href: "/account/virtual-accounts", icon: Settings, label: "Virtual Accounts" },
+  ],
+  agent: [
+    { href: "/account/transactions", icon: History, label: "All Transactions" },
+    { href: "/account/users", icon: Users, label: "All Users" },
+    { href: "/account/data/list", icon: List, label: "All Data List" },
+    { href: "/account/users/sales", icon: WalletCards, label: "All Sales" },
+  ],
+};
 
 export const ACCOUNT_QUICK_ACTION_MENU = [
   { name: "Airtime", icon: Smartphone, href: "/account/airtime", color: "bg-blue-50 text-blue-600" },
