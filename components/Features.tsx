@@ -1,43 +1,9 @@
 "use client";
+import { FEATURES } from "@/settings";
 import { motion } from "framer-motion";
-import { ShieldCheck, Zap, Headphones, BarChart3, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 
-const mainFeatures = [
-  {
-    title: "Lightning Fast Delivery",
-    desc: "Our automated systems ensure your data and tokens are delivered the micro-second your payment is confirmed.",
-    icon: Zap,
-    // Professional deep theme for the hero feature
-    className: "md:col-span-2 bg-brand-red text-white",
-    iconColor: "text-white",
-    iconBg: "bg-white/20",
-  },
-  {
-    title: "Bank-Grade Security",
-    desc: "Your transactions are protected by industry-leading encryption.",
-    icon: ShieldCheck,
-    className: "md:col-span-1 bg-muted/40 text-foreground",
-    iconColor: "text-brand-red",
-    iconBg: "bg-brand-red/10",
-  },
-  {
-    title: "24/7 Human Support",
-    desc: "Have an issue? Our support team is always online to help you.",
-    icon: Headphones,
-    className: "md:col-span-1 bg-muted/40 text-foreground",
-    iconColor: "text-brand-red",
-    iconBg: "bg-brand-red/10",
-  },
-  {
-    title: "Smart Budgeting",
-    desc: "Track every kobo you spend on utilities with our simplified transaction history.",
-    icon: BarChart3,
-    // Using a subtle dark theme to contrast the primary red block
-    className: "md:col-span-2 bg-foreground/5 dark:bg-white/5 text-foreground border-foreground/10",
-    iconColor: "text-brand-red",
-    iconBg: "bg-brand-red/10",
-  },
-];
+
 
 export default function Features() {
   return (
@@ -54,7 +20,7 @@ export default function Features() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {mainFeatures.map((f, i) => (
+          {FEATURES.map((f, i) => (
             <motion.div
               key={i}
               whileHover={{ y: -5 }}
