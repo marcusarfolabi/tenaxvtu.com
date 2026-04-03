@@ -8,26 +8,8 @@ export default function TransactionsPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20 transition-colors duration-300">
-      <div className="space-y-6 pb-20">
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-background p-5 rounded-4xl border border-foreground/5 shadow-xl shadow-black/5">
-            <p className="text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em] mb-1">Inflow</p>
-            <div className="flex items-baseline gap-1">
-              <span className="text-xs font-black text-green-500">₦</span>
-              <p className="text-xl font-black text-green-500 tracking-tighter">Credits</p>
-            </div>
-          </div>
-
-          <div className="bg-background p-5 rounded-4xl border border-foreground/5 shadow-xl shadow-black/5">
-            <p className="text-[10px] font-black text-foreground/30 uppercase tracking-[0.2em] mb-1">Outflow</p>
-            <div className="flex items-baseline gap-1">
-              <span className="text-xs font-black text-foreground/60">₦</span>
-              <p className="text-xl font-black text-foreground tracking-tighter">Debits</p>
-            </div>
-          </div>
-        </div>
-
+      <div className="space-y-6 pb-20"> 
+        
         <div className="bg-background/40 rounded-[2.5rem] border border-foreground/5 overflow-hidden">
           <div className="px-5 py-6 border-b border-foreground/5 flex justify-between items-center bg-foreground/2">
             <h2 className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">Transaction Logs</h2>
