@@ -47,7 +47,7 @@ export default function SupportPage() {
         q = `Solve: ${x} + ${y} = ?`; a = x + y;
         break;
       case 'english':
-        q = `How many letters are in "{process.env.NEXT_PUBLIC_APP_NAME}"?`; a = 9;
+        q = `How many letters are in "${process.env.NEXT_PUBLIC_APP_NAME}"?`; a = 9;
         break;
       case 'physics':
         q = `Force = Mass × ? (1=Accel, 2=Time, 3=Heat)`; a = 1;
@@ -59,7 +59,7 @@ export default function SupportPage() {
   const isCaptchaCorrect = parseInt(captchaAnswer) === challenge.answer;
 
   const openWhatsApp = () => {
-    const url = `https://wa.me/${WHATSAPP_PHONE}?text=Hello {process.env.NEXT_PUBLIC_APP_NAME} Support, I need help with...`;
+    const url = `https://wa.me/${WHATSAPP_PHONE}?text=Hello ${process.env.NEXT_PUBLIC_APP_NAME} Support, I need help with...`;
     window.open(url, "_blank");
   };
 

@@ -12,9 +12,10 @@ import {
 } from "lucide-react";
  
 export const MAIN_NAVIGATION = [
-  { name: "Services", href: "#services" },
-  { name: "About Us", href: "#about" },
+  { name: "Services", href: "/#services" },
+  { name: "About Us", href: "/#about" },
   { name: "Privacy", href: "/privacy" },
+  { name: "Support", href: "/support" },
 ];
 
 export const FOOTER_NAVIGATION = {
