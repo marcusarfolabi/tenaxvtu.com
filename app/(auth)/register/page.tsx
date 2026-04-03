@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { Mail, User, Phone, ShieldCheck } from "lucide-react";
+import { Mail, User, Phone } from "lucide-react";
 import AuthSidebar from "@/components/AuthSidebar";
 import { getUserCurrency } from "@/util/getUserCurrency";
 import { authApi } from "@/lib/api/auth";
@@ -77,6 +77,8 @@ function RegisterForm() {
       } else {
         toast.error(data?.message || "Registration failed. Try again later.");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -220,7 +222,7 @@ function RegisterForm() {
 
 export default function Register() {
   return (
-    <GoogleReCaptchaProvider reCaptchaKey="6Leeh24sAAAAAEB3XFgWSOPzxhx_dq4BY-LWWr61">
+    <GoogleReCaptchaProvider reCaptchaKey="6Le3DqQsAAAAAAxKS84Mm8tnO6x2DuwpbBFOZpUn">
       <RegisterForm />
     </GoogleReCaptchaProvider>
   );

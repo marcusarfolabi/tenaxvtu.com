@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { User, LoginCredentials, AuthResponse } from "@/types/auth";
+import { User, LoginCredentials } from "@/types/auth";
 import { authApi } from "@/lib/api/auth";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
@@ -56,18 +56,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const isProd = process.env.NODE_ENV === "production";
       Cookies.set("auth_token", newToken, { expires: 7, secure: isProd, sameSite: "strict" });
       Cookies.set("user_role", userData.role, { expires: 7, secure: isProd, sameSite: "strict" });
-      
+
       setToken(newToken);
       syncUser(userData, !!is_identity_verified);
 
       toast.success(`Welcome back, ${userData.name}!`);
+      router.push("/account");
 
-      if (userData.role === "agent") router.push("/account");
-      else router.push("/account");
-      
     } catch (error) {
-      const err = error as AxiosError<AuthResponse>;
-      throw new Error(err.response?.data?.message || "An unexpected error occurred");
+      const err = error as AxiosError<any>; 
+
+      console.error("AuthContext Login Error:", err);
+
+      const errorMessage =
+        err.response?.data?.message ||  
+        err.message ||                 
+        "Server unreachable. Please try again.";
+
+      throw new Error(errorMessage);
     }
   };
 
