@@ -168,8 +168,7 @@ export default function Onboarding() {
                       placeholder="preferred password for admin dashboard"
                     >
                       <p className="text-[10px] text-foreground/40 mt-1 italic">
-                        This password is used for high-level system
-                        configurations.
+                        This password will be used to access this dashboard.
                       </p>
                     </PasswordInput>
                   </div>
@@ -201,9 +200,9 @@ export default function Onboarding() {
                       name="domain"
                       type="url"
                       icon={Globe}
-                      value={formData.domain}
+                      value={formData.domain || process.env.NEXT_PUBLIC_APP_URL}
                       onChange={handleInputChange}
-                      placeholder="https://tenaxvtu.com"
+                      placeholder={process.env.NEXT_PUBLIC_APP_URL || "https://yourdomain.com"}
                     />
 
                     <FormInput
@@ -211,7 +210,7 @@ export default function Onboarding() {
                       name="supportEmail"
                       type="email"
                       icon={Mail}
-                      value={formData.supportEmail}
+                      value={formData.supportEmail || process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
                       onChange={handleInputChange}
                       placeholder={process.env.NEXT_PUBLIC_SUPPORT_EMAIL}
                     />
@@ -222,7 +221,7 @@ export default function Onboarding() {
                       type="tel"
                       maxLength={13}
                       icon={PhoneIcon}
-                      value={formData.supportContactPhone}
+                      value={formData.supportContactPhone || process.env.NEXT_PUBLIC_SUPPORT_PHONE}
                       onChange={handleInputChange}
                       placeholder={process.env.NEXT_PUBLIC_SUPPORT_PHONE}
                     />
@@ -265,6 +264,7 @@ export default function Onboarding() {
                       onChange={handleInputChange}
                       placeholder="MK_PROD_..."
                       className="font-mono text-sm"
+                      autoComplete="one-time-code"
                     />
                     <FormInput
                       label="Secret Key"
@@ -275,6 +275,7 @@ export default function Onboarding() {
                       onChange={handleInputChange}
                       placeholder="••••••••••••"
                       className="font-mono text-sm"
+                      autoComplete="off"
                     />
                     <FormInput
                       label="Contract Code"
@@ -282,8 +283,9 @@ export default function Onboarding() {
                       icon={Globe}
                       value={formData.monnifyContractCode}
                       onChange={handleInputChange}
-                      placeholder="8273645210"
+                      placeholder="0••••••9"
                       className="font-mono text-sm"
+                      autoComplete="off"
                     />
                   </div>
                 </motion.div>
