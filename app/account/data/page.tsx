@@ -105,13 +105,13 @@ export default function DataPage() {
        <div className="relative overflow-hidden bg-brand-black rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
         <div className="relative z-10">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">
-            Total Airtime Purchase
+            Data Spent
           </p>
           <h2 className="text-3xl md:text-4xl font-black mt-1 tracking-tighter text-foreground">
             {formatCurrency(stats?.total_amount || 0)}
           </h2>
           <button
-            title="Buy Airtime"
+            title="Buy Data"
             onClick={() => setIsModalOpen(true)}
             className="mt-6 cursor-pointer flex items-center gap-2 bg-brand-red text-brand-burgundy px-6 py-3 rounded-2xl font-black text-xs uppercase active:scale-95 transition-all shadow-lg shadow-brand-red/10"
           >

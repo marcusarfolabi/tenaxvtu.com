@@ -148,11 +148,10 @@ export default function ElectricityPage() {
 
   return (
     <div className="space-y-6 pb-20">
-      {/* Power Stats Card - Locked to Brand Black */}
-      <div className="relative overflow-hidden bg-brand-black rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
+      <div className="relative overflow-hidden bg-brand-black rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
         <div className="relative z-10">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">
-            Total Power Units
+            Electricity Spent
           </p>
           <h2 className="text-3xl md:text-4xl font-black mt-1 tracking-tighter text-foreground">
             {formatCurrency(stats?.total_amount || 0)}
@@ -176,14 +175,12 @@ export default function ElectricityPage() {
         <TransactionList limit={10} showTitle={false} type="ELECTRICITY" />
       </div>
 
-      {/* Electricity Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title="Pay Electricity"
       >
         <form onSubmit={handlePurchase} className="p-6 space-y-5">
-          {/* Disco Selection */}
           <FormSelect
             label="Select Provider (Disco)"
             icon={List}
@@ -201,7 +198,6 @@ export default function ElectricityPage() {
             placeholder="Select Disco (e.g. IKEDC)"
           />
 
-          {/* Meter Type Segmented Toggle */}
           <div className="flex gap-1 p-1 bg-foreground/5 rounded-2xl border border-foreground/5">
             {["PREPAID", "POSTPAID"].map((t) => (
               <button
