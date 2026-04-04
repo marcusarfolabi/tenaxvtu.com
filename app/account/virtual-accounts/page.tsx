@@ -103,7 +103,7 @@ export default function VirtualAccountPage() {
                     </p>
                   </div>
                 </div>
-                <Wallet className="text-white/10" size={40} />
+                <Wallet className="text-foreground/10" size={40} />
               </div>
 
               <div className="p-8 space-y-8">
@@ -148,7 +148,7 @@ export default function VirtualAccountPage() {
 
             <button
               onClick={handleCopy}
-              className="w-full bg-brand-black text-white h-16 rounded-2xl font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 border-b-4 border-brand-red active:translate-y-1 active:border-b-0"
+              className="w-full bg-brand-black text-foreground/30 h-16 rounded-2xl font-black uppercase tracking-widest transition-all flex items-center justify-center gap-3 border-b-4 border-brand-red active:translate-y-1 active:border-b-0"
             >
               {copied ? <Check size={20} /> : <Copy size={20} className="text-brand-red" />}
               {copied ? "Copied" : "Copy Account Details"}
