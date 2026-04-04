@@ -3,6 +3,7 @@ import { Loader2 } from "lucide-react";
 
 interface SubmitButtonProps {
   disabled?: boolean;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   isLoading: boolean;
   idleText: string;
   loadingText: string;
@@ -11,6 +12,7 @@ interface SubmitButtonProps {
 
 const SubmitButton: React.FC<SubmitButtonProps> = ({
   disabled,
+  onClick,
   isLoading,
   idleText,
   loadingText,
@@ -20,6 +22,7 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
     <button
       type="submit"
       disabled={isLoading || disabled}
+      onClick={onClick}
       className={`
         w-full h-16 cursor-pointer rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 mt-4
         

@@ -13,17 +13,57 @@ import {
   XCircle,
   ShieldCheck,
   ShieldAlert,
+  Hash,
 } from "lucide-react";
 import { useUsers } from "@/hooks/useUser";
 import { Modal } from "../components/ui/Modal";
 import { formatActivityDate } from "@/util/date";
 import FormSelect from "@/components/common/FormSelect";
+import { walletApi } from "@/lib/api/wallet";
+import { toast } from "react-hot-toast";
+import SubmitButton from "@/components/common/SubmitButton";
+import FormInput from "@/components/common/FormInput";
 
 export default function UserList({ limit = 10 }: { limit?: number }) {
   const [page, setPage] = useState(1);
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const { users, pagination, isLoading, isUpdating, updateUserStatus } =
     useUsers({ page, limit });
+
+  // NEW STATE FOR FUNDING
+  const [isFunding, setIsFunding] = useState(false);
+  const [fundAmount, setFundAmount] = useState("");
+  const [fundReference, setFundReference] = useState("");
+  const [isSubmittingFund, setIsSubmittingFund] = useState(false);
+
+
+  const handleManualFunding = async () => {
+    if (!fundAmount || parseFloat(fundAmount) <= 0) return;
+
+    setIsSubmittingFund(true);
+    try {
+      await walletApi.manualFunding({
+        amount: fundAmount,
+        reference: fundReference || `MAN-REF-${Date.now()}`,
+        user_id: selectedUser.id,
+      });
+
+      toast.success(`₦${parseFloat(fundAmount).toLocaleString()} added to user balance`);
+
+      // Cleanup
+      setFundAmount("");
+      setFundReference("");
+      setIsFunding(false);
+
+      // Refresh the list to show new balance: call the user from the useUser hook
+      // refreshUsers();
+      setSelectedUser(null);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Funding failed");
+    } finally {
+      setIsSubmittingFund(false);
+    }
+  };
 
   const statusOptions = [
     {
@@ -38,6 +78,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
     },
     { code: "pending", name: "Pending", fullname: "Awaiting manual review" },
   ];
+
   if (isLoading) {
     return (
       <div className="space-y-4 animate-pulse">
@@ -51,22 +92,21 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
 
 
   return (
-    <div className="space-y-6">
-      {/* Summary Stat Card - Locked Brand Black */}
+    <div className="space-y-6 pb-20">
       <div className="bg-brand-black p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
         <div className="relative z-10">
-          <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em] mb-1">
+          <p className="text-foreground/40 text-[10px] font-black uppercase tracking-[0.2em] mb-1">
             Network Size
           </p>
-          <h2 className="text-5xl font-black mb-4 tracking-tighter">
+          <h2 className="text-5xl font-black text-foreground/90 mb-4 tracking-tighter">
             {pagination.total.toLocaleString()}
           </h2>
-          <div className="flex items-center gap-2 text-brand-red text-[10px] font-black uppercase tracking-wider bg-white/5 border border-white/10 w-fit px-4 py-2 rounded-2xl backdrop-blur-md">
+          <div className="flex items-center gap-2 text-brand-red text-[10px] font-black uppercase tracking-wider bg-foreground/5 border border-foreground/10 w-fit px-4 py-2 rounded-2xl backdrop-blur-md">
             <TrendingUp size={14} /> Ranked by Activity
           </div>
         </div>
         <Users
-          className="absolute -right-6 -bottom-6 text-white/5"
+          className="absolute -right-6 -bottom-6 text-foreground/5"
           size={180}
         />
       </div>
@@ -88,7 +128,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
               <div
                 key={user.id}
                 onClick={() => setSelectedUser(user)}
-                className="bg-background p-4 rounded-4xl flex items-center justify-between border border-foreground/5 shadow-sm hover:border-brand-red/50 transition-all group"
+                className="bg-background cursor-pointer p-4 rounded-4xl flex items-center justify-between border border-foreground/5 shadow-sm hover:border-brand-red/50 transition-all group"
               >
                 <div className="flex items-center gap-4">
                   {/* Rank or Icon */}
@@ -229,9 +269,9 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   {parseFloat(selectedUser.wallet?.balance).toLocaleString()}
                 </p>
               </div>
-              <div className="bg-brand-black p-4 rounded-3xl shadow-xl shadow-brand-red/10">
-                <p className="text-[9px] font-black text-white/40 uppercase mb-1">
-                  Total Volume
+              <div className="bg-brand-black border-foreground/5 border p-4 rounded-3xl shadow-xl shadow-brand-red/10">
+                <p className="text-[9px] font-black text-foreground/40 uppercase mb-1">
+                  Total Funding
                 </p>
                 <p className="text-lg font-black text-brand-red">
                   {selectedUser.wallet?.currency}
@@ -241,63 +281,118 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   ).toLocaleString()}
                 </p>
               </div>
+              <button
+                onClick={() => setIsFunding(!isFunding)}
+                className={`p-4 cursor-pointer rounded-3xl transition-all border border-foreground/50 flex flex-col items-start justify-center ${isFunding
+                  ? "bg-brand-red  text-brand-burgundy"
+                  : "bg-brand-black border-transparent text-brand-red shadow-xl shadow-brand-red/10"
+                  }`}
+              >
+                <p className={`text-[9px] font-black uppercase mb-1 ${isFunding ? "text-brand-burgundy/60" : "text-foreground/40"}`}>
+                  {isFunding ? "Cancel Action" : "Wallet Action"}
+                </p>
+                <div className="flex items-center gap-2">
+                  <TrendingUp size={16} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">
+                    {isFunding ? "Go Back" : "Manual Fund"}
+                  </span>
+                </div>
+              </button>
             </div>
 
             {/* Detailed Info List */}
-            <div className="space-y-3 bg-foreground/2 p-4 rounded-3xl border border-foreground/5">
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-foreground/40 font-bold">
-                  <Mail size={14} /> Email
+            {isFunding ? (
+              <div className="bg-brand-black p-6 rounded-4xl border border-white/5 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+                <div className="space-y-4">
+                  <FormInput
+                    label="Amount to Credit"
+                    name="amount"
+                    type="number"
+                    value={fundAmount}
+                    onChange={(e) => setFundAmount(e.target.value)}
+                    icon={Hash}
+                    placeholder="Enter amount (e.g. 5000)"
+                  />
+
+                  {/* Added Reference Input so your backend 'reference' isn't always random */}
+                  <FormInput
+                    label="Funding Reference (Optional)"
+                    name="reference"
+                    type="text"
+                    value={fundReference}
+                    onChange={(e) => setFundReference(e.target.value)}
+                    icon={ShieldCheck}
+                    placeholder="e.g. Bank Transfer Ref"
+                  />
                 </div>
-                <span className="font-black text-foreground lowercase">
-                  {selectedUser.email}
-                </span>
-              </div>
 
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-foreground/40 font-bold">
-                  <Phone size={14} /> Phone
-                </div>
-                <span className="font-black text-foreground">
-                  {selectedUser.phone}
-                </span>
-              </div>
+                <SubmitButton
+                  onClick={(e) => {
+                    e?.preventDefault();
+                    handleManualFunding();
+                  }}
+                  isLoading={isSubmittingFund}
+                  disabled={!fundAmount || parseFloat(fundAmount) <= 0 || isSubmittingFund}
+                  idleText={`Confirm Credit ₦${parseFloat(fundAmount || "0").toLocaleString()}`}
+                  loadingText="Processing Credit..."
+                  className="bg-brand-red text-brand-burgundy h-14 rounded-2xl shadow-lg shadow-brand-red/20 w-full"
+                />
 
-              <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-2 text-foreground/40 font-bold">
-                  <Calendar size={14} /> Joined Date
-                </div>
-                <span className="font-black text-foreground">
-                  {formatActivityDate(selectedUser.wallet?.created_at)}
-                </span>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <FormSelect
-                label="Account Authority"
-                icon={ShieldAlert}
-                options={statusOptions}
-                selectedCode={selectedUser.status}
-                onChange={(newStatus) =>
-                  updateUserStatus(selectedUser.id, newStatus)
-                }
-                disabled={isUpdating}
-              />
-
-              {isUpdating && (
-                <p className="text-[10px] animate-pulse text-brand-red font-black uppercase text-center">
-                  Syncing status...
+                <p className="text-[8px] text-white/20 text-center uppercase font-black tracking-widest">
+                  This action will instantly increase the user's balance.
                 </p>
-              )}
-            </div>
-            {/* Action Button */}
-            <button
-              onClick={() => setSelectedUser(null)}
-              className="w-full bg-foreground text-background py-4 rounded-2xl font-black text-xs uppercase tracking-widest active:scale-95 transition-all"
-            >
-              Close Profile
-            </button>
+              </div>
+            ) : (
+              <>
+                {/* Detailed Info List (Your existing info rows) */}
+                <div className="space-y-3 bg-foreground/2 p-4 rounded-3xl border border-foreground/5">
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 text-foreground/40 font-bold">
+                      <Mail size={14} /> Email
+                    </div>
+                    <span className="font-black text-foreground lowercase">
+                      {selectedUser.email}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 text-foreground/40 font-bold">
+                      <Phone size={14} /> Phone
+                    </div>
+                    <span className="font-black text-foreground">
+                      {selectedUser.phone}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center gap-2 text-foreground/40 font-bold">
+                      <Calendar size={14} /> Joined Date
+                    </div>
+                    <span className="font-black text-foreground">
+                      {formatActivityDate(selectedUser.wallet?.created_at)}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <FormSelect
+                    label="Account Authority"
+                    icon={ShieldAlert}
+                    options={statusOptions}
+                    selectedCode={selectedUser.status}
+                    onChange={(newStatus) => updateUserStatus(selectedUser.id, newStatus)}
+                    disabled={isUpdating}
+                  />
+
+                  <SubmitButton
+                    isLoading={isUpdating}
+                    idleText="Update Status"
+                    loadingText="Updating..."
+                    className="bg-brand-red text-brand-burgundy h-14 rounded-2xl shadow-lg shadow-brand-red/20 w-full"
+                  />
+                </div>
+              </>
+            )}
           </div>
         )}
       </Modal>

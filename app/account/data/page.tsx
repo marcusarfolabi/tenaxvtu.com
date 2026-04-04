@@ -23,7 +23,6 @@ export default function DataPage() {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [allPlans, setAllPlans] = useState<any[]>([]);
 
-  // New state for the second filter level
   const [selectedSubType, setSelectedSubType] = useState<string>("");
 
   const { balance, stats, refreshWallet } = useWallet({
@@ -47,7 +46,6 @@ export default function DataPage() {
     });
   }, []);
 
-  // 1. Get unique Sub-Types for the selected network (e.g., ["SME", "CG", "DG"])
   const availableSubTypes = useMemo(() => {
     const networkPlans = allPlans.filter(p => p.network?.toUpperCase() === formData.network);
     const types = networkPlans.map(p =>
@@ -56,7 +54,6 @@ export default function DataPage() {
     return Array.from(new Set(types)).filter(Boolean);
   }, [allPlans, formData.network]);
 
-  // 2. Filter plans based on BOTH Network and Sub-Type
   const finalFilteredPlans = useMemo(() => {
     return allPlans.filter((p) => {
       const matchesNetwork = p.network?.toUpperCase() === formData.network;
@@ -69,7 +66,6 @@ export default function DataPage() {
     }));
   }, [allPlans, formData.network, selectedSubType]);
 
-  // Reset secondary filters when main network changes
   useEffect(() => {
     setSelectedSubType("");
     setFormData(prev => ({ ...prev, selectedPlanId: "", amount: 0, planName: "" }));
