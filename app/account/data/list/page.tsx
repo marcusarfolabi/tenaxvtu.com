@@ -320,7 +320,7 @@ export default function PlanManagementPage() {
 
                     <button
                       onClick={() => openUpdateModal(plan)}
-                      className="w-full md:w-auto flex items-center justify-center gap-2 bg-foreground/5 hover:bg-brand-red hover:text-brand-burgundy p-2.5 rounded-xl transition-all font-bold text-xs"
+                      className="w-full cursor-pointer md:w-auto flex items-center justify-center gap-2 bg-foreground/5 hover:bg-brand-red hover:text-brand-burgundy p-2.5 rounded-xl transition-all font-bold text-xs"
                     >
                       <Edit3 size={14} /> Update Price
                     </button>

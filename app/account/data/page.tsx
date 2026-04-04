@@ -150,24 +150,34 @@ export default function DataPage() {
 
           {/* STEP 2: Sub-Type Selection (Dynamic based on Network) */}
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-foreground/40 uppercase tracking-widest px-1">Select Data Type</label>
-            <div className="flex flex-wrap gap-2">
-              {availableSubTypes.map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  onClick={() => setSelectedSubType(type)}
-                  className={`px-4 py-2 cursor-pointer rounded-xl text-[10px] font-black uppercase transition-all border ${selectedSubType === type
-                      ? "bg-foreground text-background border-foreground shadow-md"
-                      : "bg-foreground/5 text-foreground/60 border-transparent hover:bg-foreground/10"
-                    }`}
-                >
-                  {type}
-                </button>
-              ))}
-            </div>
-          </div>
+            <label className="text-[10px] font-black text-foreground/40 uppercase tracking-widest px-1">
+              Select Data Type
+            </label>
 
+            {availableSubTypes.length > 0 ? (
+              <div className="flex flex-wrap gap-2">
+                {availableSubTypes.map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => setSelectedSubType(type)}
+                    className={`px-4 py-2 cursor-pointer rounded-xl text-[10px] font-black uppercase transition-all border ${selectedSubType === type
+                        ? "bg-foreground text-background border-foreground shadow-md"
+                        : "bg-foreground/5 text-foreground/60 border-transparent hover:bg-foreground/10"
+                      }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="p-2 rounded-2xl bg-foreground/5 border border-dashed border-foreground/10 flex items-center justify-center">
+                <span className="text-[10px] font-bold text-foreground/30 uppercase tracking-wider">
+                  No data types available for this network
+                </span>
+              </div>
+            )}
+          </div>
          
           {/* STEP 3: Plan Selection (Filtered by both) */}
           <FormSelect
