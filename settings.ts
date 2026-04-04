@@ -46,9 +46,9 @@ export const FOOTER_NAVIGATION = {
 };
 
 export const ACCOUNT_MENU = [
-  { name: "Home", href: "/account", icon: HomeIcon },
   { name: "Airtime", href: "/account/airtime", icon: Smartphone },
   { name: "Data", href: "/account/data", icon: Database },
+  { name: "Home", href: "/account", icon: HomeIcon },
   { name: "Cable", href: "/account/cable", icon: Tv },
   { name: "Power", href: "/account/electricity", icon: Zap }, 
 ];

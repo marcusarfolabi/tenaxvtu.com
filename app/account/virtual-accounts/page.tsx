@@ -92,7 +92,7 @@ export default function VirtualAccountPage() {
 
             <div className="bg-background rounded-[2.5rem] shadow-2xl shadow-brand-red/5 overflow-hidden border border-foreground/5">
               <div className="bg-brand-black p-6 flex items-center justify-between">
-                <div className="flex items-center gap-3 text-white">
+                <div className="flex items-center gap-3 text-foreground/30">
                   <div className="bg-brand-red rounded-lg p-2">
                     <Landmark size={20} className="text-brand-burgundy" />
                   </div>

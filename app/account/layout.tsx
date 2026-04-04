@@ -44,25 +44,46 @@ export default function CustomerLayout({
           </main>
         </div>
 
-        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-100 bg-background/80 backdrop-blur-xl border-t border-foreground/5 px-4 pb-safe-area-inset-bottom">
-          <div className="flex justify-between items-center h-16 max-w-md mx-auto">
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-t border-foreground/5 px-4 pb-safe-area-inset-bottom">
+          <div className="flex justify-between items-end h-16 max-w-md mx-auto relative">
             {ACCOUNT_MENU.map((item) => {
               const isActive = pathname === item.href;
+              const isHome = item.name.toLowerCase() === "home";
+
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  
-                  className="flex flex-col items-center justify-center flex-1 transition-all"
+                  className={`flex flex-col items-center justify-center flex-1 transition-all relative ${isHome ? "-top-6" : "pb-2"
+                    }`}
                 >
-                  <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? "bg-brand-red text-brand-burgundy scale-110" : "text-foreground/40"
-                    }`}>
-                    <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
-                  </div>
-                  <span className={`text-[9px] mt-1 font-black uppercase tracking-tighter transition-all ${isActive ? "text-foreground" : "text-foreground/30"
-                    }`}>
-                    {item.name}
-                  </span>
+                  {isHome ? (
+                    <div className="flex flex-col items-center group">
+                      <div
+                        className={`w-12 h-12 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 border-4 border-background ${isActive
+                            ? "bg-brand-red text-brand-burgundy scale-110 shadow-brand-red/40"
+                            : "bg-foreground text-background scale-100"
+                          }`}
+                      >
+                        <item.icon size={24} strokeWidth={2.5} />
+                      </div>
+                      <span className={`text-[9px] mt-0.5 font-black uppercase tracking-tighter transition-all ${isActive ? "text-foreground" : "text-foreground/30"
+                        }`}>
+                        {item.name}
+                      </span>
+                    </div>
+                  ) : (
+                    <>
+                      <div className={`p-1.5 rounded-xl transition-all duration-300 ${isActive ? "bg-brand-red/10 text-brand-red scale-110" : "text-foreground/40"
+                        }`}>
+                        <item.icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                      </div>
+                      <span className={`text-[9px] mt-1 font-black uppercase tracking-tighter transition-all ${isActive ? "text-foreground" : "text-foreground/30"
+                        }`}>
+                        {item.name}
+                      </span>
+                    </>
+                  )}
                 </Link>
               );
             })}
