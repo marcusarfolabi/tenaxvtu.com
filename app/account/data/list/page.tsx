@@ -131,7 +131,7 @@ export default function PlanManagementPage() {
       setPlans((prev) =>
         prev.map((p) =>
           p.code === selectedPlan.code
-            ? { ...p, reseller_price: newResellerPrice }
+            ? { ...p, reseller_price: newResellerPrice, status: 'active' }
             : p,
         ),
       );
@@ -198,8 +198,8 @@ export default function PlanManagementPage() {
             key={net}
             onClick={() => setActiveTab(net)}
             className={`px-6 py-2.5 cursor-pointer rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${activeTab === net
-                ? "bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20"
-                : "bg-background border-foreground/10 text-foreground/40 hover:border-brand-red/40"
+              ? "bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20"
+              : "bg-background border-foreground/10 text-foreground/40 hover:border-brand-red/40"
               }`}
           >
             {net}
@@ -259,7 +259,7 @@ export default function PlanManagementPage() {
                       <span className="md:hidden text-[9px] font-black text-foreground/30 uppercase">
                         API
                       </span>
-                      <p className="text-sm font-bold text-foreground"> 
+                      <p className="text-sm font-bold text-foreground">
                         {formatCurrency(plan.price)}
                       </p>
                     </div>
@@ -268,7 +268,7 @@ export default function PlanManagementPage() {
                         Selling Cost
                       </span>
                       <p className="text-sm font-black text-brand-red">
-                        {formatCurrency(plan.reseller_price)} 
+                        {formatCurrency(plan.reseller_price)}
                       </p>
                     </div>
                     <div className="flex flex-col md:items-center text-right md:text-center">
