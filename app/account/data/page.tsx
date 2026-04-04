@@ -175,12 +175,12 @@ export default function DataPage() {
             icon={List}
             options={finalFilteredPlans.map((p) => ({
               code: p.code,
-              name: `${p.allowance} - ${formatCurrency(p.reseller_price)}`,
+              name: `${p.allowance} - ${formatCurrency(p.price)}`,
             }))}
             selectedCode={formData.selectedPlanId}
             onChange={(code) => {
               const plan = finalFilteredPlans.find(p => String(p.code) === String(code));
-              if (plan) setFormData({ ...formData, selectedPlanId: String(code), amount: parseFloat(plan.reseller_price), planName: plan.name });
+              if (plan) setFormData({ ...formData, selectedPlanId: String(code), amount: parseFloat(plan.price), planName: plan.name });
             }}
           />
 
