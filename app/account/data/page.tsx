@@ -185,7 +185,7 @@ export default function DataPage() {
             icon={List}
             options={finalFilteredPlans.map((p) => ({
               code: p.code,
-              name: `${p.allowance} - ${formatCurrency(p.price)}`,
+              name: `${p.allowance} for ${p.validity} at ${formatCurrency(p.price)}`,
             }))}
             selectedCode={formData.selectedPlanId}
             onChange={(code) => {
