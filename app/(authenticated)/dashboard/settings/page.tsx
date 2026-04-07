@@ -12,6 +12,7 @@ export default function TenantSettingsPage() {
         airtime_commission: "",
         data_commission: "",
         cable_tv_commission: "",
+        monnify_commission: "",
     });
 
     const [isLoading, setIsLoading] = useState(true);
@@ -22,12 +23,12 @@ export default function TenantSettingsPage() {
         const fetchSettings = async () => {
             try {
                 const response = await tenantApi.getTenantInfo();
-                // Assuming your API returns { data: { airtime_commission: "1.5", ... } }
                 const settings = response.data.data;
                 setCommissionData({
-                    airtime_commission: settings.airtime_commission?.toString() || "0",
-                    data_commission: settings.data_commission?.toString() || "0",
-                    cable_tv_commission: settings.cable_tv_commission?.toString() || "0",
+                    airtime_commission: settings.airtime_commission_percentage?.toString() || "0",
+                    data_commission: settings.data_commission_percentage?.toString() || "0",
+                    cable_tv_commission: settings.cable_tv_commission_percentage?.toString() || "0",
+                    monnify_commission: settings.monnify_commission_percentage?.toString() || "0",
                 });
             } catch (error: any) {
                 toast.error("Failed to load tenant settings");
@@ -130,9 +131,20 @@ export default function TenantSettingsPage() {
                             icon={Monitor}
                             placeholder="0.00"
                         />
+                        <FormInput
+                            label="Monnify (%)"
+                            name="monnify_commission"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            value={commissionData.monnify_commission}
+                            onChange={(e) => setCommissionData({ ...commissionData, monnify_commission: e.target.value })}
+                            icon={Monitor}
+                            placeholder="0.00"
+                        />
                     </div>
 
-                    <div className="bg-muted/30 p-5 rounded-[2rem] border border-border/50 flex gap-4">
+                    <div className="bg-muted/30 p-5 rounded-4xl border border-border/50 flex gap-4">
                         <div className="mt-1 text-primary"><Info size={18} /></div>
                         <p className="text-[11px] leading-relaxed text-muted-foreground font-medium">
                             <b>Important:</b> These values are treated as percentages. For example, entering <b>1.5</b> will calculate a 1.5% commission on the total transaction amount. Changes take effect immediately for all subsequent orders.

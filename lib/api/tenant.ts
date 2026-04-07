@@ -4,6 +4,7 @@ export interface TenantInfo {
   airtime_commission?: string;
   data_commission?: string;
   cable_tv_commission?: string;
+  monnify_commission?: string;
 }
 
 export const tenantApi = {
