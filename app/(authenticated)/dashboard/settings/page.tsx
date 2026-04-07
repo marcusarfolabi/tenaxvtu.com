@@ -71,7 +71,7 @@ export default function TenantSettingsPage() {
         <div className="max-w-4xl mx-auto space-y-8 pb-24 px-1">
             <div className="px-1">
                 <h1 className="text-2xl font-black text-foreground tracking-tight">
-                    Tenant Configuration
+                    Commission Configuration
                 </h1>
                 <p className="text-foreground/50 text-sm font-medium">
                     Global profit margins for airtime, data, and cable subscriptions.
@@ -141,7 +141,7 @@ export default function TenantSettingsPage() {
 
                     <SubmitButton
                         isLoading={isUpdating}
-                        idleText="Update Tenant Settings"
+                        idleText="Update Settings"
                         loadingText="Saving Changes..."
                         className="h-14 rounded-2xl shadow-xl shadow-primary/20 w-full md:w-auto md:px-12"
                     />
