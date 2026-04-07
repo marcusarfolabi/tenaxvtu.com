@@ -67,7 +67,7 @@ export const MENU_CONFIG = {
     { href: "/dashboard/users", icon: Users, label: "All Users" },
     { href: "/dashboard/data", icon: List, label: "All Data List" },
     { href: "/dashboard/sales-analytics", icon: BarChart3, label: "All Sales" },
-    { href: "/account/settings", icon: Settings, label: "Settings" },
+    { href: "/dashboard/settings", icon: Settings, label: "Settings" },
   ],
 };
 
