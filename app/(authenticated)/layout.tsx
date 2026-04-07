@@ -1,6 +1,4 @@
-"use client";
-import TopHeader from "./components/TopHeader";
-import Sidebar from "./components/Sidebar";
+"use client"; 
 import VerificationBanner from "@/components/common/VerificationBanner";
 import {
   MessageCircle, 
@@ -10,6 +8,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "@/components/Logo";
 import { ACCOUNT_MENU } from "@/settings";
+import Sidebar from "./account/components/Sidebar";
+import TopHeader from "./account/components/TopHeader";
 
 export default function CustomerLayout({
   children,
