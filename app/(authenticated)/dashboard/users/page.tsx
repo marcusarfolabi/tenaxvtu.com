@@ -17,7 +17,6 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { useUsers } from "@/hooks/useUser";
-import { Modal } from "../components/ui/Modal";
 import FormSelect from "@/components/common/FormSelect";
 import { walletApi } from "@/lib/api/wallet";
 import { profileApi } from "@/lib/api/profile";
@@ -25,6 +24,7 @@ import { toast } from "react-hot-toast";
 import FormInput from "@/components/common/FormInput";
 import { formatCurrency } from "@/util/getUserCurrency";
 import SubmitButton from "@/components/common/SubmitButton";
+import { Modal } from "@/app/(authenticated)/account/components/ui/Modal";
 
 const fundingTypeOptions = [
   { code: "credit", name: "Credit", fullname: "Add money to user wallet" },
@@ -223,7 +223,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
               </div>
             )}
             {/* Wallet Info */}
-         <div className="flex justify-between  gap-4">
+            <div className="flex justify-between  gap-4">
               {selectedUser.wallet_balance !== undefined && (
                 <div className="bg-muted/50 p-4 rounded-3xl border border-border w-full">
                   <p className="text-[9px] font-black text-muted-foreground uppercase mb-2">Wallet Bal</p>
@@ -236,8 +236,8 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   <p className="text-[9px] font-black text-muted-foreground uppercase mb-2">Commission Bal</p>
                   <p className="text-lg font-bold text-primary">{formatCurrency(selectedUser.commission_balance)}</p>
                 </div>
-              )}  
-         </div>
+              )}
+            </div>
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-3">
@@ -293,7 +293,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   value={fundAmount}
                   onChange={(e) => setFundAmount(e.target.value)}
                   icon={Hash}
-                />                
+                />
                 <SubmitButton
                   onClick={handleManualFunding}
                   isLoading={isSubmittingFund}

@@ -15,7 +15,7 @@ import { dataApi } from "@/lib/api/data";
 import { toast } from "react-hot-toast";
 import FormInput from "@/components/common/FormInput";
 import SubmitButton from "@/components/common/SubmitButton";
-import { Modal } from "../../components/ui/Modal";
+import { Modal } from "../../account/components/ui/Modal";
 import { Switch } from "@headlessui/react";
 import { formatCurrency } from "@/util/getUserCurrency";
 

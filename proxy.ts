@@ -6,35 +6,38 @@ export function proxy(request: NextRequest) {
   const role = request.cookies.get("user_role")?.value;
   const { pathname } = request.nextUrl;
 
-  if (!token && pathname.startsWith("/account")) {
+  // 1. GLOBAL GUEST CHECK
+  if (
+    !token &&
+    (pathname.startsWith("/account") || pathname.startsWith("/dashboard"))
+  ) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
+  // 2. AUTHENTICATED USERS LOGIC
   if (token) {
     if (pathname === "/login" || pathname === "/register") {
       return NextResponse.redirect(new URL("/account", request.url));
     }
 
-    // BLOCK CUSTOMERS FROM THE USERS PAGE
-    if (pathname.startsWith("/account/users") && role === "customer") {
+    // --- DASHBOARD RESTRICTIONS ---
+    if (pathname.startsWith("/dashboard") && role !== "agent") {
       return NextResponse.redirect(new URL("/account", request.url));
-    }
-    if (pathname.startsWith("/account/users/sales") && role === "customer") {
-      return NextResponse.redirect(new URL("/account", request.url));
-    }
-    if (pathname === "/account/data/list" && role === "customer") {
-      return NextResponse.redirect(new URL("/account/data", request.url));
     }
 
+    // --- ROLE VALIDATION ---
     const isAuthorizedRole = role === "customer" || role === "agent";
-    if (pathname.startsWith("/account") && !isAuthorizedRole) {
-      return NextResponse.redirect(new URL("/login", request.url));
+    if (!isAuthorizedRole) {
+      const response = NextResponse.redirect(new URL("/login", request.url));
+      response.cookies.delete("auth_token");
+      return response;
     }
   }
 
   return NextResponse.next();
 }
 
+// CRITICAL: Update the matcher to include /dashboard
 export const config = {
-  matcher: ["/account/:path*", "/login", "/register"],
+  matcher: ["/account/:path*", "/dashboard/:path*", "/login", "/register"],
 };

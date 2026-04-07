@@ -1,15 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { TransactionList } from "@/app/account/components/TransactionList";
+import { TransactionList } from "@/app/(authenticated)/account/components/TransactionList";
 
 export default function TransactionsPage() {
   const router = useRouter();
 
   return (
     <div className="min-h-screen bg-background pb-20 transition-colors duration-300">
-      <div className="space-y-6 pb-20"> 
-        
+      <div className="space-y-6 pb-20">
+
         <div className="bg-background/40 rounded-[2.5rem] border border-foreground/5 overflow-hidden">
           <div className="px-5 py-6 border-b border-foreground/5 flex justify-between items-center bg-foreground/2">
             <h2 className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">Transaction Logs</h2>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { User, Phone, Lock, Save, ShieldCheck } from "lucide-react";
+import { User, Phone, ShieldCheck } from "lucide-react";
 import { toast } from "react-hot-toast";
 import FormInput from "@/components/common/FormInput";
 import { PasswordInput } from "@/components/common/PasswordInput";

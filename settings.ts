@@ -56,13 +56,18 @@ export const ACCOUNT_MENU = [
 export const MENU_CONFIG = {
   common: [
     { href: "/account/profile", icon: User, label: "Profile Details" },
-    { href: "/account/virtual-accounts", icon: Settings, label: "Virtual Accounts" },
+    {
+      href: "/account/virtual-accounts",
+      icon: WalletCards,
+      label: "Virtual Accounts",
+    },
   ],
   agent: [
     { href: "/account/transactions", icon: History, label: "All Transactions" },
-    { href: "/account/users", icon: Users, label: "All Users" },
-    { href: "/account/data/list", icon: List, label: "All Data List" },
-    { href: "/account/users/sales", icon: WalletCards, label: "All Sales" },
+    { href: "/dashboard/users", icon: Users, label: "All Users" },
+    { href: "/dashboard/data", icon: List, label: "All Data List" },
+    { href: "/dashboard/sales-analytics", icon: BarChart3, label: "All Sales" },
+    { href: "/account/settings", icon: Settings, label: "Settings" },
   ],
 };
 
