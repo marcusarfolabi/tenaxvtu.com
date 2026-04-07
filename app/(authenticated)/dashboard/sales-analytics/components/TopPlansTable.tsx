@@ -1,8 +1,6 @@
 "use client";
 
-export function TopPlansTable({ plans, isLoading }: { plans: any[]; isLoading?: boolean }) {
-  // Debug log to ensure the data is mapped correctly from the backend
-  console.log("📊 Top Plans Table Data:", plans);
+export function TopPlansTable({ plans, isLoading }: { plans: any[]; isLoading?: boolean }) { 
 
   // 1. Loading Skeleton for Table Rows
   const SkeletonRow = () => (

@@ -1,9 +1,7 @@
 "use client";
 import { TrendingUp, ShoppingBag, Hash } from 'lucide-react';
 
-export function StatCards({ totals, isLoading }: { totals: any; isLoading?: boolean }) {
-  // Debugging: Tracking data flow for the "Illegal Operator" investigation
-  console.log("💎 StatCards Render Data:", totals);
+export function StatCards({ totals, isLoading }: { totals: any; isLoading?: boolean }) { 
 
   const items = [
     {

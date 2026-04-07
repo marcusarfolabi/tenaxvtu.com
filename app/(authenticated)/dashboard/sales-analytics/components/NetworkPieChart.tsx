@@ -10,9 +10,6 @@ const COLORS: Record<string, string> = {
 };
 
 export function NetworkPieChart({ networks, isLoading }: { networks: any[]; isLoading?: boolean }) {
-  // Debug logging
-  console.log("🥧 Network Data Received:", networks);
-
   const data = networks?.map(n => ({
     name: n.network?.toUpperCase(),
     value: Number(n.sales)

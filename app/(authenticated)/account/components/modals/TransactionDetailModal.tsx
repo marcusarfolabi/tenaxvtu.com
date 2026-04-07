@@ -19,6 +19,7 @@ import { useState } from "react";
 
 import { domToCanvas } from "modern-screenshot"; // Import this
 import jsPDF from "jspdf";
+import { formatCurrency } from "@/util/getUserCurrency";
 
 interface TransactionDetailModalProps {
   isOpen: boolean;
@@ -45,8 +46,6 @@ export function TransactionDetailModal({
     try {
       const canvas = await domToCanvas(element, {
         scale: 3,
-        // DO NOT hardcode #0a0a0a here. 
-        // Set to null so it uses the CSS background-color from your theme.
         backgroundColor: null,
       });
 
@@ -61,7 +60,6 @@ export function TransactionDetailModal({
       pdf.save(`Receipt-${tx.reference}.pdf`);
       toast.success("Receipt saved!");
     } catch (err) {
-      console.error("Receipt Export Error:", err);
       toast.error("Could not generate receipt");
     } finally {
       setIsDownloading(false);
@@ -78,7 +76,7 @@ export function TransactionDetailModal({
           url: window.location.href,
         });
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     } else {
       navigator.clipboard.writeText(text);
@@ -134,15 +132,23 @@ export function TransactionDetailModal({
         <div className="py-6 space-y-5">
           <DetailRow
             label="Reference"
-            value={tx.reference}
+            value={tx.reference.length > 20 ? `${tx.reference.slice(0, 10)}...${tx.reference.slice(-10)}` : tx.reference}
             icon={<Hash size={14} />}
             isCopyable
           />
           <DetailRow
-            label="Service Provider"
+            label="Provider"
             value={`${tx.network} (${tx.type})`}
             icon={<Network size={14} className="text-foreground/40" />}
           />
+
+          {(tx.type === "AIRTIME" || tx.type === "CABLE" || tx.type === "ELECTRICITY") && (
+            <DetailRow
+              label="Commission"
+              value={formatCurrency(tx.commission || 0, currency)}
+              icon={<Tag size={14} className="text-foreground/40" />}
+            />
+          )}
 
           {tx.token && (
             <DetailRow
@@ -162,7 +168,7 @@ export function TransactionDetailModal({
           )}
 
           <DetailRow
-            label="Date & Time"
+            label="Date"
             value={new Date(tx.created_at).toLocaleString("en-GB", {
               dateStyle: "medium",
               timeStyle: "short",
@@ -183,7 +189,7 @@ export function TransactionDetailModal({
           </p>
           <div className="pt-6 border-t border-foreground/5 flex justify-center">
             <p className="text-[10px] font-black text-foreground/20 uppercase tracking-[0.4em]">
-              {process.env.NEXT_PUBLIC_APP_NAME} Official Receipt
+              {process.env.NEXT_PUBLIC_APP_NAME} Receipt
             </p>
           </div>
         </div>

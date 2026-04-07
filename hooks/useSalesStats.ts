@@ -7,12 +7,10 @@ export function useSalesStats(filters: { from: string; to: string }, initialData
     () => profileApi.getStats(filters).then(res => res.data.data),
     {
       fallbackData: initialData,
-      refreshInterval: 60000, // 60 seconds
+      refreshInterval: 60000, 
       revalidateOnFocus: true,
     }
   );
-
-  console.log(data);
   return {
     stats: data,
     isLoading,

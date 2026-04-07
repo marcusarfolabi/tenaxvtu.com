@@ -82,10 +82,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const response = await profileApi.getProfile(); 
       const { user: userData, is_identity_verified } = response.data.data;
       
-      syncUser(userData, !!is_identity_verified);
-      console.log("User data refreshed successfully");
+      syncUser(userData, !!is_identity_verified); 
     } catch (err) {
-      console.error("Failed to refresh user data", err);
+      // console.error("Failed to refresh user data", err);
     }
   };
 

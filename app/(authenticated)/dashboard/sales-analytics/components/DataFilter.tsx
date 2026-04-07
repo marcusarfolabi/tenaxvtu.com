@@ -9,19 +9,11 @@ export function DateFilter({ filters, setFilters }: any) {
   ];
 
   const handleQuickSelect = (days: number) => {
-    const now = new Date();
-
-    // Format "to" date (Today)
-    const to = now.toISOString().split("T")[0];
-
-    // Calculate "from" date
+    const now = new Date(); 
+    const to = now.toISOString().split("T")[0]; 
     const fromDate = new Date();
     fromDate.setDate(now.getDate() - days);
-    const from = fromDate.toISOString().split("T")[0];
-
-    // Logging for your debug tracing
-    console.log(`[DateFilter] Quick Select: ${from} to ${to}`);
-
+    const from = fromDate.toISOString().split("T")[0]; 
     if (from && to) {
       setFilters({ from, to });
     }
