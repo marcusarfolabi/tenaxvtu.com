@@ -18,6 +18,7 @@ export const walletApi = {
   manualFunding: (data: {
     amount: string;
     reference?: string;
+    type: string;
     user_id: number;
   }) => api.post("/wallet/transfer/manual", data),
 };

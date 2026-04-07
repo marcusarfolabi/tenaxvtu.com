@@ -26,6 +26,10 @@ import FormInput from "@/components/common/FormInput";
 import { formatCurrency } from "@/util/getUserCurrency";
 import SubmitButton from "@/components/common/SubmitButton";
 
+const fundingTypeOptions = [
+  { code: "credit", name: "Credit", fullname: "Add money to user wallet" },
+  { code: "debit", name: "Debit", fullname: "Remove money from user wallet" },
+];
 
 export default function UserList({ limit = 10 }: { limit?: number }) {
   const [page, setPage] = useState(1);
@@ -40,6 +44,8 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
   const [isSubmittingFund, setIsSubmittingFund] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSubmittingDelete, setIsSubmittingDelete] = useState(false);
+  const [fundType, setFundType] = useState("credit");
+
 
   const handleManualFunding = async () => {
     if (!fundAmount || parseFloat(fundAmount) <= 0) return;
@@ -47,11 +53,14 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
     try {
       await walletApi.manualFunding({
         amount: fundAmount,
+        type: fundType,
         reference: fundReference || `MAN-REF-${Date.now()}`,
         user_id: selectedUser.id,
       });
-      toast.success(`${formatCurrency(fundAmount)} added to user balance`);
+
+      toast.success(`${fundType === 'credit' ? 'Credited' : 'Debited'} ${formatCurrency(fundAmount)}`);
       setFundAmount("");
+      setFundType("credit"); // Reset
       setIsFunding(false);
       setSelectedUser(null);
       if (refreshUsers) refreshUsers();
@@ -213,6 +222,22 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                 </div>
               </div>
             )}
+            {/* Wallet Info */}
+         <div className="flex justify-between  gap-4">
+              {selectedUser.wallet_balance !== undefined && (
+                <div className="bg-muted/50 p-4 rounded-3xl border border-border w-full">
+                  <p className="text-[9px] font-black text-muted-foreground uppercase mb-2">Wallet Bal</p>
+                  <p className="text-lg font-bold text-primary">{formatCurrency(selectedUser.wallet_balance)}</p>
+                </div>
+              )}
+              {/* Commission Info */}
+              {selectedUser.commission_balance !== undefined && (
+                <div className="bg-muted/50 p-4 rounded-3xl border border-border w-full">
+                  <p className="text-[9px] font-black text-muted-foreground uppercase mb-2">Commission Bal</p>
+                  <p className="text-lg font-bold text-primary">{formatCurrency(selectedUser.commission_balance)}</p>
+                </div>
+              )}  
+         </div>
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-3">
@@ -253,17 +278,33 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                 /> </div>
             ) : isFunding ? (
               <div className="bg-card p-6 rounded-3xl border border-border space-y-4">
-                <FormInput label="Credit Amount" name="amount" type="number" value={fundAmount} onChange={(e) => setFundAmount(e.target.value)} icon={Hash} />
+                <FormSelect
+                  label="Transaction Type"
+                  icon={TrendingUp}
+                  options={fundingTypeOptions}
+                  selectedCode={fundType}
+                  onChange={(val) => setFundType(val)}
+                />
+
+                <FormInput
+                  label={`${fundType === 'credit' ? 'Credit' : 'Debit'} Amount`}
+                  name="amount"
+                  type="number"
+                  value={fundAmount}
+                  onChange={(e) => setFundAmount(e.target.value)}
+                  icon={Hash}
+                />                
                 <SubmitButton
                   onClick={handleManualFunding}
                   isLoading={isSubmittingFund}
                   disabled={!fundAmount || formatCurrency(fundAmount) <= "0"}
-                  idleText={`Confirm Credit ${formatCurrency(fundAmount || "0").toLocaleString()}`}
+                  idleText={`Confirm ${fundType === 'credit' ? 'Credit' : 'Debit'} ${formatCurrency(fundAmount || "0").toLocaleString()}`}
                   loadingText="Processing..."
-                    className="bg-primary text-primary-foreground h-14 rounded-2xl w-full"
+                  className="bg-primary text-primary-foreground h-14 rounded-2xl w-full"
                 /> </div>
+
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-4 mb-4">
                 <div className="bg-muted/30 p-4 rounded-3xl space-y-3">
                   <div className="flex justify-between text-xs"><span className="text-muted-foreground">Phone</span><span className="font-black">{selectedUser.phone}</span></div>
                   <div className="flex justify-between text-xs"><span className="text-muted-foreground">Email</span><span className="font-black lowercase">{selectedUser.email}</span></div>
