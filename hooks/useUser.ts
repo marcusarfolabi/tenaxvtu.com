@@ -56,6 +56,11 @@ export function useUsers({ page = 1, limit = 10 }) {
 
   return {
     users: data?.users || [],
+    summary: data?.summary || {
+      total_verified_emails: 0,
+      total_kyc_completed: 0,
+      total_with_virtual_accounts: 0,
+    },
     pagination: data?.pagination || { total: 0, lastPage: 1 },
     isLoading,
     isUpdating,
