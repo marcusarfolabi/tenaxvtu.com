@@ -10,6 +10,8 @@ import Logo from "@/components/Logo";
 import { ACCOUNT_MENU } from "@/settings";
 import Sidebar from "./account/components/Sidebar";
 import TopHeader from "./account/components/TopHeader";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function CustomerLayout({
   children,
@@ -21,6 +23,10 @@ export default function CustomerLayout({
   const message = encodeURIComponent(
     `Hello ${process.env.NEXT_PUBLIC_APP_NAME} Support, I need assistance.`
   ); 
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleIconClick = (e: React.MouseEvent) => {
+  };
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
@@ -89,21 +95,32 @@ export default function CustomerLayout({
             })}
           </div>
         </nav>
-
-        <a
-          href={`https://wa.me/${whatsappNumber}?text=${message}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="fixed bottom-24 right-6 z-60 group flex items-center"
+ 
+        <motion.div
+          drag
+          dragMomentum={false} 
+          animate={{ x: position.x, y: position.y }}
+          onDragEnd={(event, info) => { 
+            setPosition({
+              x: position.x + info.offset.x,
+              y: position.y + info.offset.y
+            });
+          }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9, cursor: "grabbing" }}
+          onTap={() => { 
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank", "noopener,noreferrer");
+          }}
+          className="fixed bottom-24 right-6 z-[100] cursor-grab active:cursor-grabbing touch-none select-none"
         >
-          <div className="w-14 h-14 bg-background border border-foreground/10 text-foreground rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-90 relative">
-            <MessageCircle size={24} fill="currentColor" className="text-foreground" />
+          <div className="w-14 h-14 bg-background border border-foreground/10 text-foreground rounded-[1.4rem] shadow-2xl flex items-center justify-center transition-shadow hover:shadow-brand-red/20 relative">
+            <MessageCircle size={24} fill="currentColor" />
             <span className="absolute -top-1 -right-1 flex h-4 w-4">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-red opacity-75"></span>
               <span className="relative inline-flex rounded-full h-4 w-4 bg-brand-red"></span>
             </span>
           </div>
-        </a>
+        </motion.div>
 
       </div>
     </ThemeProvider>

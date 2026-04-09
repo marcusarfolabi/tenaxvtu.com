@@ -45,7 +45,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSubmittingDelete, setIsSubmittingDelete] = useState(false);
   const [fundType, setFundType] = useState("credit");
-
+  const [isSubmittingKyc, setIsSubmittingKyc] = useState(false);
 
   const handleManualFunding = async () => {
     if (!fundAmount || parseFloat(fundAmount) <= 0) return;
@@ -83,6 +83,22 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
       toast.error(error.response?.data?.message || "Deletion failed");
     } finally {
       setIsSubmittingDelete(false);
+    }
+  };
+
+  const handleManualKycUpgrade = async () => {
+    if (!selectedUser) return;
+
+    setIsSubmittingKyc(true);
+    try {
+      await profileApi.upgradeUser({ user_id: selectedUser.id });
+      toast.success("Identity verified manually");
+      setSelectedUser(null);
+      if (refreshUsers) refreshUsers();
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "KYC upgrade failed");
+    } finally {
+      setIsSubmittingKyc(false);
     }
   };
 
@@ -250,7 +266,22 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   <TrendingUp size={16} /> <span className="text-[10px] font-black uppercase">{isFunding ? "Cancel" : "Credit"}</span>
                 </div>
               </button>
-
+              {/* NEW: KYC Upgrade Button */}
+              {!selectedUser.kyc_verified && (
+                <button
+                  onClick={handleManualKycUpgrade}
+                  disabled={isSubmittingKyc}
+                  className="p-3 rounded-2xl transition-all border bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500 hover:text-white flex flex-col items-start disabled:opacity-50"
+                >
+                  <p className="text-[8px] font-black uppercase mb-1 opacity-60">Verify</p>
+                  <div className="flex items-center gap-1">
+                    <ShieldCheck size={14} />
+                    <span className="text-[9px] font-black uppercase">
+                      {isSubmittingKyc ? "..." : "KYC"}
+                    </span>
+                  </div>
+                </button>
+              )}
               <button
                 onClick={() => { setIsDeleting(!isDeleting); setIsFunding(false); }}
                 className={`p-4 rounded-3xl transition-all border flex flex-col items-start ${isDeleting ? "bg-destructive text-destructive-foreground border-destructive" : "bg-muted text-muted-foreground border-transparent"}`}
