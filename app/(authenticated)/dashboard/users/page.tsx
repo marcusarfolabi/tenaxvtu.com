@@ -96,6 +96,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
       setSelectedUser(null);
       if (refreshUsers) refreshUsers();
     } catch (error: any) {
+      console.log(error);
       toast.error(error.response?.data?.message || "KYC upgrade failed");
     } finally {
       setIsSubmittingKyc(false);

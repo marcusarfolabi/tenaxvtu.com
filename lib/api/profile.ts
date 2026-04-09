@@ -36,8 +36,7 @@ export const profileApi = {
 
   deleteUser: (params: { user_id: number | string }) =>
     api.delete("/user/delete", { params }),
-  
-  upgradeUser: (params: { user_id: number | string }) =>
-    api.delete("/user/delete", { params }),
 
+  upgradeUser: (params: { user_id: number | string }) =>
+    api.post("/user/upgrade-kyc", params), // Removed the curly braces around params
 };
