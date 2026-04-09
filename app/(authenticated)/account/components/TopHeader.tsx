@@ -134,8 +134,10 @@ export default function TopHeader({ onMenuClick }: { onMenuClick: () => void }) 
               </div>
 
               {/* Mapped Menu Items */}
-              {[
-                ...MENU_CONFIG.common,
+               {[
+                 ...MENU_CONFIG.common.filter(item =>
+                  user?.role === "agent" ? item.href !== "/account/virtual-accounts" : true
+                ),
                 ...(user?.role === "agent" ? MENU_CONFIG.agent : [])
               ].map((item, i) => (
                 <MenuItem key={i}>
@@ -145,8 +147,8 @@ export default function TopHeader({ onMenuClick }: { onMenuClick: () => void }) 
                     </Link>
                   )}
                 </MenuItem>
-              ))}
-
+              ))
+              }
               <hr className="my-2 border-foreground/5" />
 
               <MenuItem>

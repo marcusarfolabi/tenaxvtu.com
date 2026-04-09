@@ -69,15 +69,15 @@ export default function Sidebar({
             Account & Help
           </div>
           <div className="-mx-2 space-y-1">
-            {/* Top Up Wallet - Added a subtle border to make it pop more in light mode */}
-            <Link
-              href="/account/virtual-accounts"
-              className="group flex gap-x-3 rounded-2xl p-3 text-sm font-black text-brand-red bg-brand-red/5 border border-brand-red/10 hover:bg-brand-red/10 transition-all active:scale-95"
-            >
-              <PlusCircle className="h-5 w-5 text-brand-red" />
-              Top Up Wallet
-            </Link>
-
+             {user?.role !== "agent" && (
+              <Link
+                href="/account/virtual-accounts"
+                className="group flex gap-x-3 rounded-2xl p-3 text-sm font-black text-brand-red bg-brand-red/5 border border-brand-red/10 hover:bg-brand-red/10 transition-all active:scale-95"
+              >
+                <PlusCircle className="h-5 w-5 text-brand-red" />
+                Top Up Wallet
+              </Link>
+            )}
             <Link
               href="/support"
               className="group flex gap-x-3 rounded-2xl p-3 text-sm font-bold text-foreground/60 hover:text-foreground hover:bg-foreground/5 transition-all"
