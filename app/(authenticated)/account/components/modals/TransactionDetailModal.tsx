@@ -93,10 +93,11 @@ export function TransactionDetailModal({
       >
         <div className="flex flex-col items-center justify-center space-y-3 pb-8 border-b border-dashed border-foreground/10">
           <div
-            className={`w-16 h-16 rounded-full flex items-center justify-center ${tx.status === "success" || tx.status === "1"
-              ? "bg-green-500/10"
-              : "bg-red-500/10"
-              }`}
+            className={`w-16 h-16 rounded-full flex items-center justify-center ${
+              tx.status === "success" || tx.status === "1"
+                ? "bg-green-500/10"
+                : "bg-red-500/10"
+            }`}
           >
             {tx.status === "success" || tx.status === "1" ? (
               <CheckCircle2 className="text-green-500" size={32} />
@@ -107,22 +108,20 @@ export function TransactionDetailModal({
 
           <div className="text-center">
             <p className="text-[10px] font-black text-foreground/40 uppercase tracking-[0.2em]">
-              Transaction Amount
+              Amount
             </p>
             <h2 className="text-4xl font-black text-foreground tracking-tighter">
-              {currency}
-              {parseFloat(tx.amount).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-              })}
+              {formatCurrency(tx.amount)}
             </h2>
           </div>
 
           {/* Conditional Status Badge */}
           <span
-            className={`px-4 py-1.5 text-[10px] font-black rounded-full uppercase tracking-wider ${tx.status === "success"
-              ? "bg-green-500/20 text-green-500"
-              : "bg-red-500/20 text-red-500"
-              }`}
+            className={`px-4 py-1.5 text-[10px] font-black rounded-full uppercase tracking-wider ${
+              tx.status === "success"
+                ? "bg-green-500/20 text-green-500"
+                : "bg-red-500/20 text-red-500"
+            }`}
           >
             {tx.status === "success" ? "Successful" : "Failed"}
           </span>
@@ -132,7 +131,11 @@ export function TransactionDetailModal({
         <div className="py-6 space-y-5">
           <DetailRow
             label="Reference"
-            value={tx.reference.length > 20 ? `${tx.reference.slice(0, 10)}...${tx.reference.slice(-10)}` : tx.reference}
+            value={
+              tx.reference.length > 20
+                ? `${tx.reference.slice(0, 10)}...${tx.reference.slice(-10)}`
+                : tx.reference
+            }
             icon={<Hash size={14} />}
             isCopyable
           />
@@ -142,7 +145,9 @@ export function TransactionDetailModal({
             icon={<Network size={14} className="text-foreground/40" />}
           />
 
-          {(tx.type === "AIRTIME" || tx.type === "CABLE" || tx.type === "ELECTRICITY") && (
+          {(tx.type === "AIRTIME" ||
+            tx.type === "CABLE" ||
+            tx.type === "ELECTRICITY") && (
             <DetailRow
               label="Commission"
               value={formatCurrency(tx.commission || 0, currency)}

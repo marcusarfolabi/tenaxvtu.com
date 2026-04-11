@@ -24,7 +24,7 @@ export function TransactionList({
   type,
 }: TransactionListProps) {
   const [page, setPage] = useState(1);
-  const [selectedTx, setSelectedTx] = useState<any>(null);  
+  const [selectedTx, setSelectedTx] = useState<any>(null);
 
   const { transactions, pagination, isLoading, balance } = useWallet({
     page,
@@ -63,7 +63,7 @@ export function TransactionList({
         {transactions?.length > 0 ? (
           transactions.map((tx: any) => {
             const providerIcon = tx.network
-              ? `/providers/${tx.network.toLowerCase()}.png`
+              ? `/providers/${tx.network.trim().toLowerCase()}.png`
               : null;
 
             return (
@@ -167,7 +167,7 @@ export function TransactionList({
           >
             <div className={`absolute inset-0 transition-colors duration-300 ${page === pagination.last_page ? 'bg-foreground/5' : 'bg-brand-red shadow-[0_0_20px_rgba(255,69,69,0.2)] group-hover:bg-brand-red/90'}`} />
             <span className="relative text-[11px] font-black text-brand-burgundy uppercase tracking-[0.15em] transition-transform group-hover:translate-x-1">
-              More 
+              More
             </span>
           </button>
 
