@@ -197,10 +197,11 @@ export default function PlanManagementPage() {
           <button
             key={net}
             onClick={() => setActiveTab(net)}
-            className={`px-6 py-2.5 cursor-pointer rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${activeTab === net
-              ? "bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20"
-              : "bg-background border-foreground/10 text-foreground/40 hover:border-brand-red/40"
-              }`}
+            className={`px-6 py-2.5 cursor-pointer rounded-full text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${
+              activeTab === net
+                ? "bg-brand-red border-brand-red text-white shadow-lg shadow-brand-red/20"
+                : "bg-background border-foreground/10 text-foreground/40 hover:border-brand-red/40"
+            }`}
           >
             {net}
           </button>
@@ -366,10 +367,11 @@ export default function PlanManagementPage() {
                     <button
                       key={pageNum}
                       onClick={() => setCurrentPage(pageNum)}
-                      className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all cursor-pointer ${currentPage === pageNum
-                        ? "bg-brand-red text-brand-burgundy shadow-lg shadow-brand-red/20"
-                        : "hover:bg-foreground/5 text-foreground/40"
-                        }`}
+                      className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all cursor-pointer ${
+                        currentPage === pageNum
+                          ? "bg-brand-red text-brand-burgundy shadow-lg shadow-brand-red/20"
+                          : "hover:bg-foreground/5 text-foreground/40"
+                      }`}
                     >
                       {pageNum}
                     </button>
@@ -405,7 +407,7 @@ export default function PlanManagementPage() {
                 </span>
               </div>
               <p className="text-lg font-black tracking-tight">
-                {formatCurrency(selectedPlan?.price || "0")}
+                {formatCurrency(selectedPlan?.reseller_price || "0")}
               </p>
             </div>
             <div className="bg-foreground/5 p-4 rounded-2xl border border-foreground/5">

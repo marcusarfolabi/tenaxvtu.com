@@ -189,6 +189,14 @@ export default function DataPage() {
               if (plan) setFormData({ ...formData, selectedPlanId: String(code), amount: parseFloat(plan.price), planName: plan.name });
             }}
           />
+          {/* show the description of the selected plan */}
+          {formData.selectedPlanId && (
+            <div className="p-4 bg-foreground/5 rounded-2xl border border-foreground/5">
+              <p className="text-xs font-medium text-foreground">
+                {finalFilteredPlans.find((p) => String(p.code) === String(formData.selectedPlanId))?.description}
+              </p>
+            </div>
+          )}
 
           {/* STEP 4: Phone Input */}
           <FormInput
