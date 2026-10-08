@@ -39,4 +39,6 @@ export const profileApi = {
 
   upgradeUser: (params: { user_id: number | string }) =>
     api.post("/user/upgrade-kyc", params), // Removed the curly braces around params
+  verifyEmail: (params: { user_id: number | string }) =>
+    api.post("/user/verify-email", params), // Removed the curly braces around params
 };
