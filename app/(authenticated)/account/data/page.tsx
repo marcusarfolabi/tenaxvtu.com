@@ -97,8 +97,8 @@ export default function DataPage() {
   };
 
   return (
-    <div className="space-y-6 pb-20"> 
-       <div className="relative overflow-hidden bg-brand-black rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
+    <div className="space-y-6 pb-20">
+      <div className="relative overflow-hidden bg-brand-black rounded-4xl md:rounded-[2.5rem] p-6 md:p-8 text-foreground shadow-2xl border border-foreground/10">
         <div className="relative z-10">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/40">
             Data Spent
@@ -117,7 +117,7 @@ export default function DataPage() {
         <Database className="absolute -right-4 -bottom-4 text-foreground/5 w-32 h-32 md:w-40 md:h-40 rotate-12" />
       </div>
 
-        {/* History Section */}
+      {/* History Section */}
       <div className="space-y-4">
         <h3 className="font-black text-foreground/40 px-1 uppercase text-[10px] tracking-[0.2em]">
           Data History
@@ -125,23 +125,36 @@ export default function DataPage() {
         <TransactionList limit={10} showTitle={false} type="DATA" />
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Purchase Data">
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Purchase Data"
+      >
         <form onSubmit={handlePurchase} className="p-6 space-y-6">
-
           {/* STEP 1: Network Selection */}
           <div className="grid grid-cols-4 gap-2">
-            {(["MTN", "GLO", "AIRTEL", "9MOBILE"] as NetworkType[]).map((net) => (
-              <button
-                key={net}
-                type="button"
-                onClick={() => setFormData({ ...formData, network: net })}
-                className={`py-3 rounded-2xl cursor-pointer flex flex-col items-center gap-2 border transition-all ${formData.network === net ? "bg-brand-red/10 border-brand-red" : "bg-foreground/5 border-transparent opacity-40"
+            {(["MTN", "GLO", "AIRTEL", "9MOBILE"] as NetworkType[]).map(
+              (net) => (
+                <button
+                  key={net}
+                  type="button"
+                  onClick={() => setFormData({ ...formData, network: net })}
+                  className={`py-3 rounded-2xl cursor-pointer flex flex-col items-center gap-2 border transition-all ${
+                    formData.network === net
+                      ? "bg-brand-red/10 border-brand-red"
+                      : "bg-foreground/5 border-transparent opacity-40"
                   }`}
-              >
-                <Image src={`/providers/${net.toLowerCase()}.png`} alt={net} width={24} height={24} />
-                <span className="text-[8px] font-black uppercase">{net}</span>
-              </button>
-            ))}
+                >
+                  <Image
+                    src={`/providers/${net.toLowerCase()}.png`}
+                    alt={net}
+                    width={24}
+                    height={24}
+                  />
+                  <span className="text-[8px] font-black uppercase">{net}</span>
+                </button>
+              ),
+            )}
           </div>
 
           {/* STEP 2: Sub-Type Selection (Dynamic based on Network) */}
@@ -157,10 +170,11 @@ export default function DataPage() {
                     key={type}
                     type="button"
                     onClick={() => setSelectedSubType(type)}
-                    className={`px-4 py-2 cursor-pointer rounded-xl text-[10px] font-black uppercase transition-all border ${selectedSubType === type
+                    className={`px-4 py-2 cursor-pointer rounded-xl text-[10px] font-black uppercase transition-all border ${
+                      selectedSubType === type
                         ? "bg-foreground text-background border-foreground shadow-md"
                         : "bg-foreground/5 text-foreground/60 border-transparent hover:bg-foreground/10"
-                      }`}
+                    }`}
                   >
                     {type}
                   </button>
@@ -174,26 +188,38 @@ export default function DataPage() {
               </div>
             )}
           </div>
-         
+
           {/* STEP 3: Plan Selection (Filtered by both) */}
           <FormSelect
             label="Available Plans"
             icon={List}
             options={finalFilteredPlans.map((p) => ({
               code: p.code,
-              name: `${p.allowance} for ${p.validity} at ${formatCurrency(p.price)}`,
+              name: `${p.allowance} for ${p.validity} at ${formatCurrency(p.reseller_price)}`,
             }))}
             selectedCode={formData.selectedPlanId}
             onChange={(code) => {
-              const plan = finalFilteredPlans.find(p => String(p.code) === String(code));
-              if (plan) setFormData({ ...formData, selectedPlanId: String(code), amount: parseFloat(plan.price), planName: plan.name });
+              const plan = finalFilteredPlans.find(
+                (p) => String(p.code) === String(code),
+              );
+              if (plan)
+                setFormData({
+                  ...formData,
+                  selectedPlanId: String(code),
+                  amount: parseFloat(plan.reseller_price),
+                  planName: plan.name,
+                });
             }}
           />
           {/* show the description of the selected plan */}
           {formData.selectedPlanId && (
             <div className="p-4 bg-foreground/5 rounded-2xl border border-foreground/5">
               <p className="text-xs font-medium text-foreground">
-                {finalFilteredPlans.find((p) => String(p.code) === String(formData.selectedPlanId))?.description}
+                {
+                  finalFilteredPlans.find(
+                    (p) => String(p.code) === String(formData.selectedPlanId),
+                  )?.description
+                }
               </p>
             </div>
           )}
@@ -210,15 +236,25 @@ export default function DataPage() {
 
           {/* Balance & Submit */}
           <div className="bg-foreground/5 p-4 rounded-2xl flex justify-between items-center border border-foreground/5">
-            <span className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest">Balance</span>
-            <span className={`text-xs font-black ${!canAfford ? "text-brand-red" : "text-foreground"}`}>{formatCurrency(balance?.balance)}</span>
+            <span className="text-[10px] font-bold text-foreground/40 uppercase tracking-widest">
+              Balance
+            </span>
+            <span
+              className={`text-xs font-black ${!canAfford ? "text-brand-red" : "text-foreground"}`}
+            >
+              {formatCurrency(balance?.balance)}
+            </span>
           </div>
 
           <SubmitButton
             loadingText="Processing..."
             disabled={!isFormValid || isPurchasing}
             isLoading={isPurchasing}
-            idleText={formData.amount > 0 ? `Pay ${formatCurrency(formData.amount)}` : `Complete Selection`}
+            idleText={
+              formData.amount > 0
+                ? `Pay ${formatCurrency(formData.amount)}`
+                : `Complete Selection`
+            }
             className="h-14 rounded-2xl shadow-lg shadow-brand-red/10"
           />
         </form>
