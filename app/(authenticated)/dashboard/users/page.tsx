@@ -25,6 +25,7 @@ import FormInput from "@/components/common/FormInput";
 import { formatCurrency } from "@/util/getUserCurrency";
 import SubmitButton from "@/components/common/SubmitButton";
 import { Modal } from "@/app/(authenticated)/account/components/ui/Modal";
+import { Input } from "@headlessui/react";
 
 const fundingTypeOptions = [
   { code: "credit", name: "Credit", fullname: "Add money to user wallet" },
@@ -194,6 +195,19 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
         </div>
       </div>
 
+      {/* provide a search input here */}
+      <div className="flex justify-between items-center">
+        <h3 className="font-black text-foreground uppercase text-[10px] tracking-[0.2em]">
+          User List
+        </h3>
+        <div className="relative">
+          <Input
+            placeholder="Search users..."
+            className="bg-background border border-border focus-visible:ring-0 focus-visible:ring-offset-0"
+          />
+        </div>
+      </div>
+
       {/* User List */}
       <div className="space-y-3">
         <div className="flex justify-between items-center px-1">
@@ -286,7 +300,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   <span
                     className={`flex items-center gap-1.5 text-[9px] font-black uppercase px-2 py-1 rounded-lg border ${selectedUser.email_verified ? "text-green-500 border-green-500/20 bg-green-500/5" : "text-destructive border-destructive/20 bg-destructive/5"}`}
                   >
-                    {selectedUser.email_verified ? (
+                    {selectedUser.email_verified_at ? (
                       <CheckCircle2 size={10} />
                     ) : (
                       <XCircle size={10} />
@@ -391,7 +405,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                 </button>
               )}
               {/* when the selected user email_verified_at is not null */}
-              {!selectedUser.kyc_verified && (
+              {!selectedUser.email_verified_at && (
                 <button
                   onClick={handleManualEmailVerification}
                   disabled={isVerifyEmail}
