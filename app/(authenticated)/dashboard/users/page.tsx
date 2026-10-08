@@ -278,7 +278,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                   <div className="flex items-center gap-1">
                     <ShieldCheck size={14} />
                     <span className="text-[9px] font-black uppercase">
-                      {isSubmittingKyc ? "..." : "KYC"}
+                      {isSubmittingKyc ? "Verifying..." : "Email and KYC"}
                     </span>
                   </div>
                 </button>
@@ -298,7 +298,7 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
               <div className="bg-destructive/5 p-6 rounded-3xl border border-destructive/20 space-y-4">
                 <div className="flex items-center gap-3 text-destructive">
                   <AlertTriangle size={24} />
-                  <h5 className="font-black uppercase text-xs">Confirm Destruction</h5>
+                  <h5 className="font-black uppercase text-xs">Confirm Delete</h5>
                 </div>
                 <p className="text-xs text-muted-foreground">Permanent deletion of <b>{selectedUser.email}</b>. This cannot be undone.</p>
                 <SubmitButton
