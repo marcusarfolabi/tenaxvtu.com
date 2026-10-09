@@ -195,7 +195,7 @@ export default function DataPage() {
             icon={List}
             options={finalFilteredPlans.map((p) => ({
               code: p.code,
-              name: `${p.allowance} for ${p.validity} at ${formatCurrency(p.reseller_price)}`,
+              name: `${p.allowance} for ${p.validity} at ${formatCurrency(p.price)}`,
             }))}
             selectedCode={formData.selectedPlanId}
             onChange={(code) => {
@@ -206,7 +206,7 @@ export default function DataPage() {
                 setFormData({
                   ...formData,
                   selectedPlanId: String(code),
-                  amount: parseFloat(plan.reseller_price),
+                  amount: parseFloat(plan.price),
                   planName: plan.name,
                 });
             }}
