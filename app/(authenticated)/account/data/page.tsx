@@ -23,7 +23,8 @@ export default function DataPage() {
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [allPlans, setAllPlans] = useState<any[]>([]);
 
-  const [selectedSubType, setSelectedSubType] = useState<string>("");
+  // 1. Rename selectedSubType to selectedValidity
+  const [selectedValidity, setSelectedValidity] = useState<string>("");
 
   const { balance, stats, refreshWallet } = useWallet({
     limit: 10,
@@ -46,34 +47,46 @@ export default function DataPage() {
     });
   }, []);
 
-  const availableSubTypes = useMemo(() => {
-    const networkPlans = allPlans.filter(p => p.network?.toUpperCase() === formData.network);
-    const types = networkPlans.map(p =>
-      p.name.replace(new RegExp(`^${formData.network}\\s*`, "i"), "").split(" ")[0]
+  // 2. Extract unique validity durations for the selected network
+  const availableValidities = useMemo(() => {
+    const networkPlans = allPlans.filter(
+      (p) => p.network?.toUpperCase() === formData.network,
     );
-    return Array.from(new Set(types)).filter(Boolean);
+    const validities = networkPlans.map((p) => p.validity).filter(Boolean);
+    return Array.from(new Set(validities));
   }, [allPlans, formData.network]);
 
+  // 3. Filter plans by both selected network and selected validity
   const finalFilteredPlans = useMemo(() => {
-    return allPlans.filter((p) => {
-      const matchesNetwork = p.network?.toUpperCase() === formData.network;
-      const cleanName = p.name.replace(new RegExp(`^${p.network}\\s*`, "i"), "");
-      const matchesType = selectedSubType ? cleanName.startsWith(selectedSubType) : true;
-      return matchesNetwork && matchesType;
-    }).map(p => ({
-      ...p,
-      displayName: p.name.replace(new RegExp(`^${p.network}\\s*`, "i"), "")
-    }));
-  }, [allPlans, formData.network, selectedSubType]);
+    return allPlans
+      .filter((p) => {
+        const matchesNetwork = p.network?.toUpperCase() === formData.network;
+        const matchesValidity = selectedValidity
+          ? p.validity === selectedValidity
+          : true;
+        return matchesNetwork && matchesValidity;
+      })
+      .map((p) => ({
+        ...p,
+        displayName: p.name.replace(new RegExp(`^${p.network}\\s*`, "i"), ""),
+      }));
+  }, [allPlans, formData.network, selectedValidity]);
 
+  // Reset validity filter when network changes
   useEffect(() => {
-    setSelectedSubType("");
-    setFormData(prev => ({ ...prev, selectedPlanId: "", amount: 0, planName: "" }));
+    setSelectedValidity("");
+    setFormData((prev) => ({
+      ...prev,
+      selectedPlanId: "",
+      amount: 0,
+      planName: "",
+    }));
   }, [formData.network]);
 
   const { handlePhoneChange } = useNetworkDetection(setFormData);
   const canAfford = canAffordTransaction(balance, formData.amount, user?.role);
-  const isFormValid = formData.phone.length >= 11 && formData.selectedPlanId && canAfford;
+  const isFormValid =
+    formData.phone.length >= 11 && formData.selectedPlanId && canAfford;
 
   const handlePurchase = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,33 +170,33 @@ export default function DataPage() {
             )}
           </div>
 
-          {/* STEP 2: Sub-Type Selection (Dynamic based on Network) */}
+          {/* STEP 2: Duration / Validity Selection */}
           <div className="space-y-2">
-            <label className="text-[10px] font-black text-foreground/40 uppercase tracking-widest px-1">
-              Select Data Type
-            </label>
-
-            {availableSubTypes.length > 0 ? (
+            {availableValidities.length > 0 ? (
               <div className="flex flex-wrap gap-2">
-                {availableSubTypes.map((type) => (
+                {availableValidities.map((validity) => (
                   <button
-                    key={type}
+                    key={validity}
                     type="button"
-                    onClick={() => setSelectedSubType(type)}
+                    onClick={() =>
+                      setSelectedValidity(
+                        selectedValidity === validity ? "" : validity,
+                      )
+                    }
                     className={`px-4 py-2 cursor-pointer rounded-xl text-[10px] font-black uppercase transition-all border ${
-                      selectedSubType === type
+                      selectedValidity === validity
                         ? "bg-foreground text-background border-foreground shadow-md"
                         : "bg-foreground/5 text-foreground/60 border-transparent hover:bg-foreground/10"
                     }`}
                   >
-                    {type}
+                    {validity}
                   </button>
                 ))}
               </div>
             ) : (
               <div className="p-2 rounded-2xl bg-foreground/5 border border-dashed border-foreground/10 flex items-center justify-center">
                 <span className="text-[10px] font-bold text-foreground/30 uppercase tracking-wider">
-                  No data types available for this network
+                  No validity options available for this network
                 </span>
               </div>
             )}
@@ -211,18 +224,23 @@ export default function DataPage() {
                 });
             }}
           />
-          {/* show the description of the selected plan */}
-          {formData.selectedPlanId && (
-            <div className="p-4 bg-foreground/5 rounded-2xl border border-foreground/5">
-              <p className="text-xs font-medium text-foreground">
-                {
-                  finalFilteredPlans.find(
-                    (p) => String(p.code) === String(formData.selectedPlanId),
-                  )?.description
-                }
-              </p>
-            </div>
-          )}
+
+          {/* Description display */}
+          {(() => {
+            const selectedPlan = finalFilteredPlans.find(
+              (p) => String(p.code) === String(formData.selectedPlanId),
+            );
+
+            if (!selectedPlan?.description) return null;
+
+            return (
+              <div className="p-4 bg-foreground/5 rounded-2xl border border-foreground/5">
+                <p className="text-xs font-medium text-foreground">
+                  {selectedPlan.description}
+                </p>
+              </div>
+            );
+          })()}
 
           {/* STEP 4: Phone Input */}
           <FormInput
@@ -240,7 +258,9 @@ export default function DataPage() {
               Balance
             </span>
             <span
-              className={`text-xs font-black ${!canAfford ? "text-brand-red" : "text-foreground"}`}
+              className={`text-xs font-black ${
+                !canAfford ? "text-brand-red" : "text-foreground"
+              }`}
             >
               {formatCurrency(balance?.balance)}
             </span>
