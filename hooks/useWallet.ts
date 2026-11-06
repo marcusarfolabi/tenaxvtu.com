@@ -12,6 +12,29 @@ interface UseWalletProps {
   userId?: number;
 }
 
+interface TransactionGroupSummary {
+  category: string;
+  transaction_count: number;
+  successful_amount: number | string;
+}
+
+interface TransactionOverview {
+  products: TransactionGroupSummary[];
+  networks: TransactionGroupSummary[];
+}
+
+interface WalletHistoryResponse {
+  history?: {
+    data?: any[];
+    total?: number;
+    current_page?: number;
+    last_page?: number;
+    per_page?: number;
+  };
+  total_amount?: number;
+  overview?: TransactionOverview;
+}
+
 export const useWallet = ({
   page = 1,
   limit = 4,
@@ -53,7 +76,7 @@ export const useWallet = ({
 
   const { data: historyData, isLoading: isHistoryLoading } = useQuery({
     queryKey: ["wallet-history", page, limit, type, userId],
-    queryFn: async () => {
+    queryFn: async (): Promise<WalletHistoryResponse> => {
       const res = await walletApi.getHistory({
         page,
         limit,
@@ -89,6 +112,10 @@ export const useWallet = ({
     hwProviderBalance: balance?.hw_balance || 0,
     hwProviderCommission: balance?.hw_commission || 0,
     transactions: historyData?.history?.data || [],
+    overview: historyData?.overview || {
+      products: [],
+      networks: [],
+    },
 
     // Status
     isLoading: isBalanceLoading || isHistoryLoading,

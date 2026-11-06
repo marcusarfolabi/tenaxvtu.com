@@ -28,7 +28,7 @@ export function TransactionList({
   const [page, setPage] = useState(1);
   const [selectedTx, setSelectedTx] = useState<any>(null);
 
-  const { transactions, pagination, isLoading, balance } = useWallet({
+  const { transactions, pagination, isLoading, balance, overview } = useWallet({
     page,
     limit,
     type,
@@ -61,6 +61,62 @@ export function TransactionList({
           </Link>
         </div>
       )}
+
+      <section className="space-y-3 rounded-3xl border border-foreground/5 bg-background p-4">
+        <div>
+          <h3 className="text-sm font-black text-foreground">Transaction Overview</h3>
+          <p className="text-[10px] font-bold text-foreground/40">
+            Grouped across all matching transactions
+          </p>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
+          {([
+            ["Products", overview.products],
+            ["Networks", overview.networks],
+          ] as const).map(([title, groups]) => (
+            <div key={title} className="rounded-2xl bg-foreground/3 p-3">
+              <h4 className="mb-2 text-[10px] font-black uppercase tracking-wider text-foreground/50">
+                By {title}
+              </h4>
+              {groups.length > 0 ? (
+                <div className="space-y-2">
+                  {groups.map((group) => (
+                    <div
+                      key={group.category}
+                      className="flex items-center justify-between gap-3 text-xs"
+                    >
+                      <div className="min-w-0">
+                        <p className="truncate font-black text-foreground">
+                          {group.category === "OTHER"
+                            ? "Other"
+                            : group.category === "WALLET"
+                              ? "Wallet"
+                              : group.category}
+                        </p>
+                        <p className="text-[10px] font-bold text-foreground/40">
+                          {group.transaction_count} transactions
+                        </p>
+                      </div>
+                      <p className="shrink-0 font-black text-foreground">
+                        {currency}
+                        {Number(group.successful_amount || 0).toLocaleString(undefined, {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="py-2 text-xs text-foreground/40">No matching transactions</p>
+              )}
+            </div>
+          ))}
+        </div>
+        <p className="text-[9px] text-foreground/40">
+          Amounts include successful transactions only.
+        </p>
+      </section>
 
       <div className="space-y-3">
         {transactions?.length > 0 ? (
