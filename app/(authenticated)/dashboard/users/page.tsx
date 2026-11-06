@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import {
   Users,
   ChevronLeft,
@@ -15,6 +16,7 @@ import {
   AlertTriangle,
   CreditCard,
   CheckCircle2,
+  ReceiptText,
 } from "lucide-react";
 import { useUsers } from "@/hooks/useUser";
 import FormSelect from "@/components/common/FormSelect";
@@ -366,6 +368,14 @@ export default function UserList({ limit = 10 }: { limit?: number }) {
                 </div>
               )}
             </div>
+
+            <Link
+              href={`/account/transactions?user_id=${selectedUser.id}`}
+              className="w-full p-4 rounded-3xl transition-all border border-primary/20 bg-primary/5 text-primary hover:bg-primary hover:text-primary-foreground flex items-center justify-center gap-2 text-[10px] font-black uppercase"
+            >
+              <ReceiptText size={16} />
+              User Transactions
+            </Link>
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-3">

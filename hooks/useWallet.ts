@@ -9,6 +9,7 @@ interface UseWalletProps {
   limit?: number;
   type?: string;
   role?: string;
+  userId?: number;
 }
 
 export const useWallet = ({
@@ -16,6 +17,7 @@ export const useWallet = ({
   limit = 4,
   type = "all",
   role = "customer",
+  userId,
 }: UseWalletProps = {}) => {
   const queryClient = useQueryClient();
   const REFRESH_INTERVAL = 120000;
@@ -50,9 +52,14 @@ export const useWallet = ({
   });
 
   const { data: historyData, isLoading: isHistoryLoading } = useQuery({
-    queryKey: ["wallet-history", page, limit, type],
+    queryKey: ["wallet-history", page, limit, type, userId],
     queryFn: async () => {
-      const res = await walletApi.getHistory({ page, limit, type });
+      const res = await walletApi.getHistory({
+        page,
+        limit,
+        type,
+        ...(userId ? { user_id: userId } : {}),
+      });
       return res.data.data;
     },
     refetchInterval: REFRESH_INTERVAL,

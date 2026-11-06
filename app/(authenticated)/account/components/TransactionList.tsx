@@ -16,12 +16,14 @@ interface TransactionListProps {
   limit?: number;
   showTitle?: boolean;
   type?: string;
+  userId?: number;
 }
 
 export function TransactionList({
   limit,
   showTitle = true,
   type,
+  userId,
 }: TransactionListProps) {
   const [page, setPage] = useState(1);
   const [selectedTx, setSelectedTx] = useState<any>(null);
@@ -30,6 +32,7 @@ export function TransactionList({
     page,
     limit,
     type,
+    userId,
   });
   const currency = balance?.currency || "₦";
 

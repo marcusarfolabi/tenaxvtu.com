@@ -1,10 +1,18 @@
-"use client";
-
-import { useRouter } from "next/navigation";
 import { TransactionList } from "@/app/(authenticated)/account/components/TransactionList";
 
-export default function TransactionsPage() {
-  const router = useRouter();
+interface TransactionsPageProps {
+  searchParams: Promise<{ user_id?: string | string[] }>;
+}
+
+export default async function TransactionsPage({
+  searchParams,
+}: TransactionsPageProps) {
+  const { user_id: userIdParam } = await searchParams;
+  const userIdValue = Array.isArray(userIdParam) ? userIdParam[0] : userIdParam;
+  const parsedUserId = Number(userIdValue);
+  const userId = Number.isSafeInteger(parsedUserId) && parsedUserId > 0
+    ? parsedUserId
+    : undefined;
 
   return (
     <div className="min-h-screen bg-background pb-20 transition-colors duration-300">
@@ -19,6 +27,7 @@ export default function TransactionsPage() {
             <TransactionList
               limit={20}
               showTitle={false}
+              userId={userId}
             />
           </div>
         </div>

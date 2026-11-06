@@ -5,7 +5,7 @@ export const walletApi = {
 
   getAgentBalance: () => api.get("/wallet/honourworld/balance"),
 
-  getHistory: (params: { page?: number; limit?: number; type?: string }) =>
+  getHistory: (params: { page?: number; limit?: number; type?: string; user_id?: number }) =>
     api.get("/wallet/transactions", { params }),
 
   transferCommission: (type: "commission") =>
